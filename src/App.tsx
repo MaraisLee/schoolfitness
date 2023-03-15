@@ -2,8 +2,11 @@ import Nav from 'components/Nav';
 import Detail from 'pages/details/Detail';
 
 import Game from 'pages/game/Game';
+import Login from 'pages/login/Login';
+import SignUp from 'pages/login/SignUp';
+import UserInfo from 'pages/UserInfo';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { InnerCss, Wrapper } from 'styles/LayoutCss';
+import { Wrapper } from 'styles/LayoutCss';
 import './App.css';
 
 function App() {
