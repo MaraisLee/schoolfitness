@@ -52,3 +52,42 @@ export const NavCss = styled.div`
     }
   }
 `;
+
+// Sign Up
+export const InputWrap = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 17px;
+  width: 300px;
+  border-bottom: 1px solid #c7c7c7;
+  padding-bottom: 12px;
+  margin-bottom: 37px;
+  color: #8d8d8d;
+  input[type='text'],
+  input[type='password'],
+  input[type='email'] {
+    font-size: 18px;
+    border: none;
+    outline: none;
+  }
+  &:focus-within {
+    border-bottom: 1px solid #ff8339;
+    color: #ff8339;
+    input::placeholder {
+      color: #ff8339;
+    }
+  }
+`;
+export const Button = styled.button`
+  width: 300px;
+  height: 50px;
+  border-radius: 90px;
+  font-size: 17px;
+  font-weight: bold;
+  color: white;
+  background-color: #ff8339;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 70px;
+`;
