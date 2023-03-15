@@ -1,4 +1,5 @@
 import Nav from 'components/Nav';
+import Detail from 'pages/details/Detail';
 
 import Game from 'pages/game/Game';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -13,6 +14,8 @@ function App() {
         <InnerCss>
           <Routes>
             <Route path='/' element={<Game />} />
+            <Route path='/detail' element={<Detail />} />
+            
           </Routes>
         </InnerCss>
         <Nav />
