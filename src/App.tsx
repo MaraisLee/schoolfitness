@@ -2,8 +2,9 @@ import Nav from 'components/Nav';
 import Detail from 'pages/details/Detail';
 
 import Game from 'pages/game/Game';
+import UserInfo from 'pages/UserInfo';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { InnerCss, Wrapper } from 'styles/LayoutCss';
+import { Wrapper } from 'styles/LayoutCss';
 import './App.css';
 
 function App() {
@@ -11,13 +12,14 @@ function App() {
     <BrowserRouter>
       <Wrapper>
         <img src='images/statusbar.png' />
-        <InnerCss>
+        
           <Routes>
             <Route path='/' element={<Game />} />
             <Route path='/detail' element={<Detail />} />
+            <Route path='/userinfo' element={<UserInfo />} />
             
           </Routes>
-        </InnerCss>
+        
         <Nav />
       </Wrapper>
     </BrowserRouter>
