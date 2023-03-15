@@ -11,13 +11,13 @@ function App() {
     <BrowserRouter>
       <Wrapper>
         <img src='images/statusbar.png' />
-        <InnerCss>
-          <Routes>
-            <Route path='/' element={<Game />} />
-            <Route path='/detail' element={<Detail />} />
-            
-          </Routes>
-        </InnerCss>
+        <Routes>
+          <Route path='/game' element={<Game />} />
+          <Route path='/detail' element={<Detail />} />
+          <Route path='/userinfo' element={<UserInfo />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+        </Routes>
         <Nav />
       </Wrapper>
     </BrowserRouter>
