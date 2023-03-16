@@ -1,6 +1,7 @@
 import Nav from 'components/Nav';
 import Detail from 'pages/details/Detail';
 
+import Weight from 'pages/guide/Weight';
 import Game from 'pages/game/Game';
 import Login from 'pages/login/Login';
 import SignUp from 'pages/login/SignUp';
@@ -20,6 +21,8 @@ function App() {
           <Route path='/userinfo' element={<UserInfo />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
+             <Route path='/detail' element={<Detail />} />
+          <Route path='/Weight' element={<Weight />} />
         </Routes>
         <Nav />
       </Wrapper>
