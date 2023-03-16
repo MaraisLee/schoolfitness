@@ -4,20 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Button, InputWrap } from 'styles/LayoutCss';
 const Login = () => {
-  const handleSubmit = (e: any) => e.preventDefault();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) =>
+    e.preventDefault();
   const navigate = useNavigate();
   return (
-    <LoginCss onSubmit={handleSubmit}>
+    <LoginCss>
       <img src='/images/logo.png' alt='logo' />
-      <InputWrap>
-        <FaUser />
-        <input type='text' placeholder='아이디' />
-      </InputWrap>
-      <InputWrap>
-        <FaLock />
-        <input type='password' placeholder='비밀번호' />
-      </InputWrap>
-      <Button>LOGIN</Button>
+      <form onSubmit={handleSubmit}>
+        <InputWrap>
+          <FaUser />
+          <input type='text' placeholder='아이디' />
+        </InputWrap>
+        <InputWrap>
+          <FaLock />
+          <input type='password' placeholder='비밀번호' />
+        </InputWrap>
+        <Button>LOGIN</Button>
+      </form>
       <p>
         아직 회원이 아니신가요?
         <span onClick={() => navigate('/signup')}> 회원가입하기</span>
@@ -25,7 +28,7 @@ const Login = () => {
     </LoginCss>
   );
 };
-const LoginCss = styled.form`
+const LoginCss = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
