@@ -17,7 +17,7 @@ const UserInfo = () => {
             남긴운동 후기<span className='text-[#FF8339]'>(19)</span>
           </button>
           <button className='text-sm'>
-            보유스탬프현황<span className='text-[#FF8339]'>(2)</span>
+            보유상품권현황<span className='text-[#FF8339]'>(2)</span>
           </button>
         </div>
       </div>
