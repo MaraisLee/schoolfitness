@@ -15,11 +15,11 @@ const Detail = () => {
       </HeaderCss>
       <div>
         {' '}
-        <p>이번주기록</p>
+        <p className='text-center'>이번주기록</p>
         <LineChart />
         <div>
           <div>
-            <p>개인성적 통계</p>
+            <p className='text-center'>개인성적 통계</p>
             <BarChart />
           </div>
           <div >
