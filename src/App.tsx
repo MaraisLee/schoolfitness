@@ -1,7 +1,7 @@
 import Nav from 'components/Nav';
 import Detail from 'pages/details/Detail';
 
-import Weight from 'pages/gide/Weight';
+import Weight from 'pages/guide/Weight';
 import Game from 'pages/game/Game';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Wrapper } from 'styles/LayoutCss';
