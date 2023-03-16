@@ -8,12 +8,13 @@ import UserInfo from 'pages/UserInfo';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Wrapper } from 'styles/LayoutCss';
 import './App.css';
+import statusBar from 'assets/statusBar.png';
 
 function App() {
   return (
     <BrowserRouter>
       <Wrapper>
-        <img src='images/statusbar.png' />
+        <img src={statusBar} />
         <Routes>
           <Route path='/game' element={<Game />} />
           <Route path='/detail' element={<Detail />} />
