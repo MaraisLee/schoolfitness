@@ -32,7 +32,7 @@ export const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const labels = ['스쿼트', '달리기', '풀업', '푸쉬업', '줄넘기', '플랭크', '걷기'];
 
 export const data = {
   labels,
