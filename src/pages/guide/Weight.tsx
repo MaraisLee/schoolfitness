@@ -1,10 +1,13 @@
 import React from 'react';
+import arrowWhite from 'assets/arrowWhite.png';
+
+import run from 'assets/run.png';
 import { MdTimer } from 'react-icons/md';
 const Weight = () => {
   return (
     <div className=''>
       <div className='flex justify-around items-center bg-[#ff8339] w-full h-[50px] rounded-b-[12px]'>
-        <img src='images/arrow-white.png' alt='' className='scale-25' />
+        <img src={arrowWhite} alt='' className='scale-25' />
         <p> </p>
         <p> </p>
         <p className='text-white text-sm font-bold'> 운동가이드 </p>
@@ -23,7 +26,7 @@ const Weight = () => {
             <li className='bg-white w-[150px] drop-shadow rounded-md  '>
               {' '}
               <img
-                src='images/run.jpg'
+                src={run}
                 alt=''
                 className='text-center w-[130px] h-[150px] mb-2 m-auto'
               />
@@ -34,7 +37,7 @@ const Weight = () => {
             <li className='bg-white w-[150px] drop-shadow rounded-md  '>
               {' '}
               <img
-                src='images/run.jpg'
+                src={run}
                 alt=''
                 className='text-center w-[130px] h-[150px] m-auto'
               />
@@ -45,7 +48,7 @@ const Weight = () => {
             <li className='bg-white w-[150px] drop-shadow rounded-md  '>
               {' '}
               <img
-                src='images/run.jpg'
+                src={run}
                 alt=''
                 className='text-center w-[130px] h-[150px] m-auto'
               />
@@ -56,7 +59,7 @@ const Weight = () => {
             <li className='bg-white w-[150px] drop-shadow rounded-md  '>
               {' '}
               <img
-                src='images/run.jpg'
+                src={run}
                 alt=''
                 className='text-center w-[130px] h-[150px] m-auto'
               />
@@ -76,7 +79,7 @@ const Weight = () => {
             <li className='bg-white w-[150px] drop-shadow rounded-md  '>
               {' '}
               <img
-                src='images/run.jpg'
+                src={run}
                 alt=''
                 className='text-center w-[130px] h-[150px]   m-auto'
               />
@@ -87,7 +90,7 @@ const Weight = () => {
             <li className='bg-white w-[150px] drop-shadow rounded-md  '>
               {' '}
               <img
-                src='images/run.jpg'
+                src={run}
                 alt=''
                 className='text-center w-[130px] h-[150px] m-auto'
               />
@@ -98,7 +101,7 @@ const Weight = () => {
             <li className='bg-white w-[150px] drop-shadow rounded-md  '>
               {' '}
               <img
-                src='images/run.jpg'
+                src={run}
                 alt=''
                 className='text-center w-[130px] h-[150px] m-auto'
               />
@@ -109,7 +112,7 @@ const Weight = () => {
             <li className='bg-white w-[150px] drop-shadow rounded-md  '>
               {' '}
               <img
-                src='images/run.jpg'
+                src={run}
                 alt=''
                 className='text-center w-[130px] h-[150px] m-auto'
               />
