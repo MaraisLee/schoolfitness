@@ -1,5 +1,9 @@
 import Nav from 'components/Nav';
 import Detail from 'pages/details/Detail';
+
+
+import StopWatch from 'pages/guide/StopWatch';
+
 import Weight from 'pages/guide/Weight';
 import Game from 'pages/game/Game';
 import Login from 'pages/login/Login';
@@ -24,6 +28,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/detail' element={<Detail />} />
           <Route path='/Weight' element={<Weight />} />
+          <Route path='/stopwatch' element={<StopWatch />} />
         </Routes>
         <Nav />
       </Wrapper>
