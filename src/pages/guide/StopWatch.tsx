@@ -52,24 +52,27 @@ const StopWatch = () => {
       {!isRunning ? (
         <button
           onClick={start}
-          className='px-6 py-2 mt-4 ml-5 bg-[#ff8339] text-white rounded  hover:bg-gray-300'
+          className='px-6 py-2  ml-5 bg-[#ff8339] text-white rounded  hover:bg-gray-300'
         >
           Start
         </button>
       ) : (
         <button
           onClick={stop}
-          className='px-6 py-2 mt-4 ml-5 bg-gray-300 text-white hover:text-white rounded hover:bg-[#ff8339]'
+          className='px-6 py-2  ml-5 bg-gray-300 text-white hover:text-white rounded hover:bg-[#ff8339]'
         >
           Stop
         </button>
       )}
       <button
         onClick={restart}
-        className='px-6 py-2 mt-4 ml-5 bg-gray-300 text-white rounded hover:bg-[#ff8339]'
+        className='px-6 py-2  ml-5 bg-gray-300 text-white rounded hover:bg-[#ff8339]'
       >
         Restart
       </button>
+      <p className='mt-5 ml-6 text-center'>
+        Stop을 누르면 자동으로 기록됩니다.
+      </p>
     </div>
   );
 };
