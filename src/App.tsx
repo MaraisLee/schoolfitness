@@ -1,8 +1,8 @@
 import Nav from 'components/Nav';
 import Detail from 'pages/details/Detail';
 
-
 import StopWatch from 'pages/guide/StopWatch';
+import WeightGuide from 'pages/guide/WeightGuide';
 
 import Weight from 'pages/guide/Weight';
 import Game from 'pages/game/Game';
@@ -29,6 +29,7 @@ function App() {
           <Route path='/detail' element={<Detail />} />
           <Route path='/Weight' element={<Weight />} />
           <Route path='/stopwatch' element={<StopWatch />} />
+          <Route path='/weightguide' element={<WeightGuide />} />
         </Routes>
         <Nav />
       </Wrapper>
