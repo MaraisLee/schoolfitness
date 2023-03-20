@@ -4,6 +4,7 @@ const StopWatch = () => {
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+
   let timer: any;
 
   useEffect(() => {
@@ -21,6 +22,11 @@ const StopWatch = () => {
 
   const stop = () => {
     setIsRunning(false);
+    const time = `${hours < 10 ? '0' + hours : hours} : ${
+      minutes < 10 ? '0' + minutes : minutes
+    } : ${seconds < 10 ? '0' + seconds : seconds}`;
+    console.log(`Time recorded: ${time}`);
+    // 또는 기록을 배열 등의 자료구조에 추가하여 저장할 수도 있습니다.
   };
 
   const restart = () => {

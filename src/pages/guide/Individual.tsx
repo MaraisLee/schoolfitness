@@ -1,4 +1,3 @@
-import run1 from 'assets/run1.png';
 import arrowWhite from 'assets/arrowWhite.png';
 import cycling from 'assets/cycling.png';
 import dance from 'assets/dance.png';
