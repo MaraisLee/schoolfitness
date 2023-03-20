@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-
 // 아이폰 14pro 기준
 export const Wrapper = styled.div`
   width: 393px;
@@ -12,7 +11,6 @@ export const Wrapper = styled.div`
 export const InnerCss = styled.div`
   margin: 20px;
 `;
-
 export const HeaderCss = styled.div`
   display: flex;
   align-items: center;
@@ -28,7 +26,6 @@ export const HeaderCss = styled.div`
     font-size: 20px;
   }
 `;
-
 export const NavCss = styled.div`
   position: absolute;
   bottom: 0;
@@ -51,9 +48,9 @@ export const NavCss = styled.div`
     }
   }
 `;
-
 // Sign Up
 export const InputWrap = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   gap: 24px;
@@ -66,6 +63,7 @@ export const InputWrap = styled.div`
   input[type='text'],
   input[type='password'],
   input[type='email'] {
+    width: 100%;
     font-size: 18px;
     border: none;
     outline: none;
@@ -87,6 +85,5 @@ export const Button = styled.button`
   color: white;
   background-color: #ff8339;
   border: none;
-  cursor: pointer;
   margin-bottom: 70px;
 `;

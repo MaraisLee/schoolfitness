@@ -3,21 +3,28 @@ import { FaLock, FaUser } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Button, InputWrap } from 'styles/LayoutCss';
+import { useForm } from 'react-hook-form';
+interface ISignIn {
+  ID: string;
+  pw: string;
+}
 const Login = () => {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) =>
-    e.preventDefault();
+  const { register, handleSubmit, setError } = useForm<ISignIn>();
   const navigate = useNavigate();
+  const onSubmit = (data: ISignIn) => {
+    console.log(data);
+  };
   return (
     <LoginCss>
       <img src='/images/logo.png' alt='logo' />
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <InputWrap>
           <FaUser />
-          <input type='text' placeholder='아이디' />
+          <input {...register('ID')} type='text' placeholder='아이디' />
         </InputWrap>
         <InputWrap>
           <FaLock />
-          <input type='password' placeholder='비밀번호' />
+          <input {...register('pw')} type='password' placeholder='비밀번호' />
         </InputWrap>
         <Button>LOGIN</Button>
       </form>
