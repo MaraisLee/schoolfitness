@@ -43,7 +43,7 @@ const StopWatch = () => {
   }, [seconds, minutes]);
 
   return (
-    <div className=' text-center text-slate-600 p-8'>
+    <div className=' text-center text-slate-600 p-2'>
       <h1 className='text-7xl font-bold mb-8 '>
         {hours < 10 ? '0' + hours : hours}:
         {minutes < 10 ? '0' + minutes : minutes}:
