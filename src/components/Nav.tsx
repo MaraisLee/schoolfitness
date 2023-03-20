@@ -19,23 +19,41 @@ const Nav = () => {
     { title: '더보기 ', icon: <FiMoreHorizontal />, id: 4, link: 'userinfo' },
   ];
   const [filter, setFilter] = useState(filterArr[0]);
-  
+
   return (
     <>
       {/* 맞는 이모티콘이나 이미지 넣기  */}
       <NavCss>
-        <div className='flex justify-around my-6'>
-        {filterArr.map((item, i) => (
-
-          
-          <li key={i}  onClick={()=>{setFilter(item)}}>
-            <button >
-            <Link to={`/${item.link}`}>
-              <span className={`text-2xl leading-3 ${item.title === filter.title && "text-orange-500"}`}> {item.icon}</span>
-              <span className={` text-xs ml-[-7px] ${item.title === filter.title && "text-orange-500"} `}>{item.title}</span>
-           </Link> </button>
-          </li>
-        ))}</div>
+        <div className='flex justify-around text-center mt-3 mx-2'>
+          {filterArr.map((item, i) => (
+            <li
+              key={i}
+              onClick={() => {
+                setFilter(item);
+              }}
+            >
+              <Link
+                to={`/${item.link}`}
+                className='flex flex-col justify-center items-center text-center'
+              >
+                <span
+                  className={`text-2xl ${
+                    item.title === filter.title && 'text-orange-500'
+                  }`}
+                >
+                  {item.icon}
+                </span>
+                <span
+                  className={` text-xs ${
+                    item.title === filter.title && 'text-orange-500'
+                  } `}
+                >
+                  {item.title}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </div>
       </NavCss>
     </>
   );

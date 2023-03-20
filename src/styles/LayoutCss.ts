@@ -36,25 +36,11 @@ export const NavCss = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  height:90px;
-
-
+  height: 70px;
   box-shadow: 0px 0px 10px 0px #c9c9c9;
-  
   align-items: center;
-  
-
   background: #fff;
-
   border-radius: 0 0 50px 50px;
-  > li {
-    
-    
-   
-    width: calc(100% / 5);
- 
-    img {
-    }
   }
 `;
 
