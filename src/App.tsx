@@ -32,7 +32,6 @@ function App() {
           <Route path='/userinfo' element={<UserInfo />} />
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
-          <Route path='/detail' element={<Detail />} />
           {/* 운동영상 관련 */}
           <Route path='/weight' element={<Weight />} />
           <Route path='/stopwatch' element={<StopWatch />} />

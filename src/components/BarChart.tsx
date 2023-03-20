@@ -27,31 +27,27 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Chart.js Bar Chart',
+      text: '개인성적통계',
     },
   },
 };
 
-const labels = ['스쿼트', '달리기', '풀업', '푸쉬업', '줄넘기', '플랭크', '걷기'];
+const labels = ['스쿼트', '달리기', '풀업', '푸쉬업', '줄넘기', '플랭크', '걷기','d'];
 
 export const data = {
   labels,
   datasets: [
     {
-      label: 'Dataset 1',
+      label: '시간',
       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      backgroundColor: 'rgba(255, 131, 57, 0.9)',
     },
-    {
-      label: 'Dataset 2',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
+ 
   ],
 };
 const BarChart = () => {
   return (
-    <div>
+    <div className='bg-gray-200 rounded-xl p-3 my-3'>
       <Bar options={options} data={data} />
     </div>
   );
