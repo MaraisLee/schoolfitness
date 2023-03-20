@@ -10,11 +10,12 @@ export const Wrapper = styled.div`
   background-color: #fff;
 `;
 export const InnerCss = styled.div`
-  margin: 20px;
+  margin: 20px 0;
 `;
 
 export const HeaderCss = styled.div`
   display: flex;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   height: 30px;
@@ -24,6 +25,7 @@ export const HeaderCss = styled.div`
     cursor: pointer;
   }
   h1 {
+    justify-items: center;
     font-weight: 600;
     font-size: 20px;
   }
