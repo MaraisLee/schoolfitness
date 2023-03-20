@@ -2,6 +2,8 @@ import Nav from 'components/Nav';
 import Detail from 'pages/details/Detail';
 
 import StopWatch from 'pages/guide/StopWatch';
+import WeightGuide from 'pages/guide/WeightGuide';
+import Individual from 'pages/guide/Individual';
 
 import Weight from 'pages/guide/Weight';
 import Game from 'pages/game/Game';
@@ -33,6 +35,8 @@ function App() {
           {/* 운동영상 관련 */}
           <Route path='/Weight' element={<Weight />} />
           <Route path='/stopwatch' element={<StopWatch />} />
+          <Route path='/weightguide' element={<WeightGuide />} />
+          <Route path='/individual' element={<Individual />} />
         </Routes>
         <Nav />
       </Wrapper>
