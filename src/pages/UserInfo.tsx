@@ -1,32 +1,41 @@
 import { InnerCss } from 'styles/LayoutCss';
 import { IoIosArrowForward } from 'react-icons/io';
+import { Link } from 'react-router-dom';
+import icon from 'assets/icon.png';
+import BackHandleClick from 'components/util/BackHandleClick';
+
 const UserInfo = () => {
   return (
     <InnerCss className='px-5'>
+      <BackHandleClick />
       <div className='mx-auto'>
-        <p className='text-center'>회원정보</p>
+        <p className='text-center mb-4'>회원정보</p>
         <div>
-          <img
-            className='rounded-xl my-9 w-9 mx-auto'
-            src='/images/logo.png'
-            alt='프로필'
-          />
+          <img className='mx-auto' src={icon} alt='프로필' />
         </div>
         <div className='flex justify-between py-9'>
           <button className='text-sm'>
             남긴운동 후기<span className='text-[#FF8339]'>(19)</span>
           </button>
           <button className='text-sm'>
-            보유스탬프현황<span className='text-[#FF8339]'>(2)</span>
+            <Link to='/game'>
+              보유상품권<span className='text-[#FF8339]'>(2)</span>
+            </Link>
           </button>
         </div>
       </div>
       <div>
-        <div className='flex justify-between py-[100px]'>
+        <div className='flex justify-between '>
           <p>공지사항</p>
           <button className='flex text-sm'>
             더보기 <IoIosArrowForward />
           </button>
+        </div>
+        <div className='my-6'>
+          <p className='border-b-2 py-2 text-xs'>공지사항아직 없습니다</p>
+          <p className='border-b-2 py-2 text-xs'>공지사항적러줭</p>
+          <p className='border-b-2 py-2 text-xs'>공지사항적러줭</p>
+          <p className='border-b-2 py-2 text-xs'>공지사항적러줭</p>
         </div>
       </div>
       <div>

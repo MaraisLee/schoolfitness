@@ -23,6 +23,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SignUp />} />
              <Route path='/detail' element={<Detail />} />
+            
           <Route path='/Weight' element={<Weight />} />
         </Routes>
         <Nav />

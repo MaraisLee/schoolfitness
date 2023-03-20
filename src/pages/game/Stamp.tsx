@@ -1,8 +1,12 @@
-import React from 'react'
+
+import React, { useState } from 'react'
 
 const Stamp = () => {
+ 
   return (
-    <div>Stamp</div>
+    <div className='w-[40px] font-bold text-red-500'>
+   
+    </div>
   )
 }
 
