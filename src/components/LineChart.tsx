@@ -29,34 +29,29 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Chart.js Line Chart',
+      text: '개인성적통계',
     },
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const labels = ['2023.03.01', '2023.03.02', '2023.03.03', '2023.03.04', '2023.03.05', '2023.03.06', '2023.03.07'];
 
 export const data = {
   labels,
   datasets: [
+   
     {
-      label: 'Dataset 1',
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      label: '시간(분)',
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      borderColor: 'rgb(255, 131, 57)',
+      backgroundColor: 'rgba(255, 131, 57)',
     },
   ],
 };
 
 const LineChart = () => {
   return (
-    <div>
+    <div className='bg-gray-200 rounded-xl p-3 my-3'>
       <Line data={data} />
     </div>
   );

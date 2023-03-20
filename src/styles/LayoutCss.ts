@@ -9,10 +9,11 @@ export const Wrapper = styled.div`
   background-color: #fff;
 `;
 export const InnerCss = styled.div`
-  margin: 20px;
+  margin: 20px 0;
 `;
 export const HeaderCss = styled.div`
   display: flex;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   height: 30px;
@@ -22,6 +23,7 @@ export const HeaderCss = styled.div`
     cursor: pointer;
   }
   h1 {
+    justify-items: center;
     font-weight: 600;
     font-size: 20px;
   }
@@ -31,21 +33,11 @@ export const NavCss = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 8vh;
-  display: flex;
-  justify-content: space-between;
+  height: 70px;
+  box-shadow: 0px 0px 10px 0px #c9c9c9;
   align-items: center;
-  padding: 1rem;
-  font-size: 30px;
-  background: black;
+  background: #fff;
   border-radius: 0 0 50px 50px;
-  > li {
-    color: #fff;
-    cursor: pointer;
-    width: calc(100% / 4);
-    position: relative;
-    img {
-    }
   }
 `;
 // Sign Up
