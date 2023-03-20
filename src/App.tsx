@@ -14,6 +14,7 @@ import './App.css';
 import statusBar from 'assets/statusBar.png';
 import DetailInfo from 'pages/login/DetailInfo';
 import StampGIF from 'components/games/StampGIF';
+
 function App() {
   return (
     <BrowserRouter>
