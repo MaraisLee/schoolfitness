@@ -13,6 +13,7 @@ import { Radio } from 'antd';
 import Form from 'antd/es/form';
 import React, { useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
+import { Link } from 'react-router-dom';
 
 type propsType = {
   addTodo: (
@@ -35,13 +36,17 @@ const Individual = () => {
   return (
     <div>
       <div className='flex mb-5 justify-around items-center bg-[#ff8339] w-full h-[50px] rounded-b-[12px]'>
-        <img src={arrowWhite} alt='' className='scale-25' />
+        <Link to={'/detail'}>
+          <img src={arrowWhite} alt='' className='scale-25' />
+        </Link>
         <p> </p>
         <p> </p>
         <p className='text-white text-sm font-bold'>웨이터 운동기록 </p>
         <p> </p>
         <p> </p>
-        <MdTimer className='text-white' />
+        <Link to={'/individual'}>
+          <MdTimer className='text-white' />
+        </Link>
       </div>
       <span className='m-5 '>종목을 선택하세요.</span>
       <div className='  m-5  h-[380px] text-center  scrall overflow-y-auto scrollbar-hide'>

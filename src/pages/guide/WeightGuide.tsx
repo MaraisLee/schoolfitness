@@ -2,17 +2,22 @@ import run1 from 'assets/run1.png';
 import arrowWhite from 'assets/arrowWhite.png';
 import { MdTimer } from 'react-icons/md';
 import StopWatch from './StopWatch';
+import { Link } from 'react-router-dom';
 const WeightGuide = () => {
   return (
     <div>
       <div className='flex justify-around items-center bg-[#ff8339] w-full h-[50px] rounded-b-[12px]'>
-        <img src={arrowWhite} alt='' className='scale-25' />
+        <Link to={'/weight'}>
+          <img src={arrowWhite} alt='' className='scale-25' />
+        </Link>
         <p> </p>
         <p> </p>
         <p className='text-white text-sm font-bold'>웨이터 운동기록 </p>
         <p> </p>
         <p> </p>
-        <MdTimer className='text-white' />
+        <Link to={'/individual'}>
+          <MdTimer className='text-white' />
+        </Link>
       </div>
       <div className='  m-5   text-center bg-red-100'>
         {' '}

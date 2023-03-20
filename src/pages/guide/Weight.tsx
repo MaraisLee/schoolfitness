@@ -3,6 +3,7 @@ import arrowWhite from 'assets/arrowWhite.png';
 
 import run from 'assets/run.png';
 import { MdTimer } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 const Weight = () => {
   return (
     <div className=''>
@@ -13,7 +14,9 @@ const Weight = () => {
         <p className='text-white text-sm font-bold'> 운동가이드 </p>
         <p> </p>
         <p> </p>
-        <MdTimer className='text-white' />
+        <Link to={'/individual'}>
+          <MdTimer className='text-white' />
+        </Link>
       </div>
       <div className=' h-[635px] m-5 w-[65opx] scrall overflow-y-auto scrollbar-hide'>
         <div className=' h-[485px] pt-3 pl-3 bg-slate-100 mb-4'>
@@ -23,17 +26,19 @@ const Weight = () => {
 
           <ul className='grid  gap-x-0 gap-y-4 grid-cols-2 ml-2 text-center '>
             {' '}
-            <li className='bg-white w-[150px] drop-shadow rounded-md  '>
-              {' '}
-              <img
-                src={run}
-                alt=''
-                className='text-center w-[130px] h-[150px] mb-2 m-auto'
-              />
-              <span className='text-sm '>달리기</span>
-              <br />
-              <span className='text-xs '>16초</span>
-            </li>
+            <Link to={'/weightguide'}>
+              <li className='bg-white w-[150px] drop-shadow rounded-md  '>
+                {' '}
+                <img
+                  src={run}
+                  alt=''
+                  className='text-center w-[130px] h-[150px] mb-2 m-auto'
+                />
+                <span className='text-sm '>달리기</span>
+                <br />
+                <span className='text-xs '>16초</span>
+              </li>
+            </Link>
             <li className='bg-white w-[150px] drop-shadow rounded-md  '>
               {' '}
               <img

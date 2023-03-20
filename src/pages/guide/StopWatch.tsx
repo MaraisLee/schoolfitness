@@ -19,15 +19,24 @@ const StopWatch = () => {
   const start = () => {
     setIsRunning(true);
   };
+  const [time, setTime] = useState('00 : 00 : 00');
 
   const stop = () => {
     setIsRunning(false);
-    const time = `${hours < 10 ? '0' + hours : hours} : ${
+    const currentTime = `${hours < 10 ? '0' + hours : hours} : ${
       minutes < 10 ? '0' + minutes : minutes
     } : ${seconds < 10 ? '0' + seconds : seconds}`;
-    console.log(`Time recorded: ${time}`);
-    // 또는 기록을 배열 등의 자료구조에 추가하여 저장할 수도 있습니다.
+    console.log(`Time recorded: ${currentTime}`);
+    setTime(currentTime);
   };
+  // const stop = () => {
+  //   setIsRunning(false);
+  //   const time = `${hours < 10 ? '0' + hours : hours} : ${
+  //     minutes < 10 ? '0' + minutes : minutes
+  //   } : ${seconds < 10 ? '0' + seconds : seconds}`;
+  //   console.log(`Time recorded: ${time}`);
+  //   // 또는 기록을 배열 등의 자료구조에 추가하여 저장할 수도 있습니다.
+  // };
 
   const restart = () => {
     setSeconds(0);
@@ -79,6 +88,11 @@ const StopWatch = () => {
       <p className='mt-5 ml-6 text-center'>
         Stop을 누르면 자동으로 기록됩니다.
       </p>
+      <div>
+        <h1>Timer</h1>
+        <div id='time-display'>{time}</div>
+        {/* ... */}
+      </div>
     </div>
   );
 };
