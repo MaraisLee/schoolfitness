@@ -49,7 +49,7 @@ const Individual = () => {
         </Link>
       </div>
       <span className='m-5 '>종목을 선택하세요.</span>
-      <div className='  m-5  h-[380px] text-center  scrall overflow-y-auto scrollbar-hide'>
+      <div className='  m-5   text-center  '>
         <Form
           name='todoform'
           form={form}
@@ -67,6 +67,7 @@ const Individual = () => {
             name=''
             initialValue={'1'}
             rules={[{ required: true, message: '' }]}
+            className='h-[320px] scrall overflow-y-auto scrollbar-hide'
           >
             <Radio.Group>
               <Radio
@@ -189,9 +190,9 @@ const Individual = () => {
               </Radio>
             </Radio.Group>
           </Form.Item>
+          <StopWatch />
         </Form>
       </div>
-      <StopWatch />
     </div>
   );
 };

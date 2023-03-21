@@ -59,7 +59,7 @@ const StopWatch = () => {
 
   return (
     <div className=' text-center text-slate-600 p-2'>
-      <h1 className='text-7xl font-bold mb-8 '>
+      <h1 className='text-7xl font-bold mb-8 mt-4'>
         {hours < 10 ? '0' + hours : hours}:
         {minutes < 10 ? '0' + minutes : minutes}:
         {seconds < 10 ? '0' + seconds : seconds}
@@ -89,9 +89,7 @@ const StopWatch = () => {
         Stop을 누르면 자동으로 기록됩니다.
       </p>
       <div>
-        <h1>Timer</h1>
-        <div id='time-display'>{time}</div>
-        {/* ... */}
+        <h1 className='text-2xl mt-3 font-bold'>{time}</h1>
       </div>
     </div>
   );
