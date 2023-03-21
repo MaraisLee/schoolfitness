@@ -14,12 +14,11 @@ const Detail = () => {
     await instance.get('/api/individualscore/list').then(res => {
       setScore(res.data);
     });
-   
   };
-  useEffect (()=>{
- fetchData();
- console.log("ffff")
-  },[])
+  useEffect(() => {
+    fetchData();
+    console.log('ffff');
+  }, []);
 
   return (
     <>

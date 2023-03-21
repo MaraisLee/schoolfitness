@@ -190,7 +190,7 @@ const Individual = () => {
               </Radio>
             </Radio.Group>
           </Form.Item>
-          <StopWatch />
+          <StopWatch part='individual' />
         </Form>
       </div>
     </div>

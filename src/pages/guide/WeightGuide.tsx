@@ -32,7 +32,7 @@ const WeightGuide = () => {
           <br />
         </div>
       </div>
-      <StopWatch />
+      <StopWatch part='weightguide' />
     </div>
   );
 };
