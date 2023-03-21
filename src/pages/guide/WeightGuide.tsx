@@ -19,7 +19,7 @@ const WeightGuide = () => {
           <MdTimer className='text-white' />
         </Link>
       </div>
-      <div className='  m-5   text-center bg-red-100'>
+      <div className='  m-5   text-center'>
         {' '}
         <div className='bg-white  drop-shadow rounded-md p-3 '>
           <img src={run1} alt='' className='text-center mb-2 m-auto ' />

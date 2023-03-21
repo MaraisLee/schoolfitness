@@ -89,7 +89,7 @@ const StopWatch = () => {
         Stop을 누르면 자동으로 기록됩니다.
       </p>
       <div>
-        <h1 className='text-2xl mt-3 font-bold'>{time}</h1>
+        <h1 className='text-2xl mt-3 font-bold  text-slate-500'>{time}</h1>
       </div>
     </div>
   );
