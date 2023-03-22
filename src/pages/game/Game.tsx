@@ -16,11 +16,11 @@ const Game = () => {
       <HeaderCss>
         {/* 나중에 링크 걸면됨 */}
         <img src={arrow} alt='' />
-        <h2>Game Zone</h2>
+        <h1>Game Zone</h1>
         <GameBt>START</GameBt>
       </HeaderCss>
       <div className='h-[635px] my-5'>
-        <div className='flex justify-around mb-6 pt-3 text-[16px] font-bold border-b border-b-slate-200 text-[#7C7C7C] cursor-pointer'>
+        <div className='flex justify-around mb-6 pt-1 text-[16px] font-bold border-b border-b-slate-200 text-[#7C7C7C] cursor-pointer'>
           <span
             className={isOpen ? selected : ''}
             onClick={() => setIsOpen(true)}
