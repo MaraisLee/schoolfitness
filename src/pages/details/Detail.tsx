@@ -8,22 +8,33 @@ import instance from 'api/axios';
 import { TiDeleteOutline } from 'react-icons/ti';
 
 const Detail = () => {
-  const [score, setScore] = useState([]);
+  // 개인기록 조회
+  const [score, setScore] = useState<any>([]);
+  // 개인기록 삭제
+  const [scoreDelete, setScoreDelte] = useState<any>([]);
   // 개인기록 조회
   const fetchData = async () => {
-    await instance.get('/api/individualscore/list').then(res => {
-      setScore(res.data);
-    });
-   
+    await instance
+      .get('individualscore/list?memberNo=1')
+      .then(res => setScore(res.data.list));
   };
-  useEffect (()=>{
- fetchData();
- console.log("ffff")
-  },[])
+  // 개인기록삭제
+  const scoreDelte = async () => {
+    await instance.delete(`/api/individualscore/${'isSeq'}`)
+  .then((res)=>{  
+return console.log(res.data.status)
 
+  }
+  )
+  };
+  console.log(scoreDelete, '삭제');
+  useEffect(() => {
+    fetchData();
+  }, []);
+  console.log(score);
   return (
     <>
-      <InnerCss>
+      <InnerCss className='px-5'>
         <HeaderCss>
           {/* 나중에 링크 걸면됨 */}
           <BackHandleClick />
@@ -42,16 +53,23 @@ const Detail = () => {
               <p className='text-center'>개인기록</p>
             </div>
             <div>
-              <div className='flex relative justify-between bg-slate-200 rounded-xl py-6 px-4 my-3'>
-                <img src='' alt='운동그림' />
-                <span className='absolute left-[120px]'>스쿼트 </span>
-                <div className=''>
-                  <p>1분 30초</p>
-                  <button className='absolute right-2 top-1 text-gray-600'>
-                    <TiDeleteOutline />
-                  </button>
+              {score.map((scoreList: any, i: any) => (
+                <div
+                  key={i}
+                  className='flex relative justify-between bg-slate-200 rounded-xl py-6 px-4 my-3'
+                >
+                  <img src='' alt='운동그림' />
+                  <span className='absolute left-[120px]'>
+                    {scoreList.etName}{' '}
+                  </span>
+                  <div className=''>
+                    <p>{scoreList.isTime}</p>
+                    <button className='absolute right-2 top-1 text-gray-600'>
+                      <TiDeleteOutline onClick={scoreDelte}/>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
