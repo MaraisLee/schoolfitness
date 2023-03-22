@@ -1,11 +1,28 @@
 import React, { useEffect, useState } from 'react';
-const StopWatch = () => {
+import instance from 'api/axios';
+import moment from 'moment';
+
+type PropsType = {
+  part: string;
+};
+const StopWatch = (prpos: PropsType) => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
   let timer: any;
+
+  // 전송할 주소
+  const [fetchUrl, setFetchUrl] = useState('');
+  // fetUrl 관련 코드
+  useEffect(() => {
+    if (prpos.part === 'individual') {
+      setFetchUrl('/api/exercise');
+    } else if (prpos.part === 'weightguide') {
+      setFetchUrl('/api/individualscore');
+    }
+  }, []);
 
   useEffect(() => {
     if (isRunning) {
@@ -19,15 +36,51 @@ const StopWatch = () => {
   const start = () => {
     setIsRunning(true);
   };
+  const [time, setTime] = useState('00:00:00');
+
+  // 개인기록 조회
+  const fetchData = async () => {
+    // "isSeq": 0,   제외 예정
+    // "isMiSeq": 1,            isMiSeq:회원 번호
+    // "isEtSeq": 1,            isEtSeq: 운동 종류 번호
+    // "isRegDt": "2023-03-21", isRegDt:기록 작성일
+    // "isTime": "00:10:00"
+    try {
+      // 개인 기록 관리 연동
+      console.log('fetchUrl : ', fetchUrl);
+      const res = await instance.put(fetchUrl, {
+        isSeq: 0,
+        isMiSeq: 1,
+        isEtSeq: 1,
+        isRegDt: moment(Date.now()).format('YYYY-MM-DD'),
+        isTime: time,
+      });
+      console.log('fetchData Response : ', res);
+    } catch (err: any) {
+      console.log('fetchData Error : ', err);
+    }
+  };
 
   const stop = () => {
     setIsRunning(false);
-    const time = `${hours < 10 ? '0' + hours : hours} : ${
+    const currentTime = `${hours < 10 ? '0' + hours : hours}:${
       minutes < 10 ? '0' + minutes : minutes
-    } : ${seconds < 10 ? '0' + seconds : seconds}`;
-    console.log(`Time recorded: ${time}`);
-    // 또는 기록을 배열 등의 자료구조에 추가하여 저장할 수도 있습니다.
+    }:${seconds < 10 ? '0' + seconds : seconds}`;
+    console.log(`Time recorded: ${currentTime}`);
+    // 서버로 현재 타임을 보내준다.
+    setTime(currentTime);
   };
+  useEffect(() => {
+    if (time !== '00:00:00') fetchData();
+  }, [time]);
+  // const stop = () => {
+  //   setIsRunning(false);
+  //   const time = `${hours < 10 ? '0' + hours : hours} : ${
+  //     minutes < 10 ? '0' + minutes : minutes
+  //   } : ${seconds < 10 ? '0' + seconds : seconds}`;
+  //   console.log(`Time recorded: ${time}`);
+  //   // 또는 기록을 배열 등의 자료구조에 추가하여 저장할 수도 있습니다.
+  // };
 
   const restart = () => {
     setSeconds(0);
@@ -50,7 +103,7 @@ const StopWatch = () => {
 
   return (
     <div className=' text-center text-slate-600 p-2'>
-      <h1 className='text-7xl font-bold mb-8 '>
+      <h1 className='text-7xl font-bold mb-8 mt-4'>
         {hours < 10 ? '0' + hours : hours}:
         {minutes < 10 ? '0' + minutes : minutes}:
         {seconds < 10 ? '0' + seconds : seconds}
@@ -79,6 +132,9 @@ const StopWatch = () => {
       <p className='mt-5 ml-6 text-center'>
         Stop을 누르면 자동으로 기록됩니다.
       </p>
+      <div>
+        <h1 className='text-2xl mt-3 font-bold  text-slate-500'>{time}</h1>
+      </div>
     </div>
   );
 };

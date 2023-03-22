@@ -34,7 +34,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           {/* 운동영상 관련 */}
           <Route path='/weight' element={<Weight />} />
-          <Route path='/stopwatch' element={<StopWatch />} />
+          {/* <Route path='/stopwatch' element={<StopWatch />} /> */}
           <Route path='/weightguide' element={<WeightGuide />} />
           <Route path='/individual' element={<Individual />} />
         </Routes>

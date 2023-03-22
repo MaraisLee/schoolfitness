@@ -23,7 +23,6 @@ const Detail = () => {
     await instance.delete(`/api/individualscore/${'isSeq'}`)
   .then((res)=>{  
 return console.log(res.data.status)
-
   }
   )
   };

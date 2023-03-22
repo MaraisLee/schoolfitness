@@ -25,7 +25,7 @@ export const HeaderCss = styled.div`
   h1 {
     justify-items: center;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 18px;
   }
 `;
 export const NavCss = styled.div`
