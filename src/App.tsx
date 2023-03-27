@@ -16,6 +16,8 @@ import './App.css';
 import statusBar from 'assets/statusBar.png';
 import DetailInfo from 'pages/login/DetailInfo';
 import StampGIF from 'components/games/StampGIF';
+import Home from 'pages/home/Home';
+
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
       <Wrapper>
         <img src={statusBar} />
         <Routes>
+          {/* 홈 */}
+        <Route path='/home' element={<Home />} />
           {/* 게임 */}
           <Route path='/game' element={<Game />} />
           <Route path='/detail' element={<Detail />} />
@@ -37,6 +41,7 @@ function App() {
           {/* <Route path='/stopwatch' element={<StopWatch />} /> */}
           <Route path='/weightguide' element={<WeightGuide />} />
           <Route path='/individual' element={<Individual />} />
+         
         </Routes>
         <Nav />
       </Wrapper>
