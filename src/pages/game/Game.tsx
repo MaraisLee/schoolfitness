@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { HeaderCss, InnerCss } from 'styles/LayoutCss';
 import arrow from 'assets/arrow.png';
 import Grade from 'components/games/Grade';
@@ -7,17 +7,21 @@ import { useState } from 'react';
 import { GameBt } from 'styles/Button';
 
 const Game = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState<boolean>(true);
   const selected =
     'border-b-2 pb-4 border-b-[#FF8339] cursor-pointer text-[#403D3D] ';
-
+  const gameStartHandler = () => {
+    navigate('/gamesubmit');
+  };
+  
   return (
     <InnerCss>
       <HeaderCss>
         {/* 나중에 링크 걸면됨 */}
         <img src={arrow} alt='' />
         <h1>Game Zone</h1>
-        <GameBt>START</GameBt>
+        <GameBt onClick={gameStartHandler}>START</GameBt>
       </HeaderCss>
       <div className='h-[635px] my-5'>
         <div className='flex justify-around mb-6 pt-1 text-[16px] font-bold border-b border-b-slate-200 text-[#7C7C7C] cursor-pointer'>

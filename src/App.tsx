@@ -16,6 +16,7 @@ import './App.css';
 import statusBar from 'assets/statusBar.png';
 import DetailInfo from 'pages/login/DetailInfo';
 import StampGIF from 'components/games/StampGIF';
+import GameSubmit from 'components/games/GameSubmit';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Routes>
           {/* 게임 */}
           <Route path='/game' element={<Game />} />
+          <Route path='/gamesubmit' element={<GameSubmit />} />
           <Route path='/detail' element={<Detail />} />
           <Route path='/stampgif' element={<StampGIF />} />
           {/* 회원 관련 */}
