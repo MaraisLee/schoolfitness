@@ -9,6 +9,8 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import faker from 'faker';
+import { useEffect, useState } from 'react';
+import instance from 'api/axios';
 
 ChartJS.register(
   CategoryScale,
@@ -18,6 +20,7 @@ ChartJS.register(
   Tooltip,
   Legend,
 );
+
 
 export const options = {
   responsive: true,
@@ -32,20 +35,59 @@ export const options = {
   },
 };
 
-const labels = ['스쿼트', '달리기', '풀업', '푸쉬업', '줄넘기', '플랭크', '걷기','d'];
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: '시간',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(255, 131, 57, 0.9)',
-    },
- 
-  ],
-};
+interface ILabel {
+  isSeq: number;
+  isMiSeq: number;
+  isRegDt: string;
+  isTime: string;
+  etName: string;
+  levelType: string;
+  giStatus: string;
+  esType: string;
+}
+
+
 const BarChart = () => {
+  const [label, setLabel] = useState<ILabel[]>([]);
+
+  const fetchData = async () => {
+    await instance
+      .get('individualscore/list/change', {
+        params: {
+          memberNo: "1",
+          type: '걷기',
+        },
+      })
+      .then(res => setLabel(res.data.list));
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  console.log(label)
+ const formattedYData = label.map(item => ({
+    x: item.etName,
+    y: item.isTime,
+  }));
+  const formattedXData = label.map(item => ({
+    y: item.isTime,
+    
+  }));
+console.log(formattedXData)
+  // const sumArr = formattedXData.reduce((a,b)=>(a+b))
+   const data = {
+  
+    datasets: [
+      {
+        label: '시간',
+        data: formattedYData,
+        backgroundColor: 'rgba(255, 131, 57, 0.9)',
+      },
+   
+    ],
+  };
+ 
+ 
   return (
     <div className='bg-gray-200 rounded-xl p-3 my-3'>
       <Bar options={options} data={data} />

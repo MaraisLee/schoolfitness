@@ -3,15 +3,26 @@ import BarChart from 'components/BarChart';
 import LineChart from 'components/LineChart';
 import { HeaderCss, InnerCss } from 'styles/LayoutCss';
 import BackHandleClick from 'components/util/BackHandleClick';
+
 import instance from 'api/axios';
 // 삭제아이콘
 import { TiDeleteOutline } from 'react-icons/ti';
 
+interface IScore {
+  isSeq: number;
+  isMiSeq: number;
+  isRegDt: string;
+  isTime: string;
+  etName: string;
+  levelType: string;
+  giStatus: string;
+  esType: string;
+}
 const Detail = () => {
   // 개인기록 조회
-  const [score, setScore] = useState<any>([]);
+  const [score, setScore] = useState([]);
   // 개인기록 삭제
-  const [scoreDelete, setScoreDelte] = useState<any>([]);
+  const [scoreDelete, setScoreDelte] = useState<IScore[]>([]);
   // 개인기록 조회
   const fetchData = async () => {
     await instance
@@ -19,18 +30,18 @@ const Detail = () => {
       .then(res => setScore(res.data.list));
   };
   // 개인기록삭제
-  const scoreDelte = async () => {
-    await instance.delete(`/api/individualscore/${'isSeq'}`)
-  .then((res)=>{  
-return console.log(res.data.status)
-  }
-  )
+  const scoreDelte = async (seq: number) => {
+    await instance.delete(`individualscore/${seq}`).then(res => {
+     return  alert(res.data.status);
+    });
   };
-  console.log(scoreDelete, '삭제');
+  // console.log(scoreDelete, '삭제');
   useEffect(() => {
+    
     fetchData();
+  
+   
   }, []);
-  console.log(score);
   return (
     <>
       <InnerCss className='px-5'>
@@ -39,6 +50,7 @@ return console.log(res.data.status)
           <BackHandleClick />
           <h1>디테일 페이지</h1>
         </HeaderCss>
+        <div className="overflow-y-auto scrollbar-hide h-[660px] ">
         <div>
           {' '}
           <p className='text-center'>이번주기록</p>
@@ -63,14 +75,21 @@ return console.log(res.data.status)
                   </span>
                   <div className=''>
                     <p>{scoreList.isTime}</p>
-                    <button className='absolute right-2 top-1 text-gray-600'>
-                      <TiDeleteOutline onClick={scoreDelte}/>
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        scoreDelte(scoreList.isSeq);
+                      }}
+                      className='absolute right-2 top-1 text-gray-600'
+                    >
+                      <TiDeleteOutline />
                     </button>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+        </div>
         </div>
       </InnerCss>
     </>
