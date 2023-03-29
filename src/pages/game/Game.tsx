@@ -5,6 +5,7 @@ import Grade from 'components/games/Grade';
 import Stamp from '../../components/games/Stamp';
 import { useState } from 'react';
 import { GameBt } from 'styles/Button';
+import BackHandleClick from 'components/util/BackHandleClick';
 
 const Game = () => {
   const navigate = useNavigate();
@@ -14,12 +15,11 @@ const Game = () => {
   const gameStartHandler = () => {
     navigate('/gamesubmit');
   };
-  
+
   return (
     <InnerCss>
       <HeaderCss>
-        {/* 나중에 링크 걸면됨 */}
-        <img src={arrow} alt='' />
+        <BackHandleClick />
         <h1>Game Zone</h1>
         <GameBt onClick={gameStartHandler}>START</GameBt>
       </HeaderCss>

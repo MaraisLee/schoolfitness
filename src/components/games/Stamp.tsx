@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom';
 const Stamp = () => {
   const navigate = useNavigate();
   const stampHandler = () => {
-    navigate('/stampgif')
+    navigate('/stampgif');
+  };
+  const goNotice = () => {
+    navigate('/notice');
   };
   return (
     <div className='flex flex-col justify-center items-center text-center'>
@@ -29,7 +32,10 @@ const Stamp = () => {
       >
         STAMP
       </button>
-      <span className='text-[#C9C9C9] text-xs underline pt-6'>
+      <span
+        className='text-[#C9C9C9] text-xs underline pt-6 cursor-pointer'
+        onClick={goNotice}
+      >
         공지사항 보러가기
       </span>
     </div>

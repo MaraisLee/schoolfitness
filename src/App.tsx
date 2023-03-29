@@ -17,6 +17,7 @@ import statusBar from 'assets/statusBar.png';
 import DetailInfo from 'pages/login/DetailInfo';
 import StampGIF from 'components/games/StampGIF';
 import GameSubmit from 'components/games/GameSubmit';
+import Notice from 'pages/game/Notice';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path='/gamesubmit' element={<GameSubmit />} />
           <Route path='/detail' element={<Detail />} />
           <Route path='/stampgif' element={<StampGIF />} />
+          <Route path='/notice' element={<Notice />} />
           {/* 회원 관련 */}
           <Route path='/detailinfo' element={<DetailInfo />} />
           <Route path='/userinfo' element={<UserInfo />} />

@@ -5,6 +5,7 @@ import axios from 'api/axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { orangeColor } from 'utils/colors';
+import { log } from 'console';
 
 export type ScoreType = {
   ban: string;
@@ -28,22 +29,58 @@ const Grade = () => {
   };
 
   const [myRecord, setMyRecord] = useState<ScoreType>(initData);
-  const [medalRecord, setMedalRecord] = useState([]);
+  const [medalRecord, setMedalRecord] = useState<any[]>([]);
   const [myImg, setmyImg] = useState('');
+  const [firstGradeImg, setFristGradeImg] = useState('');
+  const [secondGradeImg, setSecondGradeImg] = useState('');
+  const [thirdGradeImg, setThirdGradeImg] = useState('');
+  const [myPercent, setMypercent] = useState(0);
 
   const getMyData = async () => {
     await axios
       .get('game/score/1')
-      .then(res => {
+      .then(async res => {
         setMyRecord(res.data);
+        await axios
+          .get('download/img/member/' + res.data.url)
+          .then(res => {
+            setmyImg(res.request.responseURL);
+          })
+          .catch(err => console.log('이미지 err', err));
+        await axios
+          .get('game/score/percent/1/1')
+          .then(res => {
+            setMypercent(res.data.percent);
+          })
+          .catch(err => console.log('percent err', err));
       })
       .catch(err => console.log(err));
+  };
 
+  //  각각에 맞는 url 집어넣어야됨. 코드를 줄일방법이있나?
+  const getMedalData = async () => {
     await axios
-      .get(`download/img/member/승지`)
-      .then(res => {
-        console.log('이미지', res.request.responseURL);
-        setmyImg(res.request.responseURL);
+      .get('game/score/total/1')
+      .then(async res => {
+        setMedalRecord(res.data.list);
+        await axios
+          .get('download/img/member/' + res.data.list[0].url)
+          .then(res => {
+            setFristGradeImg(res.request.responseURL);
+          })
+          .catch(err => console.log(err));
+        await axios
+          .get('download/img/member/' + res.data.list[1].url)
+          .then(res => {
+            setSecondGradeImg(res.request.responseURL);
+          })
+          .catch(err => console.log(err));
+        await axios
+          .get('download/img/member/' + res.data.list[2].url)
+          .then(res => {
+            setThirdGradeImg(res.request.responseURL);
+          })
+          .catch(err => console.log(err));
       })
       .catch(err => console.log(err));
   };
@@ -51,16 +88,6 @@ const Grade = () => {
   useEffect(() => {
     getMyData();
   }, []);
-
-  const getMedalData = async () => {
-    await axios
-      .get('game/score/total/1')
-      .then(res => {
-        console.log(res.data.list);
-        setMedalRecord(res.data.list);
-      })
-      .catch(err => console.log(err));
-  };
 
   useEffect(() => {
     getMedalData();
@@ -70,59 +97,77 @@ const Grade = () => {
   const stampHandler = () => {
     navigate('/stampgif');
   };
-  // const orderSecond = 'order-2';
-  // const orderFirst = 'order-1';
-  // const orderThrid = 'order-3';
-  // const [od, setOd] = useState('');
-  // const order = () => {
-  //   if (medalRecord[0]) {
-  //     setOd(orderSecond);
-  //   } else if (medalRecord[1]) {
-  //     setOd(orderFirst);
-  //   } else {
-  //     setOd(orderThrid);
-  //   }
-  //   return od;
-  // };
-  // console.log(od);
+
+  const order = (rank: number) => {
+    if (rank === 1) {
+      return 'order-2';
+    } else if (rank === 2) {
+      return 'order-1';
+    } else {
+      return 'order-3';
+    }
+  };
 
   return (
     <>
       <div className='flex flex-col justify-center items-center w-full '>
         {/* 전체성적 */}
-        <div className='flex justify-center gap-6 pb-4'>
+        <div className='flex justify-center gap-6 pb-4 items-end'>
           {medalRecord.map((member: ScoreType, index) => (
-            <div key={index}>
-              <div className='flex flex-col justify-center items-center gap-3'>
-                {member.rank === 1 ? (
+            <div key={index} className={order(member.rank)}>
+              {member.rank === 1 ? (
+                <div className='flex flex-col justify-center items-center gap-3 order-last'>
                   <div className='flex flex-col justify-center items-center'>
                     <img src={crown} alt='' className='w-[27px] h-[22px] ' />
-                    <div className='w-[70px] h-[70px] border rounded-full overflow-hidden'>
-                      <img src={icon} alt='' className='w-full h-full ' />
+                    <div className='w-[70px] h-[70px] border border-none rounded-full overflow-hidden'>
+                      <img
+                        src={firstGradeImg}
+                        alt=''
+                        className='w-full h-full '
+                      />
                     </div>
                   </div>
-                ) : (
+                  <div className='flex flex-col items-center'>
+                    <span className='font-bold text-[17px]'>
+                      {member.nickname}
+                    </span>
+                    <span className='text-zinc-400 text-[10px]'>
+                      {member.ban}
+                    </span>
+                  </div>
+
+                  <div className='border rounded-xl bg-slate-700 text-[10px] py-1 px-2 text-gray-200'>
+                    {member.score}초
+                  </div>
+                </div>
+              ) : (
+                <div className=' flex flex-col justify-center items-center gap-3 order-1'>
                   <div className='flex flex-col justify-center items-center'>
                     <span className='text-[14px] font-semibold'>
                       {member.rank}
                     </span>
-                    <div className='w-[50px] h-[50px] border rounded-full overflow-hidden'>
-                      <img src={icon} alt='' className='w-full h-full ' />
+                    <div className='w-[50px] h-[50px] border border-none  rounded-full overflow-hidden'>
+                      <img
+                        src={index === 2 ? secondGradeImg : thirdGradeImg}
+                        alt=''
+                        className='w-full h-full '
+                      />
                     </div>
                   </div>
-                )}
-                <div className='flex flex-col items-center'>
-                  <span className='font-bold text-[17px]'>
-                    {member.nickname}
-                  </span>
-                  <span className='text-zinc-400 text-[10px]'>
-                    {member.ban}
-                  </span>
+                  <div className='flex flex-col items-center'>
+                    <span className='font-bold text-[17px]'>
+                      {member.nickname}
+                    </span>
+                    <span className='text-zinc-400 text-[10px]'>
+                      {member.ban}
+                    </span>
+                  </div>
+
+                  <div className='border rounded-xl bg-slate-700 text-[10px] py-1 px-2 text-gray-200'>
+                    {member.score}초
+                  </div>
                 </div>
-                <div className='border rounded-xl bg-slate-700 text-[10px] py-1 px-2 text-gray-200'>
-                  {member.score}초
-                </div>
-              </div>
+              )}
             </div>
           ))}
         </div>
@@ -154,7 +199,7 @@ const Grade = () => {
               </b>
               님은
               <br />
-              상위 3% 입니다.
+              상위 {myPercent}% 입니다.
             </span>
             <p className='text-[8px] text-[#bbb] pt-4'>
               1, 2, 3 등 스탬프 기회 5번 | 상위 10% 스탬프 기회 3번 | 상위

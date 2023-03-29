@@ -34,6 +34,13 @@ const GameSubmit = () => {
 
   const onSubmitHandler = async (e: any) => {
     e.preventDefault();
+    if (!recordTime) {
+      alert('게임기록을 입력해주세요.');
+      return;
+    } else if (!uploadVideo) {
+      alert('게임 영상을 첨부해주세요.');
+      return;
+    }
     // 게임 기록 제출
     const body = {
       score: recordTime,
@@ -63,6 +70,7 @@ const GameSubmit = () => {
         alert('게임 영상제출이 완료되었습니다.');
       })
       .catch(err => console.log('비디오 에러', err));
+    navigate('/game');
   };
 
   return (
@@ -100,9 +108,10 @@ const GameSubmit = () => {
             </label>
           </div>
         </div>
-        <div className='w-[313px] h-[180px] mt-12 border border-black'>
-          {/* controls :  재생, 소리버튼 생성 */}
-          {file.video && <video src={file.url} controls width='313px' />}
+        <div className='absolute top-64 w-[310px] h-[160px] mt-12 border border-black fill'></div>
+        {/* controls :  재생, 소리버튼 생성 */}
+        <div className='mt-5 pt-3 bg-white w-[315px] h-[210px] '>
+          {file.video && <video src={file.url} controls width='315px' />}
         </div>
         <label
           htmlFor='helper-text'
@@ -127,10 +136,7 @@ const GameSubmit = () => {
           >
             취소
           </button>
-          <button
-            type='submit'
-            className='w-[150px] h-[40px] text-white text-[14px] bg-[#ff8339] rounded-sm pt-3'
-          >
+          <button className='w-[150px] h-[40px] text-white text-[14px] bg-[#ff8339] rounded-sm pt-3'>
             첨부완료
           </button>
         </div>
