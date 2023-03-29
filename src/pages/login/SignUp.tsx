@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button, InputWrap } from 'styles/LayoutCss';
 import { FaLock, FaUser, FaStickyNote } from 'react-icons/fa';
+import { GrClose } from 'react-icons/gr';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import instance from 'api/axios';
+import ModalLayout from 'components/common/ModalLayout';
 
 const SignUpCss = styled.section`
   margin: 40px;
@@ -18,10 +20,11 @@ const SignUpCss = styled.section`
     color: #8d8d8d;
     margin-bottom: 90px;
   }
-  button {
+  form > button {
     margin-top: 150px;
   }
 `;
+
 const Error = styled.span`
   position: absolute;
   top: 120%;
@@ -29,12 +32,26 @@ const Error = styled.span`
   font-size: 12px;
   color: red;
 `;
+
+const ModalFrame = styled.div`
+  position: relative;
+  padding: 40px 60px;
+`;
+
+const ModalContent = styled.h2`
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+  color: #8d8d8d;
+`;
+
 interface ISignUp {
   id: string;
   pw: string;
   pwCheck: string;
   nickName: string;
 }
+
 export default function SignUp() {
   const navigate = useNavigate();
   const {
@@ -43,6 +60,7 @@ export default function SignUp() {
     formState: { errors },
     setError,
   } = useForm<ISignUp>();
+
   const onSubmit = async (data: ISignUp) => {
     const body = {
       id: data.id,
@@ -59,20 +77,49 @@ export default function SignUp() {
     }
     console.log(data);
     try {
-      await axios
-        .put('http://192.168.0.79:8888/api/member/join', body)
-        .then(res => {
-          if (res.data.status) {
-            navigate('/login');
-            alert(res.data.message);
-          } else {
-            alert(res.data.message);
+      await instance.put('member/join', body).then(res => {
+        if (res.data.status) {
+          openModal();
+          fadeOutModal();
+        } else {
+          console.log(res.data.message);
+          if (res.data.message === '이미 존재하는 ID 입니다.') {
+            setError(
+              'id',
+              { message: res.data.message },
+              { shouldFocus: true },
+            );
+          } else if (res.data.message === '이미 존재하는 닉네임 입니다.') {
+            setError(
+              'nickName',
+              { message: res.data.message },
+              { shouldFocus: true },
+            );
           }
-        });
+        }
+      });
     } catch (error) {
       console.log(error);
     }
   };
+  const [modalVisible, setModalVisible] = useState(true);
+  const openModal = () => {
+    setModalVisible(true);
+  };
+
+  // e: React.MouseEvent<HTMLElement>
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const fadeOutModal = () => {
+    setTimeout(() => {
+      closeModal();
+      navigate('/login');
+    }, 2000);
+  };
+
   return (
     <SignUpCss>
       <h3>회원가입</h3>
@@ -125,6 +172,13 @@ export default function SignUp() {
         </InputWrap>
         <Button>회원가입하기</Button>
       </form>
+      {modalVisible && (
+        <ModalLayout visible={modalVisible} onClose={closeModal}>
+          <ModalFrame>
+            <ModalContent>회원가입이 완료되었습니다.</ModalContent>
+          </ModalFrame>
+        </ModalLayout>
+      )}
     </SignUpCss>
   );
 }
