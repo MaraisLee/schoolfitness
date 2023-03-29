@@ -16,6 +16,7 @@ import './App.css';
 import statusBar from 'assets/statusBar.png';
 import DetailInfo from 'pages/login/DetailInfo';
 import StampGIF from 'components/games/StampGIF';
+import Main from 'pages/main/Main';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <img src={statusBar} />
         <Routes>
           {/* 게임 */}
+          <Route path='/' element={<Main />} />
           <Route path='/game' element={<Game />} />
           <Route path='/detail' element={<Detail />} />
           <Route path='/stampgif' element={<StampGIF />} />

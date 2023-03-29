@@ -38,7 +38,6 @@ export const NavCss = styled.div`
   align-items: center;
   background: #fff;
   border-radius: 0 0 50px 50px;
-  }
 `;
 // Sign Up
 export const InputWrap = styled.div`
