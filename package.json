@@ -30,6 +30,7 @@
     "react-router-dom": "^6.9.0",
     "react-scripts": "5.0.1",
     "recoil": "^0.7.7",
+    "recoil-persist": "^4.2.0",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss": "^3.2.7",
     "typescript": "*",
