@@ -18,7 +18,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 export const options = {
@@ -34,12 +34,19 @@ export const options = {
   },
 };
 
-const labels = ['2023.03.01', '2023.03.02', '2023.03.03', '2023.03.04', '2023.03.05', '2023.03.06', '2023.03.07'];
+const labels = [
+  '2023.03.01',
+  '2023.03.02',
+  '2023.03.03',
+  '2023.03.04',
+  '2023.03.05',
+  '2023.03.06',
+  '2023.03.07',
+];
 
 export const data = {
   labels,
   datasets: [
-   
     {
       label: '시간(분)',
       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
