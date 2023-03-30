@@ -10,7 +10,7 @@ export type ScoreType = {
   etDetail: string;
   url: string;
 };
-const Weight = () => {
+const Diet = () => {
   const initData = [
     {
       etSeq: 1,
@@ -47,7 +47,7 @@ const Weight = () => {
   const getLevelData = async () => {
     // console.log('getLevelData ============== ');
     await axios
-      .get('level/exercise/1?levelSeq=1')
+      .get('level/exercise/2?levelSeq=1')
       .then(res => {
         // console.log(res.data);
         setMyLevelOne(res.data);
@@ -55,14 +55,14 @@ const Weight = () => {
       .catch(err => console.log(err));
 
     await axios
-      .get('level/exercise/1?levelSeq=2')
+      .get('level/exercise/2?levelSeq=2')
       .then(res => {
         // console.log(res.data);
         setMyLevelTwo(res.data);
       })
       .catch(err => console.log(err));
 
-    const res = await axios.get('level/exercise/1?levelSeq=3');
+    const res = await axios.get('level/exercise/2?levelSeq=3');
     setMyLevelThird(res.data);
 
     // 걷기 이미지
@@ -87,11 +87,11 @@ const Weight = () => {
     const imgTempArr: string[] = [];
     // console.log(resWalk.request);
     imgTempArr.push(resWalk.request.responseURL);
-    imgTempArr.push(resJump.request.responseURL);
     imgTempArr.push(resRun.request.responseURL);
+    imgTempArr.push(resJump.request.responseURL);
     imgTempArr.push(resUp.request.responseURL);
     setmyImgArr([...imgTempArr]);
-    // console.log(myImgArr);
+    console.log(myImgArr);
   };
 
   useEffect(() => {
@@ -104,7 +104,7 @@ const Weight = () => {
         <img src={arrowWhite} alt='' className='scale-25' />
         <p> </p>
         <p> </p>
-        <p className='text-white text-sm font-bold'> 운동가이드 </p>
+        <p className='text-white text-sm font-bold'> 다이어트 운동가이드 </p>
         <p> </p>
         <p> </p>
         <Link to={'/individual'}>
@@ -124,7 +124,7 @@ const Weight = () => {
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
-                <Link to={`/weightguide/${index}`}>
+                <Link to={`/dietguide/${index}`}>
                   {' '}
                   <img
                     src={myImgArr[index]}
@@ -151,7 +151,7 @@ const Weight = () => {
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
-                <Link to={`/weightguide/${index}`}>
+                <Link to={`/dietguide/${index}`}>
                   {' '}
                   <img
                     src={myImgArr[index]}
@@ -178,7 +178,7 @@ const Weight = () => {
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
-                <Link to={`/weightguide/${index}`}>
+                <Link to={`/dietguide/${index}`}>
                   {' '}
                   <img
                     src={myImgArr[index]}
@@ -198,4 +198,4 @@ const Weight = () => {
   );
 };
 
-export default Weight;
+export default Diet;

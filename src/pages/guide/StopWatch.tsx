@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import instance from 'api/axios';
 import moment from 'moment';
 
 type PropsType = {
   part: string;
+  level: number;
 };
 const StopWatch = (prpos: PropsType) => {
+  const navigate = useNavigate();
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
@@ -18,9 +21,9 @@ const StopWatch = (prpos: PropsType) => {
   // fetUrl 관련 코드
   useEffect(() => {
     if (prpos.part === 'individual') {
-      setFetchUrl('/api/exercise');
+      setFetchUrl('/exercise');
     } else if (prpos.part === 'weightguide') {
-      setFetchUrl('/api/individualscore');
+      setFetchUrl('/individualscore');
     }
   }, []);
 
@@ -47,18 +50,49 @@ const StopWatch = (prpos: PropsType) => {
     // "isTime": "00:10:00"
     try {
       // 개인 기록 관리 연동
-      console.log('fetchUrl : ', fetchUrl);
-      const res = await instance.put(fetchUrl, {
-        isSeq: 0,
-        isMiSeq: 1,
-        isEtSeq: 1,
-        isRegDt: moment(Date.now()).format('YYYY-MM-DD'),
-        isTime: time,
-      });
-      console.log('fetchData Response : ', res);
+      // console.log('fetchUrl : ', fetchUrl);
+
+      if (prpos.part === 'individual') {
+        // execise 관련 코드
+        // {
+        //   "miSeq": 1,
+        //   "etSeq": 5,
+        //   "time":"00:00:10"
+        // }
+
+        const res = await instance.post(fetchUrl, {
+          miSeq: 1,
+          etSeq: prpos.level,
+          time,
+        });
+
+        // console.log('individual fetchData Response : ', res);
+      } else if (prpos.part === 'weightguide') {
+        // {
+        //   "isMiSeq": 0,
+        //   "isEtSeq": 0,
+        //   "isRegDt": "2023-03-28",
+        //   "isTime": "00:00:10",
+        //   "isWeek": 0
+        // }
+        const res = await instance.put(fetchUrl, {
+          // isSeq: 0,
+          isMiSeq: 1,
+          isEtSeq: 1,
+          isRegDt: moment(Date.now()).format('YYYY-MM-DD'),
+          isTime: time,
+          isWeek: 0,
+        });
+
+        // console.log('weightguide fetchData Response : ', res);
+      }
+
+      navigate('/detail');
     } catch (err: any) {
       console.log('fetchData Error : ', err);
     }
+
+    // restart();
   };
 
   const stop = () => {
@@ -66,7 +100,7 @@ const StopWatch = (prpos: PropsType) => {
     const currentTime = `${hours < 10 ? '0' + hours : hours}:${
       minutes < 10 ? '0' + minutes : minutes
     }:${seconds < 10 ? '0' + seconds : seconds}`;
-    console.log(`Time recorded: ${currentTime}`);
+    // console.log(`Time recorded: ${currentTime}`);
     // 서버로 현재 타임을 보내준다.
     setTime(currentTime);
   };
@@ -103,7 +137,7 @@ const StopWatch = (prpos: PropsType) => {
 
   return (
     <div className=' text-center text-slate-600 p-2'>
-      <h1 className='text-7xl font-bold mb-8 mt-4'>
+      <h1 className='text-7xl font-bold mb-8'>
         {hours < 10 ? '0' + hours : hours}:
         {minutes < 10 ? '0' + minutes : minutes}:
         {seconds < 10 ? '0' + seconds : seconds}
