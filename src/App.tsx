@@ -3,9 +3,11 @@ import Detail from 'pages/details/Detail';
 
 import StopWatch from 'pages/guide/StopWatch';
 import WeightGuide from 'pages/guide/WeightGuide';
+import DietGuide from 'pages/guide/DietGuide';
 import Individual from 'pages/guide/Individual';
 
 import Weight from 'pages/guide/Weight';
+import Diet from 'pages/guide/Diet';
 import Game from 'pages/game/Game';
 import Login from 'pages/login/Login';
 import SignUp from 'pages/login/SignUp';
@@ -43,8 +45,10 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           {/* 운동영상 관련 */}
           <Route path='/weight' element={<Weight />} />
+          <Route path='/diet' element={<Diet />} />
           {/* <Route path='/stopwatch' element={<StopWatch />} /> */}
-          <Route path='/weightguide' element={<WeightGuide />} />
+          <Route path='/weightguide/:id' element={<WeightGuide />} />
+          <Route path='/dietguide/:id' element={<DietGuide />} />
           <Route path='/individual' element={<Individual />} />
          
         </Routes>

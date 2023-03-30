@@ -6,7 +6,7 @@ import StopWatch from './StopWatch';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'api/axios';
 
-const WeightGuide = () => {
+const DietGuide = () => {
   const { id } = useParams();
   const [imgUrl, setImgUrl] = useState('');
   const getDetailData = async () => {
@@ -59,4 +59,4 @@ const WeightGuide = () => {
   );
 };
 
-export default WeightGuide;
+export default DietGuide;
