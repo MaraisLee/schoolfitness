@@ -129,7 +129,7 @@ const Weight = () => {
                   <img
                     src={myImgArr[index]}
                     alt='안녕'
-                    className='text-center w-[130px] h-[150px] mb-2 m-auto'
+                    className='text-center w-[130px] h-[150px] mb-2 m-auto scale-[60%]'
                   />
                   <span className='text-sm '>{item.etName}</span>
                   <br />
@@ -156,7 +156,7 @@ const Weight = () => {
                   <img
                     src={myImgArr[index]}
                     alt=''
-                    className='text-center w-[130px] h-[150px] mb-2 m-auto'
+                    className='text-center w-[130px] h-[150px] mb-2 m-auto scale-[60%]'
                   />
                   <span className='text-sm '>{item.etName}</span>
                   <br />
@@ -167,7 +167,7 @@ const Weight = () => {
           </ul>
         </div>
         <div className=' h-[485px] pt-3 pl-3 bg-slate-100'>
-          <p className='w-16 h-7 mb-3 border-[#ff8339] rounded-lg text-center leading-7  text-[#ff8339] border-solid border-2'>
+          <p className='w-16 h-7 mb-3 border-[#ff8339] rounded-lg text-center leading-7  text-[#ff8339] border-solid border-2 '>
             level 3
           </p>
 
@@ -183,7 +183,7 @@ const Weight = () => {
                   <img
                     src={myImgArr[index]}
                     alt=''
-                    className='text-center w-[130px] h-[150px] mb-2 m-auto'
+                    className='text-center w-[130px] h-[150px] mb-2 m-auto scale-[60%]'
                   />
                   <span className='text-sm '>{item.etName}</span>
                   <br />

@@ -129,7 +129,7 @@ const Diet = () => {
                   <img
                     src={myImgArr[index]}
                     alt='안녕'
-                    className='text-center w-[130px] h-[150px] mb-2 m-auto'
+                    className='text-center w-[130px] h-[150px] mb-2 m-auto scale-[60%]'
                   />
                   <span className='text-sm '>{item.etName}</span>
                   <br />
@@ -156,7 +156,7 @@ const Diet = () => {
                   <img
                     src={myImgArr[index]}
                     alt=''
-                    className='text-center w-[130px] h-[150px] mb-2 m-auto'
+                    className='text-center w-[130px] h-[150px] mb-2 m-auto scale-[60%]'
                   />
                   <span className='text-sm '>{item.etName}</span>
                   <br />
@@ -183,7 +183,7 @@ const Diet = () => {
                   <img
                     src={myImgArr[index]}
                     alt=''
-                    className='text-center w-[130px] h-[150px] mb-2 m-auto'
+                    className='text-center w-[130px] h-[150px] mb-2 m-auto scale-[60%]'
                   />
                   <span className='text-sm '>{item.etName}</span>
                   <br />
