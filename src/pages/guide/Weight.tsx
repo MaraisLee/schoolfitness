@@ -124,7 +124,7 @@ const Weight = () => {
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
-                <Link to={`/weightguide/${index}`}>
+                <Link to={`/weightguide/${index + 17}`}>
                   {' '}
                   <img
                     src={myImgArr[index]}
@@ -151,7 +151,7 @@ const Weight = () => {
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
-                <Link to={`/weightguide/${index}`}>
+                <Link to={`/weightguide/${index + 17}`}>
                   {' '}
                   <img
                     src={myImgArr[index]}
@@ -178,7 +178,7 @@ const Weight = () => {
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
-                <Link to={`/weightguide/${index}`}>
+                <Link to={`/weightguide/${index + 17}`}>
                   {' '}
                   <img
                     src={myImgArr[index]}

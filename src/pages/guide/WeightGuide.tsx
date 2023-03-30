@@ -9,14 +9,28 @@ import axios from 'api/axios';
 const WeightGuide = () => {
   const { id } = useParams();
   const [imgUrl, setImgUrl] = useState('');
+  const [etExplain, setEtExplain] = useState('');
+  const [levelName, setLevelName] = useState('');
   const getDetailData = async () => {
     // 상세 정보 내용 출력
-    const getNum = id ? Number(id) + 1 : 1;
+    // const getNum = id ? Number(id) + 1 : 1;
+    const getNum = Number(id);
+    if (getNum === 17) {
+      setLevelName('걷기');
+    } else if (getNum === 18) {
+      setLevelName('줄넘기');
+    } else if (getNum === 19) {
+      setLevelName('달리기');
+    } else if (getNum === 20) {
+      setLevelName('계단오르기');
+    }
     // console.log(getNum);
     const getUrl = `level/exercise/1/${getNum}`;
     // console.log(getUrl);
     const res = await axios.get(getUrl);
-    // console.log(res.data.url);
+    // console.log(res.data.etExplain);
+    // 상세 설명
+    setEtExplain(res.data.etExplain);
     // 이미지 가져오기
     const resImg = await axios.get(`download/img/detail/${res.data.url}`);
     // console.log('이미지', resImg.request.responseURL);
@@ -43,14 +57,10 @@ const WeightGuide = () => {
       </div>
       <div className='  m-5   text-center'>
         {' '}
+        <div>{levelName}</div>
         <div className='bg-white  drop-shadow rounded-md p-3 '>
           <img src={imgUrl} alt='' className='text-center mb-2 m-auto ' />
-          <span className='text-xs   '>
-            턱을 가슴 쪽으로 잡아당기며 호흡하기 편한 자세로 전방 10~20m 앞을
-            주시하는 것이 좋다. 몸체(척추)는 전체적으로 곧게 펴는 것이 좋고,
-            앞으로 살짝 5도 정도 기울여도 괜찮다. 등이나 어깨를 구부리거나
-            상체에 너무 힘을 줘서 근육이 긴장하지 않도록 주의해야 한다
-          </span>
+          <span className='text-xs'>{etExplain}</span>
           <br />
         </div>
       </div>

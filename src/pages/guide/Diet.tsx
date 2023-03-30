@@ -124,7 +124,7 @@ const Diet = () => {
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
-                <Link to={`/dietguide/${index}`}>
+                <Link to={`/dietguide/${index + 21}`}>
                   {' '}
                   <img
                     src={myImgArr[index]}
@@ -151,7 +151,7 @@ const Diet = () => {
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
-                <Link to={`/dietguide/${index}`}>
+                <Link to={`/dietguide/${index + 21}`}>
                   {' '}
                   <img
                     src={myImgArr[index]}
@@ -178,7 +178,7 @@ const Diet = () => {
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
-                <Link to={`/dietguide/${index}`}>
+                <Link to={`/dietguide/${index + 21}`}>
                   {' '}
                   <img
                     src={myImgArr[index]}
