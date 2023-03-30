@@ -12,7 +12,6 @@ import { Line } from 'react-chartjs-2';
 import faker from 'faker';
 import { useEffect, useState } from 'react';
 import instance from 'api/axios';
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -22,42 +21,6 @@ ChartJS.register(
   Tooltip,
   Legend,
 );
-
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: '개인성적통계',
-    },
-  },
-};
-
-const labels = [
-  '2023.03.01',
-  '2023.03.02',
-  '2023.03.03',
-  '2023.03.04',
-  '2023.03.05',
-  '2023.03.06',
-  '2023.03.07',
-];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: '시간(분)',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      borderColor: 'rgb(255, 131, 57)',
-      backgroundColor: 'rgba(255, 131, 57)',
-    },
-  ],
-};
-
 const LineChart = () => {
   const options = {
     responsive: true,
@@ -71,7 +34,6 @@ const LineChart = () => {
       },
     },
   };
-
   interface ILabel {
     isSeq: number;
     isMiSeq: number;
@@ -82,9 +44,7 @@ const LineChart = () => {
     giStatus: string;
     esType: string;
   }
-
   const [label, setLabel] = useState<ILabel[]>([]);
-
   const fetchData = async () => {
     await instance
       .get('individualscore/list/change', {
@@ -93,37 +53,30 @@ const LineChart = () => {
           type: '걷기',
         },
       })
-      .then(res => setLabel(res.data.list));
+      .then( (res: any) => setLabel(res.data.list));
   };
   useEffect(() => {
     fetchData();
   }, []);
-
-  const formattedYData = label.map(item => ({
+  const formattedData = label.map(item => ({
     x: item.isRegDt,
     y: item.isTime,
   }));
   const formattedXData = label.map(item => ({
     x: item.isRegDt,
-    
   }));
   const data = {
-
+   
     datasets: [
       {
-       
         label: '시간(분)',
-        
         borderColor: 'rgb(255, 131, 57)',
         borderWidth: 2,
         backgroundColor: 'rgba(255, 131, 57)',
-        data: formattedYData,
+        data: formattedData,
       },
     ],
   };
-
- 
-
   return (
     <div className='bg-gray-200 rounded-xl p-3 my-3'>
       <Line data={data} />

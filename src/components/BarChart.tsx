@@ -11,7 +11,6 @@ import { Bar } from 'react-chartjs-2';
 import faker from 'faker';
 import { useEffect, useState } from 'react';
 import instance from 'api/axios';
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -20,8 +19,6 @@ ChartJS.register(
   Tooltip,
   Legend,
 );
-
-
 export const options = {
   responsive: true,
   plugins: {
@@ -34,8 +31,6 @@ export const options = {
     },
   },
 };
-
-
 interface ILabel {
   isSeq: number;
   isMiSeq: number;
@@ -46,11 +41,8 @@ interface ILabel {
   giStatus: string;
   esType: string;
 }
-
-
 const BarChart = () => {
   const [label, setLabel] = useState<ILabel[]>([]);
-
   const fetchData = async () => {
     await instance
       .get('individualscore/list/change', {
@@ -59,7 +51,7 @@ const BarChart = () => {
           type: '걷기',
         },
       })
-      .then(res => setLabel(res.data.list));
+      .then( (res : any) => setLabel(res.data.list));
   };
   useEffect(() => {
     fetchData();
@@ -71,23 +63,18 @@ const BarChart = () => {
   }));
   const formattedXData = label.map(item => ({
     y: item.isTime,
-    
   }));
 console.log(formattedXData)
   // const sumArr = formattedXData.reduce((a,b)=>(a+b))
    const data = {
-  
     datasets: [
       {
         label: '시간',
         data: formattedYData,
         backgroundColor: 'rgba(255, 131, 57, 0.9)',
       },
-   
     ],
   };
- 
- 
   return (
     <div className='bg-gray-200 rounded-xl p-3 my-3'>
       <Bar options={options} data={data} />
