@@ -5,8 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Button, InputWrap } from 'styles/LayoutCss';
 import { useForm } from 'react-hook-form';
-import instance from 'api/axios';
+import instance, { setAuthToken } from 'api/axios';
 import ModalLayout from 'components/common/ModalLayout';
+import { useRecoilState } from 'recoil';
+import { authState } from 'recoil/auth';
 
 const LoginCss = styled.section`
   position: relative;
@@ -57,6 +59,7 @@ interface ISignIn {
 }
 
 const Login = () => {
+  const [auth, setAuthState] = useRecoilState(authState);
   const navigate = useNavigate();
   const {
     register,
@@ -75,23 +78,28 @@ const Login = () => {
     setModalVisible(false);
   };
 
-  const onSubmit = async (data: ISignIn) => {
+  const login = async (data: ISignIn) => {
     const body = {
       id: data.ID,
       pwd: data.pw,
     };
     try {
-      await instance.post('member/login', body).then(res => {
-        if (!res.data.status) {
-          setError('pw', { message: 'ID 또는 Password 오류입니다.' });
-          openModal();
-        } else {
-          console.log(res.data);
-          localStorage.setItem('token', res.data.token.accessToken);
-        }
-      });
+      const response = await instance.post('member/login', body);
+      if (response.data.status) {
+        const { accessToken, refreshToken } = response.data.token;
+        setAuthState({ accessToken, refreshToken });
+        setAuthToken(accessToken);
+
+        navigate('/');
+      } else {
+        setError('pw', { message: 'ID 또는 Password 오류입니다.' });
+        openModal();
+      }
+      return true;
     } catch (error) {
       console.log(error);
+
+      return false;
     }
   };
 
@@ -108,7 +116,7 @@ const Login = () => {
       )}
       <LoginCss>
         <img src={logo} alt='logo' />
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(login)}>
           <InputWrap>
             <FaUser />
             <input {...register('ID')} type='text' placeholder='아이디' />

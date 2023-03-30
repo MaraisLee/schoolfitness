@@ -102,7 +102,7 @@ export default function SignUp() {
       console.log(error);
     }
   };
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const openModal = () => {
     setModalVisible(true);
   };
