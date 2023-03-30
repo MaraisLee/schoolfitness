@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'api/axios';
 import BackHandleClick from 'components/util/BackHandleClick';
 import { log } from 'console';
+import moment from 'moment';
 
 type NoticeType = {
   etSeq: number;
@@ -14,6 +15,10 @@ type NoticeType = {
   gnSeq: number;
   gnTitle: string;
   url: string;
+};
+type FileType = {
+  url: string;
+  video: boolean;
 };
 
 const Notice = () => {
@@ -30,19 +35,19 @@ const Notice = () => {
     url: '',
   };
   const [notice, setNotice] = useState<NoticeType>(initdata);
+  const [videoUrl, setVideoUrl] = useState();
   const getNoticeData = async () => {
     await axios
       .get('notice/detail/47')
       .then(async res => {
-        console.log(res.data);
         setNotice(res.data);
-        console.log(res.data.url);
 
         // 영상 호출
         await axios
           .get('download/video/notice/' + res.data.url)
           .then(res => {
-            console.log(res.data);
+            // console.log(res);
+            setVideoUrl(res.data);
           })
           .catch(err => console.log('percent err', err));
       })
@@ -52,6 +57,16 @@ const Notice = () => {
   useEffect(() => {
     getNoticeData();
   }, []);
+
+  // const [file, setFile] = useState<FileType>({ url: '', video: false });
+  // // 영상 미리보기
+  // const imageUpload = (e: any) => {
+  //   const videoTpye = e.target.files[0].type.includes('video');
+  //   setFile({
+  //     url: notice.url,
+  //     video: videoTpye,
+  //   });
+  // };
 
   return (
     <InnerCss>
@@ -63,9 +78,11 @@ const Notice = () => {
       <hr />
       <div className='px-10'>
         <div className='text-[17px] font-bold pt-6 pb-6'>{notice.gnTitle}</div>
-        <span className='text-[12px] text-[#A1A1A1]  '>{notice.gnRegDt}</span>
+        <span className='text-[12px] text-[#A1A1A1]  '>
+          {moment(notice.gnRegDt).format('YYYY년 MM월 DD일 HH:mm:ss')}
+        </span>
         <hr className='my-5' />
-        <div className='text-[13px] leading-6'>
+        <div className='text-[14px] leading-6'>
           안녕하세요~
           <br />
           &#10094; School Fitness 쿨피스 게임 공지 &#10095;
@@ -86,7 +103,7 @@ const Notice = () => {
           <br />
           쿨피스 여러분들! <br />
           미션에 참가하고 스탬프 찍으세요✨🎉
-          <p className='text-[10px] text-[#5f5e5e] pt-2 leading-4'>
+          <p className='text-[11px] text-[#5f5e5e] pt-2 leading-4'>
             순위 1, 2, 3 등 스탬프 기회 5번 | 상위 10% 스탬프 기회 3번 | 상위
             11~30% 스탬프 기회 2번 | 나머지 1번 | 자격 미달 0번
             <br />
@@ -96,6 +113,9 @@ const Notice = () => {
           </p>
         </div>
         {/* 게임예시 영상 */}
+        <div className='mt-5 bg-white w-[315px] h-[210px] '>
+          {/* {videoUrl && <video src={videoUrl} controls width='315px' />} */}
+        </div>
       </div>
     </InnerCss>
   );

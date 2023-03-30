@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HeaderCss, InnerCss } from 'styles/LayoutCss';
 
-type FileType = {
+export type FileType = {
   url: string;
   video: boolean;
 };
@@ -34,7 +34,7 @@ const GameSubmit = () => {
 
   const onSubmitHandler = async (e: any) => {
     e.preventDefault();
-    if (!recordTime) {
+    if (recordTime.length < 8) {
       alert('게임기록을 입력해주세요.');
       return;
     } else if (!uploadVideo) {
