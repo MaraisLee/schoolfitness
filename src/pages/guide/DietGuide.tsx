@@ -55,7 +55,7 @@ const DietGuide = () => {
       </div>
       <div className='  m-5   text-center'>
         {' '}
-        <div>{levelName}</div>
+        <div className='text-[#ff8339] font-bold text-sm'>⏱ {levelName} ⏱</div>
         <div className='bg-white  drop-shadow rounded-md p-3 '>
           <img src={imgUrl} alt='' className='text-center mb-2 m-auto ' />
           <span className='text-xs'>{etExplain}</span>
