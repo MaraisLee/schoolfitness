@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 interface IModalProps {
   visible: boolean;
-  onClose: (e: any) => void;
+  onClose?: (e: any) => void;
   children: React.ReactNode;
 }
 
