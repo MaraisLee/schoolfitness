@@ -17,7 +17,7 @@ export type ScoreType = {
   url: string;
 };
 
-const Grade = () => {
+const Grade = ({ setIsOpen }: any) => {
   const initData = {
     ban: '',
     message: '',
@@ -85,6 +85,20 @@ const Grade = () => {
       .catch(err => console.log(err));
   };
 
+  const [myStampLeft, setMyStampLeft] = useState(0);
+  const getStampData = () => {
+    axios
+      .get('game/stamp/1')
+      .then(res => {
+        setMyStampLeft(res.data.available);
+      })
+      .catch(err => console.log(err));
+  };
+
+  useEffect(() => {
+    getStampData();
+  }, []);
+
   useEffect(() => {
     getMyData();
   }, []);
@@ -93,9 +107,8 @@ const Grade = () => {
     getMedalData();
   }, []);
 
-  const navigate = useNavigate();
   const stampHandler = () => {
-    navigate('/stampgif');
+    setIsOpen(false);
   };
 
   const order = (rank: number) => {
@@ -213,7 +226,9 @@ const Grade = () => {
         </div>
         {/* 스탬프 bt */}
         <div className='flex flex-col justify-center items-center text-[#5C5C5C] pt-4'>
-          <span className='text-[15px]'>스탬프 3번의 기회가 있어요!</span>
+          <span className='text-[15px]'>
+            스탬프 <b>{myStampLeft}</b>번의 기회가 있어요!
+          </span>
           <span className='text-[20px] font-bold'>
             지금 스탬프 찍으러 가기!
           </span>
