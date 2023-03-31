@@ -47,30 +47,44 @@ const BarChart = () => {
     await instance
       .get('individualscore/list/change', {
         params: {
-          memberNo: "1",
-          type: '걷기',
+          memberNo: '1',
+          type: '사이클링',
         },
       })
-      .then( (res : any) => setLabel(res.data.list));
+      .then((res: any) => {
+        setLabel(res.data.list);
+        console.log(res.data.list);
+      });
   };
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(label)
- const formattedYData = label.map(item => ({
+  console.log(label);
+  const formattedYData = label.map((item, i) => ({
     x: item.etName,
     y: item.isTime,
   }));
-  const formattedXData = label.map(item => ({
-    y: item.isTime,
-  }));
-console.log(formattedXData)
+  const formattedXData = label.map((item: any) => ({ y: item.isTime }));
+  console.log(formattedXData[0]);
+  // console.log(String(formattedXData[0]).getHours())
   // const sumArr = formattedXData.reduce((a,b)=>(a+b))
-   const data = {
+  //   getHours()	시간 중 '시'각을 숫자로 반환 ( 0 ~ 23 )
+  // getMinutes()	시간 중 '분'을 숫자로 반환 ( 0 ~ 59 )
+  // getSeconds()
+  const data = {
+    labels: [
+      '걷기',
+      '사이클링',
+      '댄스',
+      '하이킹',
+      '수영',
+      '코어트레이닝',
+      '필라테스',
+    ],
     datasets: [
       {
-        label: '시간',
-        data: formattedYData,
+        label: '시간(분)',
+        data: [233, 55, 66, 99, 777, 77, 444],
         backgroundColor: 'rgba(255, 131, 57, 0.9)',
       },
     ],

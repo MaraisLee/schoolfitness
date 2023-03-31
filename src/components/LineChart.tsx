@@ -12,6 +12,7 @@ import { Line } from 'react-chartjs-2';
 import faker from 'faker';
 import { useEffect, useState } from 'react';
 import instance from 'api/axios';
+import moment from 'moment';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -44,6 +45,7 @@ const LineChart = () => {
     giStatus: string;
     esType: string;
   }
+  
   const [label, setLabel] = useState<ILabel[]>([]);
   const fetchData = async () => {
     await instance
@@ -53,7 +55,7 @@ const LineChart = () => {
           type: '걷기',
         },
       })
-      .then( (res: any) => setLabel(res.data.list));
+      .then((res: any) => setLabel(res.data.list));
   };
   useEffect(() => {
     fetchData();
@@ -62,18 +64,20 @@ const LineChart = () => {
     x: item.isRegDt,
     y: item.isTime,
   }));
+
+
+  console.log(formattedData);
   const formattedXData = label.map(item => ({
     x: item.isRegDt,
   }));
   const data = {
-   
     datasets: [
       {
         label: '시간(분)',
         borderColor: 'rgb(255, 131, 57)',
         borderWidth: 2,
         backgroundColor: 'rgba(255, 131, 57)',
-        data: formattedData,
+        data: [2, 555, 7, 8, 99],
       },
     ],
   };
