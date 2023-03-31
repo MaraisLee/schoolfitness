@@ -42,17 +42,17 @@ function App() {
           {/* 헬스 리포트 */}
           <Route path='/detail' element={<Detail />} />
           {/* 회원 관련 */}
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/login' element={<Login />} />
           <Route path='/detailinfo' element={<DetailInfo />} />
           <Route path='/userinfo' element={<UserInfo />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<SignUp />} />
           {/* 운동영상 관련 */}
           <Route path='/weight' element={<Weight />} />
           <Route path='/diet' element={<Diet />} />
-          {/* <Route path='/stopwatch' element={<StopWatch />} /> */}
+          <Route path='/individual' element={<Individual />} />
           <Route path='/weightguide/:id' element={<WeightGuide />} />
           <Route path='/dietguide/:id' element={<DietGuide />} />
-          <Route path='/individual' element={<Individual />} />
+          {/* <Route path='/stopwatch' element={<StopWatch />} /> */}
         </Routes>
         <Nav />
       </Wrapper>
