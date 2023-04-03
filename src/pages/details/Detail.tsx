@@ -4,16 +4,14 @@ import LineChart from 'components/LineChart';
 import { HeaderCss, InnerCss } from 'styles/LayoutCss';
 import BackHandleClick from 'components/util/BackHandleClick';
 import instance from 'api/axios';
-import cycling from 'assets/cycling.png';
-import dance from 'assets/dance.png';
-import hiking from 'assets/hiking.png';
-import pilates from 'assets/pilates.png';
-import pool from 'assets/pool.png';
-import walking from 'assets/walking.png';
-import yoga from 'assets/yoga.png';
+
 // 삭제아이콘
 import { TiDeleteOutline } from 'react-icons/ti';
 import { match } from 'assert';
+import Individual from 'pages/guide/Individual';
+import { Link } from 'react-router-dom';
+import { MdTimer } from 'react-icons/md';
+
 interface IScore {
   isSeq: number;
   isMiSeq: number;
@@ -34,14 +32,39 @@ const Detail = () => {
   const [scoreDelete, setScoreDelte] = useState(false);
 
   const etNameArr = [
-    { title: '사이클', imgtitle: 'cycle' ,getter:"walkingImg", setter:"setCycling" },
-    { title: '댄스', imgtitle: 'dance' ,getter:"dance" , setter:"setDance" },
-    { title: '하이킹', imgtitle: 'hiking',getter:"hiking" , setter:"setHiking" },
-    { title: '필라테스', imgtitle: 'pilates',getter:"pilates", setter:"setPilates"  },
-    { title: '수영', imgtitle: 'pool',getter:"swim", setter:"setSwim"  },
-    { title: '걷기', imgtitle: 'walkingImg' ,getter:"walkingImg" , setter:"setWalkingImg" },
-    { title: '요가', imgtitle: 'yoga',getter:"yoga" , setter:"setYogaImg"  },
-    { title: '코어트레이닝', imgtitle: 'cycle',getter:"core" , setter:"setCore"  },
+    {
+      title: '사이클',
+      imgtitle: 'cycle',
+      getter: 'walkingImg',
+      setter: 'setCycling',
+    },
+    { title: '댄스', imgtitle: 'dance', getter: 'dance', setter: 'setDance' },
+    {
+      title: '하이킹',
+      imgtitle: 'hiking',
+      getter: 'hiking',
+      setter: 'setHiking',
+    },
+    {
+      title: '필라테스',
+      imgtitle: 'pilates',
+      getter: 'pilates',
+      setter: 'setPilates',
+    },
+    { title: '수영', imgtitle: 'pool', getter: 'swim', setter: 'setSwim' },
+    {
+      title: '걷기',
+      imgtitle: 'walkingImg',
+      getter: 'walkingImg',
+      setter: 'setWalkingImg',
+    },
+    { title: '요가', imgtitle: 'yoga', getter: 'yoga', setter: 'setYogaImg' },
+    {
+      title: '코어트레이닝',
+      imgtitle: 'cycle',
+      getter: 'core',
+      setter: 'setCore',
+    },
   ];
   const [filters, setFilers] = useState(etNameArr[0].imgtitle);
   console.log();
@@ -87,8 +110,7 @@ const Detail = () => {
   // 코어트레이닝
   const [core, setCore] = useState('');
 
-
-  // 리팩토링 
+  // 리팩토링
   // [walkingImg,yoga,hiking, cycle, dance , pilates, swim, core]
   // [setWalkingImg,setYogaImg, setHiking, setHiking, setCycling,setDance,setPilates, setSwim,setCore ]
   const getindiData = async () => {
@@ -99,14 +121,14 @@ const Detail = () => {
         console.log(res.data);
         await instance
           // 걷기이미지
-          .get('/download/img/thumbnail/' +  res.data[0].url)
+          .get('/download/img/thumbnail/' + res.data[0].url)
           .then(res => {
             setWalkingImg(res.request.responseURL);
             console.log(res.request.responseURL);
           })
           .catch(err => console.log(err));
         await instance
-        // 사이클링
+          // 사이클링
           .get('/download/img/thumbnail/' + res.data[1].url)
           .then(res => {
             setCycling(res.request.responseURL);
@@ -150,7 +172,7 @@ const Detail = () => {
           .get('/download/img/thumbnail/' + res.data[6].url)
           .then(res => {
             setSwim(res.request.responseURL);
-            console.log(res.request.responseURL,"수영");
+            console.log(res.request.responseURL, '수영');
           })
           .catch(err => console.log(err));
         // 하이킹
@@ -180,19 +202,23 @@ const Detail = () => {
 
   // useEffect(() => {}, []);
 
- return (
+  return (
     <>
+      <HeaderCss className='my-3'>
+        <BackHandleClick />
+        <h1>Health Report</h1>
+        <Link to={'/individual'}>
+          <MdTimer className=' text-[#ff8339] ' />
+        </Link>
+      </HeaderCss>
       <InnerCss className='px-5'>
-        <HeaderCss>
-          {/* 나중에 링크 걸면됨 */}
-          <BackHandleClick />
-          <h1>디테일 페이지</h1>
-        </HeaderCss>
-        <div className='overflow-y-auto scrollbar-hide h-[660px] '>
+        {/* 나중에 링크 걸면됨 */}
+        <div className='flex justify-start gap-[230px]'> </div>
+        <div className='overflow-y-auto scrollbar-hide h-[660px]'>
           <div>
             {' '}
             <p className='text-center'>이번주기록</p>
-            <LineChart/>
+            <LineChart />
             <div>
               <div>
                 <p className='text-center'>개인성적 통계</p>
@@ -208,25 +234,32 @@ const Detail = () => {
                   return e.stopPropagation();
                 }} className='absolute top-0 right-0 border-2 w-7 h-6 bg-blue-400 px-2'>추가하기</button>
               </div> */}
-              <div>
+
+              <div className=''>
                 {score
                   ? score?.map((scoreList: any, i: any) => (
                       <div
                         key={i}
-                        className='flex relative justify-between bg-slate-200 rounded-xl py-3 px-4 mt-5'
+                        className=' flex relative justify-between items-center bg-slate-200 rounded-xl py-3 px-4 mt-5'
                       >
+                        <p>
+                          {scoreList.isRegDt
+                            ? scoreList.isRegDt.replace(/-/g, '.').substr(5, 10)
+                            : '2023-04-03'}
+                        </p>
+
                         <img
                           className='w-11 h-11'
                           src={
-                            scoreList.etName === '걷기' 
+                            scoreList.etName === '걷기'
                               ? walkingImg
-                              :scoreList.etName === '걷기LV1' 
+                              : scoreList.etName === '걷기LV1'
                               ? walkingImg
-                              :scoreList.etName === '오래달리기' 
+                              : scoreList.etName === '오래달리기'
                               ? walkingImg
-                              :scoreList.etName === '걷기LV1'
+                              : scoreList.etName === '걷기LV1'
                               ? walkingImg
-                              :scoreList.etName === '오래달리기'
+                              : scoreList.etName === '오래달리기'
                               ? walkingImg
                               : scoreList.etName === '사이클링'
                               ? cycle
@@ -248,13 +281,16 @@ const Detail = () => {
                           }
                           alt='운동그림'
                         />
-                        <span className='mt-3 mr-11'>
-                          {scoreList.etName ? scoreList.etName : '댄스'}
-                        </span>
-                        <div className='mt-3'>
-                          <p>
+
+                        <div className='flex justify-between w-[180px]'>
+                          <span className=''>
+                            {scoreList.etName ? scoreList.etName : '댄스'}
+                          </span>
+
+                          <p className=''>
                             {scoreList.isTime ? scoreList.isTime : '11:01:00'}
                           </p>
+
                           <button
                             onClick={e => {
                               e.stopPropagation();
