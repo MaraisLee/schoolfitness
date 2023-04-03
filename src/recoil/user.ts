@@ -14,3 +14,9 @@ export const userDetailAtom = atom({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+
+export const userPwAtom = atom({
+  key: 'pw',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});

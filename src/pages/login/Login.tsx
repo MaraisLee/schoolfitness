@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import instance from 'api/axios';
 import ModalLayout from 'components/common/ModalLayout';
 import { useSetRecoilState } from 'recoil';
-import { userAtom } from 'recoil/user';
+import { userAtom, userPwAtom } from 'recoil/user';
 
 const LoginCss = styled.section`
   position: relative;
@@ -64,6 +64,8 @@ interface ISignIn {
 
 const Login = () => {
   const setUserInfo = useSetRecoilState(userAtom);
+  const setUserPw = useSetRecoilState(userPwAtom);
+
   const navigate = useNavigate();
   const {
     register,
@@ -93,11 +95,8 @@ const Login = () => {
           setError('pw', { message: 'ID 또는 Password 오류입니다.' });
           openModal();
         } else {
-          setUserInfo({
-            token: res.data.token.accessToken,
-            miSeq: res.data.miSeq,
-          });
-          // localStorage.setItem('token', res.data.token.accessToken);
+          setUserInfo({ miSeq: res.data.miSeq });
+          setUserPw({ pw: data.pw });
           navigate('/', { state: { isModalVisible: true } });
         }
       });
@@ -108,7 +107,6 @@ const Login = () => {
 
   return (
     <>
-      {' '}
       {modalVisible && (
         <ModalLayout visible={modalVisible} onClose={closeModal}>
           <ModalFrame>
