@@ -34,7 +34,7 @@ const Grade = ({ setIsOpen }: any) => {
   const [firstGradeImg, setFristGradeImg] = useState('');
   const [secondGradeImg, setSecondGradeImg] = useState('');
   const [thirdGradeImg, setThirdGradeImg] = useState('');
-  const [myPercent, setMypercent] = useState(0);
+  const [myPercent, setMypercent] = useState('0');
 
   const user = useRecoilValue(userAtom);
   const userDetail = useRecoilValue(userDetailAtom);
@@ -43,7 +43,7 @@ const Grade = ({ setIsOpen }: any) => {
 
   const getMyData = async () => {
     await axios
-      .get('game/score/1' + user.miSeq)
+      .get('game/score/' + user.miSeq)
       .then(res => {
         console.log('결과', res);
         setMyRecord(res.data);
@@ -56,7 +56,10 @@ const Grade = ({ setIsOpen }: any) => {
         axios
           .get('game/score/percent/1/1')
           .then(res => {
-            setMypercent(res.data.percent);
+            const formatted = (
+              Math.round(res.data.percent * 100) / 100
+            ).toFixed(2);
+            setMypercent(formatted);
           })
           .catch(err => console.log('percent err', err));
       })

@@ -6,7 +6,6 @@ import BackHandleClick from 'components/util/BackHandleClick';
 import { useEffect, useState, useRef } from 'react';
 import instance from 'api/axios';
 import { userAtom, userDetailAtom } from 'recoil/user';
-import { setCookie } from 'api/cookie';
 import WithdrawalForm from 'components/user/WithdrawalForm';
 import { AiOutlineGift, AiOutlineNotification } from 'react-icons/ai';
 
@@ -44,7 +43,7 @@ const UserInfo = () => {
     await instance.get('member/logout');
     alert('로그아웃 되었습니다.');
     setUserInfo('');
-    setCookie('access_token', '');
+
     navigate('/');
   };
   // 유저 정보

@@ -41,8 +41,8 @@ const Stamp = () => {
 
   const user = useRecoilValue(userAtom);
   const userDetail = useRecoilValue(userDetailAtom);
-  console.log(userDetail);
-  console.log(user.miSeq);
+  // console.log(userDetail);
+  // console.log(user.miSeq);
 
   const navigate = useNavigate();
   const [myStamp, setMyStamp] = useState(0);
@@ -71,7 +71,7 @@ const Stamp = () => {
     }, 1000);
 
     await axios
-      .patch('game/stamp/use/1')
+      .patch('game/stamp/use/' + user.miSeq)
       .then(res => {
         getStampData();
       })
