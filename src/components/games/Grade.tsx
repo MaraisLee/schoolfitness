@@ -4,7 +4,8 @@ import medal from 'assets/medal.png';
 import axios from 'api/axios';
 import { useEffect, useState } from 'react';
 import { orangeColor } from 'utils/colors';
-import { getCookie } from 'api/cookie';
+import { userAtom, userDetailAtom } from 'recoil/user';
+import { useRecoilValue } from 'recoil';
 
 export type ScoreType = {
   ban: string;
@@ -35,20 +36,24 @@ const Grade = ({ setIsOpen }: any) => {
   const [thirdGradeImg, setThirdGradeImg] = useState('');
   const [myPercent, setMypercent] = useState(0);
 
+  const user = useRecoilValue(userAtom);
+  const userDetail = useRecoilValue(userDetailAtom);
+  console.log(userDetail);
+  console.log(user.miSeq);
+
   const getMyData = async () => {
     await axios
-      .get('game/score/1', {
-        headers: { authorization: `Bearer ${getCookie('access_token')}` },
-      })
-      .then(async res => {
+      .get('game/score/1' + user.miSeq)
+      .then(res => {
+        console.log('결과', res);
         setMyRecord(res.data);
-        await axios
+        axios
           .get('download/img/member/' + res.data.url)
           .then(res => {
             setmyImg(res.request.responseURL);
           })
           .catch(err => console.log('이미지 err', err));
-        await axios
+        axios
           .get('game/score/percent/1/1')
           .then(res => {
             setMypercent(res.data.percent);
@@ -57,6 +62,9 @@ const Grade = ({ setIsOpen }: any) => {
       })
       .catch(err => console.log(err));
   };
+  useEffect(() => {
+    getMyData();
+  }, []);
 
   //  각각에 맞는 url 집어넣어야됨. 코드를 줄일방법이있나?
   const getMedalData = async () => {
@@ -89,7 +97,7 @@ const Grade = ({ setIsOpen }: any) => {
   const [myStampLeft, setMyStampLeft] = useState(0);
   const getStampData = () => {
     axios
-      .get('game/stamp/1')
+      .get('game/stamp/' + user.miSeq)
       .then(res => {
         setMyStampLeft(res.data.available);
       })
@@ -98,10 +106,6 @@ const Grade = ({ setIsOpen }: any) => {
 
   useEffect(() => {
     getStampData();
-  }, []);
-
-  useEffect(() => {
-    getMyData();
   }, []);
 
   useEffect(() => {
@@ -121,7 +125,7 @@ const Grade = ({ setIsOpen }: any) => {
       return 'order-3';
     }
   };
-
+  console.log('내기록', myRecord);
   return (
     <>
       <div className='flex flex-col justify-center items-center w-full '>
@@ -191,30 +195,46 @@ const Grade = ({ setIsOpen }: any) => {
             <img src={medal} alt='' className='w-[16px] h-[14px] mr-1 ' /> 내
             성적
           </span>
-          <div className='flex justify-around items-center w-[313px] h-[70px] border shadow-lg rounded-full mt-3 text-zinc-400 text-[14px] pr-2'>
-            <div className='w-[43px] h-[41px] border rounded-full overflow-hidden'>
-              <img src={myImg} alt='' />
-            </div>
-            <div className='flex flex-col text-[8px] items-center pr-5'>
-              <b className='text-black text-[16px]'>{myRecord.nickname}</b>
-              <span>{myRecord.ban}</span>
-            </div>
-            <span>
-              <b className='text-black text-[18px]'>{myRecord.rank}</b>등
-            </span>
-            <span>
-              <b className='text-black text-[18px]'>{myRecord.score}</b>초
-            </span>
-          </div>
+          {myRecord.ban === null ? (
+            <>
+              <div className='flex justify-around items-center w-[313px] h-[70px] border shadow-lg rounded-full mt-3 text-[14px] pr-2'>
+                <span>
+                  {userDetail.nickname}은 게임 참가 기록이 존재하지 않습니다.{' '}
+                </span>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className='flex justify-around items-center w-[313px] h-[70px] border shadow-lg rounded-full mt-3 text-zinc-400 text-[14px] pr-2'>
+                <div className='w-[43px] h-[41px] border rounded-full overflow-hidden'>
+                  <img src={myImg} alt='' />
+                </div>
+                <div className='flex flex-col text-[8px] items-center pr-5'>
+                  <b className='text-black text-[16px]'>{myRecord.nickname}</b>
+                  <span>{myRecord.ban}</span>
+                </div>
+                <span>
+                  <b className='text-black text-[18px]'>{myRecord.rank}</b>등
+                </span>
+                <span>
+                  <b className='text-black text-[18px]'>{myRecord.score}</b>초
+                </span>
+              </div>
+            </>
+          )}
           <div className='flex flex-col justify-center items-center mt-5 text-center'>
-            <span className='text-[15px] font-bold'>
-              <b className={`text-[${orangeColor}] text-[19px]`}>
-                {myRecord.nickname}
-              </b>
-              님은
-              <br />
-              상위 {myPercent}% 입니다.
-            </span>
+            {myRecord.ban === null ? (
+              <></>
+            ) : (
+              <span className='text-[15px] font-bold'>
+                <b className={`text-[${orangeColor}] text-[19px]`}>
+                  {myRecord.nickname}
+                </b>
+                님은
+                <br />
+                상위 {myPercent}% 입니다.
+              </span>
+            )}
             <p className='text-[8px] text-[#bbb] pt-4'>
               1, 2, 3 등 스탬프 기회 5번 | 상위 10% 스탬프 기회 3번 | 상위
               11~30% 스탬프 기회 2번 | 나머지 1번 | 자격 미달 0번

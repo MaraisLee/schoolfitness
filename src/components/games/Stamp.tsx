@@ -17,6 +17,8 @@ import color20 from 'assets/20000won.png';
 import redo from 'assets/redo.png';
 import gif1 from 'assets/gif1.gif';
 import StampModalLayout from 'components/common/StampModalLayout';
+import { userAtom, userDetailAtom } from 'recoil/user';
+import { useRecoilValue } from 'recoil';
 
 const Stamp = () => {
   const ModalFrame = styled.div`
@@ -37,13 +39,17 @@ const Stamp = () => {
     setModalVisible(false);
   };
 
+  const user = useRecoilValue(userAtom);
+  const userDetail = useRecoilValue(userDetailAtom);
+  console.log(userDetail);
+  console.log(user.miSeq);
+
   const navigate = useNavigate();
   const [myStamp, setMyStamp] = useState(0);
   const [myStampLeft, setMyStampLeft] = useState(0);
-  const [stamping, setStamping] = useState(false);
   const getStampData = () => {
     axios
-      .get('game/stamp/1')
+      .get('game/stamp/' + user.miSeq)
       .then(res => {
         setMyStamp(res.data.use);
         setMyStampLeft(res.data.available);
@@ -67,7 +73,6 @@ const Stamp = () => {
     await axios
       .patch('game/stamp/use/1')
       .then(res => {
-        setStamping(true);
         getStampData();
       })
       .catch(err => console.log(err));
@@ -119,7 +124,7 @@ const Stamp = () => {
       <div className='flex flex-col justify-center items-center text-center'>
         <div className='w-[85%] flex justify-between items-end '>
           <span className='text-[18px]'>
-            <b>옌</b>님의 스탬프 현황
+            <b>{userDetail.nickname}</b>님의 스탬프 현황
           </span>
           <div className='text-[#FF8339] text-[15px] flex  justify-center items-end leading-none'>
             <b className='text-[26px]'>{myStamp}</b>/20개
