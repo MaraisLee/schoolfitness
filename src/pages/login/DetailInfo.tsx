@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import instance from 'api/axios';
 import ModalLayout from 'components/common/ModalLayout';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Button } from 'styles/LayoutCss';
+import { userAtom } from 'recoil/user';
+import { useRecoilValue } from 'recoil';
 const Divider = styled.div`
   display: flex;
   gap: 60px;
@@ -22,16 +23,19 @@ const DetailInfoCss = styled.section`
     margin-bottom: 50px;
   }
   section {
-    margin-bottom: 50px;
+    margin-bottom: 40px;
   }
   p {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
   select {
     outline: none;
     padding: 0.6em 1.4em 0.5em 0.8em;
     border: 1px solid #8d8d8d;
     border-radius: 0.5em;
+  }
+  form {
+    overflow: hidden;
   }
   form > button {
     margin-bottom: 20px;
@@ -72,6 +76,17 @@ const InputBox = styled.div`
     color: #ff8339;
   }
 `;
+
+const SuperButton = styled.button`
+  width: 100%;
+  height: 50px;
+  border-radius: 90px;
+  font-size: 17px;
+  font-weight: bold;
+  color: white;
+  background-color: #ff8339;
+  border: none;
+`;
 const ModalFrame = styled.div`
   text-align: center;
   padding: 30px 0px 20px;
@@ -100,20 +115,23 @@ interface IEditType {
   classNum: string;
 }
 export default function DetailInfo() {
+  const navigate = useNavigate();
+  const userInfo = useRecoilValue(userAtom);
   const [modalVisible, setModalVisible] = useState(false);
   const openModal = () => {
     setModalVisible(true);
   };
   const closeModal = () => {
     setModalVisible(false);
+    navigate('/');
   };
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
   } = useForm<IEditType>();
+
   const editInfo = async (data: IEditType) => {
     console.log(data);
     const body = {
@@ -124,7 +142,10 @@ export default function DetailInfo() {
       weight: Number(data.weight),
     };
     try {
-      const response = await instance.patch(`member/addinfo/1`, body);
+      const response = await instance.patch(
+        `member/addinfo/${userInfo.miSeq}`,
+        body,
+      );
       if (response.data.status) {
         openModal();
       } else {
@@ -218,10 +239,10 @@ export default function DetailInfo() {
               </InputBox>
             </RadioContainer>
           </section>
-          <Button>확인??입력??</Button>
-          <Button type='button' onClick={() => navigate('/')}>
-            다음에 하기??
-          </Button>
+          <SuperButton>확인</SuperButton>
+          <SuperButton type='button' onClick={() => navigate('/')}>
+            취소
+          </SuperButton>
         </form>
       </DetailInfoCss>
     </>

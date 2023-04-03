@@ -10,15 +10,13 @@ import giftCard1 from 'assets/3000won.png';
 import giftCard2 from 'assets/5000won.png';
 import giftCard3 from 'assets/10000won.png';
 import giftCard4 from 'assets/20000won.png';
-
 // 상품권스와이퍼
-
+// recoil
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-
 // Import Swiper styles
 import 'swiper/css';
-
 const UserInfo = () => {
   // 공지사항 출력
   const [noticeList, setNoticeList] = useState<any>([]);
@@ -44,13 +42,16 @@ const UserInfo = () => {
       }
     });
   };
+  // 회원탈퇴 Modal
+  const [modalVisible, setModalVisible] = useState(false);
+  const openModal = () => setModalVisible(true);
+  const closeModal = () => setModalVisible(false);
   // 상품권출력
   const giftHandler = async () => {
     await instance
       .get('http://192.168.0.79:8888/api/game/stamp/goods/1')
       .then((res: any) => setGift(res.data.list));
   };
-
   return (
     <InnerCss className='px-5'>
       <BackHandleClick />
@@ -104,7 +105,6 @@ const UserInfo = () => {
             </>
           </div>
         </div>
-
         <div>
           <div className='bg-gray-100 rounded-lg p-3'>
             <div className='flex justify-between'>

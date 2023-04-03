@@ -8,15 +8,21 @@ import { ImHome3 } from 'react-icons/im';
 import { Link } from 'react-router-dom';
 
 import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { userAtom } from 'recoil/user';
 
 const Nav = () => {
   const menuColor: string = 'text-orange-500';
+
+  const token = useRecoilValue(userAtom).token;
+
+  const addLink = token ? 'userinfo' : '';
   const filterArr = [
-    { title: '홈', icon: <ImHome3 />, id: 0, link: 'login' },
+    { title: '홈', icon: <ImHome3 />, id: 0, link: '' },
     { title: '게임 ', icon: <FaGamepad />, id: 1, link: 'game' },
     { title: '헬스리포트 ', icon: <IoIosBicycle />, id: 2, link: 'detail' },
     { title: '운동영상 ', icon: <BsPersonFill />, id: 3, link: 'weight' },
-    { title: '더보기 ', icon: <FiMoreHorizontal />, id: 4, link: 'userinfo' },
+    { title: '더보기 ', icon: <FiMoreHorizontal />, id: 4, link: addLink },
   ];
   const [filter, setFilter] = useState(filterArr[0]);
 

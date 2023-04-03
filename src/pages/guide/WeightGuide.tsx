@@ -48,7 +48,7 @@ const WeightGuide = () => {
         </Link>
         <p> </p>
         <p> </p>
-        <p className='text-white text-sm font-bold'>웨이터 운동기록 </p>
+        <p className='text-white text-sm font-bold'>다이어터 운동기록 </p>
         <p> </p>
         <p> </p>
         <Link to={'/individual'}>

@@ -78,7 +78,8 @@ const StopWatch = (prpos: PropsType) => {
         const res = await instance.put(fetchUrl, {
           // isSeq: 0,
           isMiSeq: 1,
-          isEtSeq: 1,
+          // 운동 번호 프롭스로?
+          isEtSeq: 17,
           isRegDt: moment(Date.now()).format('YYYY-MM-DD'),
           isTime: time,
           isWeek: 0,
