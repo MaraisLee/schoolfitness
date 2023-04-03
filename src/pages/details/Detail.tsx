@@ -179,7 +179,7 @@ const Detail = () => {
 
   // useEffect(() => {}, []);
 
-  return (
+ return (
     <>
       <InnerCss className='px-5'>
         <HeaderCss>
@@ -191,7 +191,7 @@ const Detail = () => {
           <div>
             {' '}
             <p className='text-center'>이번주기록</p>
-            <LineChart />
+            <LineChart/>
             <div>
               <div>
                 <p className='text-center'>개인성적 통계</p>
@@ -205,11 +205,8 @@ const Detail = () => {
                 <input type='text' placeholder='시간'></input>
                 <button onClick={(e)=>{
                   return e.stopPropagation();
-                 
-               
                 }} className='absolute top-0 right-0 border-2 w-7 h-6 bg-blue-400 px-2'>추가하기</button>
               </div> */}
-
               <div>
                 {score
                   ? score?.map((scoreList: any, i: any) => (
@@ -221,6 +218,10 @@ const Detail = () => {
                           className='w-11 h-11'
                           src={
                             scoreList.etName === '걷기'
+                              ? walkingImg
+                              :scoreList.etName === '걷기LV1'
+                              ? walkingImg
+                              :scoreList.etName === '오래달리기'
                               ? walkingImg
                               : scoreList.etName === '사이클링'
                               ? cycle
@@ -236,11 +237,12 @@ const Detail = () => {
                               ? dance
                               : scoreList.etName === '코어트레이닝'
                               ? core
-                              : undefined
+                              : scoreList.etName === '수영'
+                              ? swim
+                              : walkingImg
                           }
                           alt='운동그림'
                         />
-
                         <span className='mt-3 mr-11'>
                           {scoreList.etName ? scoreList.etName : '댄스'}
                         </span>
