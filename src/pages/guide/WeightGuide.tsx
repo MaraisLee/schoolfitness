@@ -8,6 +8,7 @@ import axios from 'api/axios';
 
 const WeightGuide = () => {
   const { id } = useParams();
+  const [getId, setGetId] = useState(0);
   const [imgUrl, setImgUrl] = useState('');
   const [etExplain, setEtExplain] = useState('');
   const [levelName, setLevelName] = useState('');
@@ -15,6 +16,7 @@ const WeightGuide = () => {
     // 상세 정보 내용 출력
     // const getNum = id ? Number(id) + 1 : 1;
     const getNum = Number(id);
+    setGetId(getNum);
     if (getNum === 17) {
       setLevelName('걷기');
     } else if (getNum === 18) {
@@ -64,7 +66,7 @@ const WeightGuide = () => {
           <br />
         </div>
       </div>
-      <StopWatch part='weightguide' level={99} />
+      <StopWatch part='weightguide' level={getId} />
     </div>
   );
 };

@@ -13,7 +13,7 @@ import { Radio } from 'antd';
 import Form from 'antd/es/form';
 import React, { useEffect, useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'api/axios';
 
 type IndividualType = {
@@ -49,26 +49,35 @@ const Individual = () => {
           `
           individualscore/list?memberNo=1`,
         );
-        console.log('WeightList');
+        // console.log('WeightList');
       } catch (err) {
         console.log(err);
       }
     };
   };
+  const navigate = useNavigate();
 
+  const backHandleClick = () => {
+    navigate(-1);
+  };
   // 개인 측정용 운동 API(류승지) 개인측정용 운동목록조회/저장/개인기록조회 를 받아서 목록 만들기
 
   return (
     <div>
-      <div className='flex mb-5 justify-around items-center pl-4 bg-[#ff8339] w-full h-[50px] rounded-b-[12px]'>
-        <Link to={'/detail'}>
-          <img src={arrowWhite} alt='' className='scale-25' />
-        </Link>
+      <div className='flex mb-5 justify-around items-center  bg-[#ff8339] w-full h-[50px] rounded-b-[12px]'>
+        <img
+          src={arrowWhite}
+          alt=''
+          className='scale-25 '
+          onClick={backHandleClick}
+        />
+
         <p> </p>
         <p> </p>
-        <p className='text-white text-sm font-bold'>웨이터 운동기록 </p>
+        <p className='text-white text-sm font-bold '>⚾ 개인 운동기록 </p>
         <p> </p>
         <p> </p>
+
         <Link to={'/individual'}>
           <MdTimer className='text-white' />
         </Link>
