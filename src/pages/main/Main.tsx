@@ -17,20 +17,17 @@ interface IUser {
   type: string;
   mimg: string;
 }
-
 const ModalFrame = styled.div`
   text-align: center;
   padding: 50px 0px;
   font-size: 17px;
 `;
-
 const ModalContent = styled.h2`
   font-weight: bold;
   text-align: center;
   color: #8d8d8d;
   margin-bottom: 10px;
 `;
-
 const ButtonBox = styled.div`
   display: flex;
   justify-content: center;
@@ -46,7 +43,6 @@ const ModalButton = styled.button`
   background-color: #ff8339;
   border: none;
 `;
-
 const ModalTitle = styled.h2`
   font-weight: bold;
   padding: 0 40px;
@@ -54,7 +50,6 @@ const ModalTitle = styled.h2`
   color: #000;
   margin-bottom: 10px;
 `;
-
 const ModalDescription = styled.p`
   font-size: 12px;
   font-weight: bold;
@@ -63,7 +58,6 @@ const ModalDescription = styled.p`
   color: #8d8d8d;
   margin-bottom: 20px;
 `;
-
 const ModalEditForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -77,7 +71,6 @@ const ModalEditForm = styled.form`
     outline: none;
   }
 `;
-
 const Main = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<IUser>();
@@ -85,13 +78,10 @@ const Main = () => {
   // const [imageURL, setImageURL] = useState('');
   const userInfo = useRecoilValue(userAtom);
   const { state } = useLocation();
-
   const [modalVisible, setModalVisible] = useState(true);
-
   const openModal = () => {
     setModalVisible(true);
   };
-
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -110,32 +100,31 @@ const Main = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []);
-
   console.log(user);
   console.log(userInfo.miSeq);
-
   return (
     <>
-      {state?.isModalVisible && !user?.tall && modalVisible && (
-        <ModalLayout visible={modalVisible} onClose={closeModal}>
-          <ModalFrame>
-            <ModalContent>
-              상세정보(성별,키,몸무게,반,타입) <br /> 지정이 되어있지 않습니다.{' '}
-              <br /> 지금 입력하시겠습니까?
-            </ModalContent>
-            <ButtonBox>
-              <ModalButton onClick={() => navigate('/detailinfo')}>
-                확인
-              </ModalButton>
-              <ModalButton onClick={closeModal}>다음에 할게요</ModalButton>
-            </ButtonBox>
-          </ModalFrame>
-        </ModalLayout>
-      )}
+      {state?.isModalVisible &&
+        !user?.tall &&
+        !user?.weight &&
+        modalVisible && (
+          <ModalLayout visible={modalVisible} onClose={closeModal}>
+            <ModalFrame>
+              <ModalContent>
+                상세정보(성별,키,몸무게,반,타입) <br /> 지정이 되어있지
+                않습니다. <br /> 지금 입력하시겠습니까?
+              </ModalContent>
+              <ButtonBox>
+                <ModalButton onClick={() => navigate('/detailinfo')}>
+                  확인
+                </ModalButton>
+              </ButtonBox>
+            </ModalFrame>
+          </ModalLayout>
+        )}
       <div className='px-5 overflow-y-auto scrollbar-hide h-[734px] '>
         <div className='text-center mt-10 bg-[#484D55] px-5 py-4 rounded-lg text-white flex items-center gap-2'>
           <HiOutlineSpeakerphone className='text-2xl' />
@@ -189,11 +178,9 @@ const Main = () => {
     </>
   );
 };
-
 function getBMI(tall: number | undefined, weight: number | undefined) {
   if (typeof tall === 'number' && typeof weight === 'number') {
     return ((weight / (tall * tall)) * 10000).toFixed(2);
   }
 }
-
 export default Main;
