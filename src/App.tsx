@@ -27,6 +27,7 @@ import Main from 'pages/main/Main';
 import { userAtom } from 'recoil/user';
 import { useRecoilValue } from 'recoil';
 import EditProfile from 'pages/login/EditProfile';
+import PrivateRoute from 'components/user/PrivateRoute';
 
 function App() {
   const user = useRecoilValue(userAtom);
@@ -35,30 +36,30 @@ function App() {
       <Wrapper>
         <img src={statusBar} />
         <Routes>
-          {user.token ? (
+          {user.miSeq ? (
             <Route path='/' element={<Main />} />
           ) : (
             <Route path='/' element={<Login />} />
           )}
-          {/* 홈 */}
-
           {/* 게임 */}
-          <Route path='/game' element={<Game />} />
-          <Route path='/gamesubmit' element={<GameSubmit />} />
-          <Route path='/notice' element={<Notice />} />
-          {/* 헬스 리포트 */}
-          <Route path='/detail' element={<Detail />} />
-          {/* 회원 관련 */}
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/detailinfo' element={<DetailInfo />} />
-          <Route path='/userinfo' element={<UserInfo />} />
-          <Route path='/editprofile' element={<EditProfile />} />
-          {/* 운동영상 관련 */}
-          <Route path='/weight' element={<Weight />} />
-          <Route path='/diet' element={<Diet />} />
-          <Route path='/individual' element={<Individual />} />
-          <Route path='/weightguide/:id' element={<WeightGuide />} />
-          <Route path='/dietguide/:id' element={<DietGuide />} />
+          <Route element={<PrivateRoute />}>
+            <Route path='/game' element={<Game />} />
+            <Route path='/gamesubmit' element={<GameSubmit />} />
+            <Route path='/notice' element={<Notice />} />
+            {/* 헬스 리포트 */}
+            <Route path='/detail' element={<Detail />} />
+            {/* 회원 관련 */}
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/detailinfo' element={<DetailInfo />} />
+            <Route path='/userinfo' element={<UserInfo />} />
+            <Route path='/editprofile' element={<EditProfile />} />
+            {/* 운동영상 관련 */}
+            <Route path='/weight' element={<Weight />} />
+            <Route path='/diet' element={<Diet />} />
+            <Route path='/individual' element={<Individual />} />
+            <Route path='/weightguide/:id' element={<WeightGuide />} />
+            <Route path='/dietguide/:id' element={<DietGuide />} />
+          </Route>
           {/* <Route path='/stopwatch' element={<StopWatch />} /> */}
         </Routes>
         <Nav />

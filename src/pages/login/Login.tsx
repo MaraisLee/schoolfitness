@@ -9,7 +9,6 @@ import instance from 'api/axios';
 import ModalLayout from 'components/common/ModalLayout';
 import { useSetRecoilState } from 'recoil';
 import { userAtom } from 'recoil/user';
-import { setCookie } from 'api/cookie';
 
 const LoginCss = styled.section`
   position: relative;
@@ -94,7 +93,6 @@ const Login = () => {
           setError('pw', { message: 'ID 또는 Password 오류입니다.' });
           openModal();
         } else {
-          setCookie('access_token', res.data.token.accessToken);
           setUserInfo({
             token: res.data.token.accessToken,
             miSeq: res.data.miSeq,

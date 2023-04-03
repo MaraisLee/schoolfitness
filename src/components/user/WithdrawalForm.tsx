@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import instance from 'api/axios';
 import { useRecoilState } from 'recoil';
 import { userAtom } from 'recoil/user';
-import { setCookie } from 'api/cookie';
+
 
 const ModalFrame = styled.form`
   text-align: center;
@@ -138,7 +138,6 @@ const WithdrawalForm = ({ closeModal, modalVisible }: WithdrawalFormProps) => {
       .then(res => {
         console.log(res);
         setUserInfo('');
-        setCookie('access_token', '');
         closeModal();
         closeModal2();
         setAlertModalVisible(true);
