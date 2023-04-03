@@ -140,15 +140,16 @@ const EditProfile = () => {
     navigate('/userinfo');
   };
 
-  const updateMemberData = async (seq, nickname, password) => {
+  const updateMemberData = async (seq, nickname, password, passwordCheck) => {
     const nickbody = {
       nickname: nickname,
     };
 
     const pwbody = {
       pwd: password,
-      confirmpwd: password,
+      confirmpwd: passwordCheck,
     };
+
     if (userDetail.nickname !== nickname) {
       try {
         const [nicknameResponse, pwdResponse] = await axios.all([
@@ -159,12 +160,22 @@ const EditProfile = () => {
         // 각각의 API 요청에 대한 응답 데이터
         const updatedNickname = nicknameResponse.data;
         const updatedPwd = pwdResponse.data;
-        console.log(updatedNickname.status);
-        console.log(updatedPwd.status);
+
+        console.log(updatedNickname);
 
         if (!updatedNickname.status) {
           setError('nickname', { message: updatedNickname.message });
-        } else if (updatedNickname.status && updatedPwd.status) openModal();
+        } else if (updatedNickname.status && updatedPwd.status) {
+          setUserDetail({
+            ...userDetail, // 기존 userDetail 상태 복사
+            nickname, // 변경된 nickname으로 업데이트
+          });
+          setUserPw({
+            ...userPw,
+            pw: password,
+          });
+          openModal();
+        }
 
         // TODO: 데이터 처리 로직 추가
       } catch (error) {
@@ -173,15 +184,17 @@ const EditProfile = () => {
     } else {
       const pwdResponse = await instance.patch(`member/pwd/${seq}`, pwbody);
       const updatedPwd = pwdResponse.data;
+      setUserPw({
+        ...userPw,
+        pw: password,
+      });
       openModal();
     }
   };
 
   const onSubmit = data => {
-    updateMemberData(user.miSeq, data.nickname, data.pw);
+    updateMemberData(user.miSeq, data.nickname, data.pw, data.pwCheck);
   };
-
-  console.log(errors.nickname?.message);
 
   return (
     <>

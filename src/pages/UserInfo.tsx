@@ -5,7 +5,7 @@ import icon from 'assets/icon.png';
 import BackHandleClick from 'components/util/BackHandleClick';
 import { useEffect, useState, useRef } from 'react';
 import instance from 'api/axios';
-import { userAtom, userDetailAtom } from 'recoil/user';
+import { userAtom, userDetailAtom, userPwAtom } from 'recoil/user';
 import WithdrawalForm from 'components/user/WithdrawalForm';
 import { AiOutlineGift, AiOutlineNotification } from 'react-icons/ai';
 
@@ -23,6 +23,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
 import { GameBt } from 'styles/Button';
+
 const UserInfo = () => {
   const navigate = useNavigate();
   // 공지사항 출력
@@ -39,15 +40,18 @@ const UserInfo = () => {
     noticeHandler();
   }, []);
   // 로그아웃
-  const logout = async () => {
-    await instance.get('member/logout');
+  const logout = () => {
     alert('로그아웃 되었습니다.');
     setUserInfo('');
+    setUserDetail('');
+    setUserPw('');
 
     navigate('/');
   };
   // 유저 정보
   const [userInfo, setUserInfo] = useRecoilState(userAtom);
+  const [userPw, setUserPw] = useRecoilState(userPwAtom);
+
   // 회원탈퇴 Modal
   const [modalVisible, setModalVisible] = useState(false);
   const openModal = () => setModalVisible(true);

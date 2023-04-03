@@ -10,7 +10,6 @@ import { useRecoilValue } from 'recoil';
 import { userAtom } from 'recoil/user';
 const Nav = () => {
   const menuColor: string = 'text-orange-500';
-  const token = useRecoilValue(userAtom).token;
   const filterArr = [
     { title: '홈', icon: <ImHome3 />, id: 0, link: '/' },
     { title: '게임 ', icon: <FaGamepad />, id: 1, link: '/game' },
@@ -19,7 +18,6 @@ const Nav = () => {
     { title: '더보기 ', icon: <FiMoreHorizontal />, id: 4, link: '/userinfo' },
   ];
   const { pathname } = useLocation();
-  console.log(pathname);
   return (
     <>
       {/* 맞는 이모티콘이나 이미지 넣기  */}
