@@ -7,6 +7,7 @@ import axios from 'api/axios';
 
 const DietGuide = () => {
   const { id } = useParams();
+  const [getId, setGetId] = useState(0);
   const [imgUrl, setImgUrl] = useState('');
   const [etExplain, setEtExplain] = useState('');
   const [levelName, setLevelName] = useState('');
@@ -61,7 +62,7 @@ const DietGuide = () => {
           <br />
         </div>
       </div>
-      <StopWatch part='weightguide' level={99} />
+      <StopWatch part='weightguide' level={getId} />
     </div>
   );
 };

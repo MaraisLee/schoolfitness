@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import arrowWhite from 'assets/arrowWhite.png';
 import axios from 'api/axios';
 import { MdTimer } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 export type ScoreType = {
   etSeq: number;
   etName: string;
@@ -96,11 +96,21 @@ const Weight = () => {
   useEffect(() => {
     getLevelData();
   }, []);
+  const navigate = useNavigate();
+
+  const backHandleClick = () => {
+    navigate(-1);
+  };
   // console.log('MyLevel', myLevel);
   return (
     <div className=''>
       <div className='flex justify-around items-center bg-[#ff8339] w-full h-[50px] rounded-b-[12px]'>
-        <img src={arrowWhite} alt='' className='scale-25' />
+        <img
+          src={arrowWhite}
+          alt=''
+          className='scale-25'
+          onClick={backHandleClick}
+        />
         <p> </p>
         <p> </p>
         <p className='text-white text-sm font-bold'>다이어터 운동가이드 </p>
