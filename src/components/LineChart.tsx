@@ -12,7 +12,7 @@ import { Line } from 'react-chartjs-2';
 import faker from 'faker';
 import { useEffect, useState } from 'react';
 import instance from 'api/axios';
-import moment from 'moment';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -44,45 +44,53 @@ const LineChart = () => {
     levelType: string;
     giStatus: string;
     esType: string;
+    miSeq: number;
+    miNickname: string;
+    da: string;
+    total: number;
   }
-  
+
   const [label, setLabel] = useState<ILabel[]>([]);
   const fetchData = async () => {
-    await instance
-      .get('individualscore/list/change', {
-        params: {
-          memberNo: 1,
-          type: '걷기',
-        },
-      })
-      .then((res: any) => setLabel(res.data.list));
+    await instance.get(`/individualscore/sum/date/1`, {}).then((res: any) => {
+      setLabel(res.data.score);
+
+      console.log('ddd', res.data.score);
+    });
+  };
+
+  // 점수 삭제
+  const deleteScore = (idx: number) => {
+    const deletedScore = [...label];
+    deletedScore.splice(idx, 1);
+    setLabel(deletedScore);
   };
   useEffect(() => {
     fetchData();
   }, []);
   const formattedData = label.map(item => ({
-    x: item.isRegDt,
-    y: item.isTime,
+    x: item.da.replace(/-/g, '.').substr(2, 15),
+    y: item.total,
   }));
 
-
-  console.log(formattedData);
   const formattedXData = label.map(item => ({
-    x: item.isRegDt,
+    x: item.da,
   }));
   const data = {
+    formattedData,
+
     datasets: [
       {
         label: '시간(분)',
         borderColor: 'rgb(255, 131, 57)',
         borderWidth: 2,
         backgroundColor: 'rgba(255, 131, 57)',
-        data: [2, 555, 7, 8, 99],
+        data: formattedData,
       },
     ],
   };
   return (
-    <div className='bg-gray-200 rounded-xl p-3 my-3'>
+    <div className='bg-gray-200 rounded-xl p-3 my-3 text-xs'>
       <Line data={data} />
     </div>
   );

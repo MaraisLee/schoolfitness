@@ -69,7 +69,7 @@ const Weight = () => {
     const resWalk = await axios.get(
       `download/img/thumbnail/${res.data[0].url}`,
     );
-
+    console.log('걷기 이미지', resWalk);
     // 줄넘기 이미지
     // console.log('줄넘기 500 : ', res.data[1].url);
     const resJump = await axios.get(
