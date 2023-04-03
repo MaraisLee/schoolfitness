@@ -5,9 +5,11 @@ interface IModalProps {
   visible: boolean;
   onClose?: (e: any) => void;
   children: React.ReactNode;
+  top?: number;
+  onSubmit?: (e: any) => void;
 }
 
-const ModalLayout = ({ visible, onClose, children }: IModalProps) => {
+const ModalLayout = ({ visible, onClose, children, top }: IModalProps) => {
   // useEffect(() => {
   //   document.body.style.cssText = `
   //   position: fixed;
@@ -31,7 +33,7 @@ const ModalLayout = ({ visible, onClose, children }: IModalProps) => {
   return (
     <>
       <ModalWrapper visible={visible} onClick={onMaskClick}>
-        <ModalInner>{children}</ModalInner>
+        <ModalInner top={top}>{children}</ModalInner>
       </ModalWrapper>
     </>
   );
@@ -52,13 +54,13 @@ const ModalWrapper = styled.div<{ visible: boolean }>`
   cursor: auto;
 `;
 
-const ModalInner = styled.div`
+const ModalInner = styled.div<{ top: number | undefined }>`
   box-sizing: border-box;
   position: absolute;
-  width: 65%;
+  width: 85%;
   box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.3);
   background-color: #fff;
-  top: 50%;
+  top: ${props => (props.top ? props.top + '%' : '50%')};
   left: 50%;
   transform: translate(-50%, -50%);
   overflow: hidden;
