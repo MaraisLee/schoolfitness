@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import run1 from 'assets/run1.png';
 import arrowWhite from 'assets/arrowWhite.png';
 import { MdTimer } from 'react-icons/md';
 import StopWatch from './StopWatch';

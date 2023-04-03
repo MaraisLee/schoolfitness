@@ -4,12 +4,15 @@ import axios from 'api/axios';
 import run from 'assets/run.png';
 import { MdTimer } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { log } from 'console';
 export type ScoreType = {
   etSeq: number;
   etName: string;
   etDetail: string;
   url: string;
 };
+
+// 1번회원 다이어트 / 2번회원 웨이트
 const Diet = () => {
   const initData = [
     {
@@ -49,7 +52,6 @@ const Diet = () => {
     await axios
       .get('level/exercise/2?levelSeq=1')
       .then(res => {
-        // console.log(res.data);
         setMyLevelOne(res.data);
       })
       .catch(err => console.log(err));
@@ -91,7 +93,6 @@ const Diet = () => {
     imgTempArr.push(resJump.request.responseURL);
     imgTempArr.push(resUp.request.responseURL);
     setmyImgArr([...imgTempArr]);
-    console.log(myImgArr);
   };
 
   useEffect(() => {
@@ -104,7 +105,7 @@ const Diet = () => {
         <img src={arrowWhite} alt='' className='scale-25' />
         <p> </p>
         <p> </p>
-        <p className='text-white text-sm font-bold'> 다이어트 운동가이드 </p>
+        <p className='text-white text-sm font-bold'> 웨이터 운동가이드 </p>
         <p> </p>
         <p> </p>
         <Link to={'/individual'}>

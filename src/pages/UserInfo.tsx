@@ -1,217 +1,159 @@
 import { InnerCss } from 'styles/LayoutCss';
 import { IoIosArrowForward } from 'react-icons/io';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import icon from 'assets/icon.png';
 import BackHandleClick from 'components/util/BackHandleClick';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import instance from 'api/axios';
 // 상품권사진
-import giftCard1 from 'assets/3000.png';
-import giftCard2 from 'assets/5000.png';
+import giftCard1 from 'assets/3000won.png';
+import giftCard2 from 'assets/5000won.png';
+import giftCard3 from 'assets/10000won.png';
+import giftCard4 from 'assets/20000won.png';
+// 상품권스와이퍼
 // recoil
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-// 상품권스와이퍼
-
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-
 // Import Swiper styles
 import 'swiper/css';
-import { userAtom, userDetailAtom } from 'recoil/user';
-import { setCookie } from 'api/cookie';
-import WithdrawalForm from 'components/user/WithdrawalForm';
-import axios from 'axios';
-
 const UserInfo = () => {
-  const navigate = useNavigate();
   // 공지사항 출력
   const [noticeList, setNoticeList] = useState<any>([]);
-  // 유저 정보
-  const [userInfo, setUserInfo] = useRecoilState(userAtom);
-
-  // 회원탈퇴 Modal
-  const [modalVisible, setModalVisible] = useState(false);
-  const openModal = () => setModalVisible(true);
-  const closeModal = () => setModalVisible(false);
-
+  // 로그아웃
+  const [logout, setLogout] = useState([]);
+  // 보유상품권 출력
+  const [gift, setGift] = useState<any>([]);
   const noticeHandler = async () => {
     await instance
       .get('notice?page=0&size=10')
       .then((res: any) => setNoticeList(res.data));
   };
-
-  const logout = async () => {
-    await instance.get('member/logout');
-    setUserInfo('');
-    setCookie('access_token', '');
-    navigate('/');
-  };
   useEffect(() => {
     noticeHandler();
   }, []);
-
-  // 이미지 업로드
-  const [userDetail, setUserDetail] = useRecoilState(userDetailAtom);
-  const [image, setImage] = useState(null);
-
-  const handleImageChange = async e => {
-    const selectedImage = e.target.files[0];
-    console.log(selectedImage);
-
-    const formData = new FormData();
-    formData.append('file', selectedImage);
-    try {
-      const response = await instance.put(
-        `member/img/${userInfo.miSeq}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
-      );
-      console.log(response.data.imageUrl);
-
-      setUserDetail({
-        ...userDetail,
-        mimg: response.data.imageUrl, // 서버에서 반환하는 이미지 경로에 따라 수정해야 함
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+  // 로그아웃
+  const logoutHandler = async () => {
+    await instance.get('/member/logout').then((res: any) => {
+      console.log(res.data.status);
+      if (res.data.status) {
+        alert(res.data.message);
+        // console.log(res.data.message, '로그아웃 메세지');
+      }
+    });
   };
-
-  const handleImageClick = () => {
-    const input = document.getElementById('file-input');
-    input?.click();
+  // 회원탈퇴 Modal
+  const [modalVisible, setModalVisible] = useState(false);
+  const openModal = () => setModalVisible(true);
+  const closeModal = () => setModalVisible(false);
+  // 상품권출력
+  const giftHandler = async () => {
+    await instance
+      .get('http://192.168.0.79:8888/api/game/stamp/goods/1')
+      .then((res: any) => setGift(res.data.list));
   };
   return (
-    <>
-      <WithdrawalForm closeModal={closeModal} modalVisible={modalVisible} />
-      <InnerCss className='px-5'>
-        <BackHandleClick />
-        <div className='overflow-y-auto scrollbar-hide h-[660px] '>
-          <div className='mx-auto overflow-y-auto scrollbar-hide '>
-            <p className='text-center mb-2'>회원정보</p>
-            <div className='my-4 flex flex-col gap-3'>
-              <input
-                type='file'
-                accept='image/*'
-                onChange={handleImageChange}
-                id='image'
-                name='image'
-              />
-              <input
-                type='file'
-                multiple={true}
-                id='file-input'
-                style={{ display: 'none' }}
-                onChange={handleImageChange}
-              />
-              <img
-                className='mx-auto w-[80px] h-[80px]'
-                src={`http://192.168.0.79:8888/api/download/img/member/기본이미지1679533686278.jpg`}
-                alt='프로필'
-                onClick={handleImageClick}
-              />
-              <p className='text-center'>{userDetail?.nickname}</p>
-            </div>
+    <InnerCss className='px-5'>
+      <BackHandleClick />
+      <div className='overflow-y-auto scrollbar-hide h-[660px] '>
+        <div className='mx-auto overflow-y-auto scrollbar-hide '>
+          <p className='text-center mb-2'>회원정보</p>
+          <div className='my-4'>
+            <img className='mx-auto' src={icon} alt='프로필' />
+            <p className='text-center'>닉네임</p>
           </div>
-          <div className='my-3'>
-            {' '}
-            <button className='text-sm'>
-              <Link to='/game'>
-                보유상품권<span className='text-[#FF8339]'>(4)</span>
-              </Link>
-            </button>
-            <div className='flex'>
-              <>
-                <Swiper slidesPerView={2} spaceBetween={0} className='mySwiper'>
-                  <SwiperSlide>
-                    {' '}
-                    <img
-                      className='mx-auto '
-                      src={giftCard1}
-                      alt='상품권이미지'
-                    ></img>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    {' '}
-                    <img
-                      className='mx-auto'
-                      src={giftCard2}
-                      alt='상품권이미지'
-                    ></img>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    {' '}
-                    <img
-                      className='mx-auto'
-                      src={giftCard2}
-                      alt='상품권이미지'
-                    ></img>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    {' '}
-                    <img
-                      className='mx-auto'
-                      src={giftCard2}
-                      alt='상품권이미지'
-                    ></img>
-                  </SwiperSlide>
-                </Swiper>
-              </>
-            </div>
+        </div>
+        <div className='my-3'>
+          {' '}
+          <button className=''>
+            <Link to='/game'>보유상품권</Link>
+          </button>
+          <div className='flex'>
+            <>
+              {gift.length === 0 ? (
+                <div className='my-10 mx-auto text-xl z-9 text-orange-400'>
+                  <p>현재보유하신 상품권이 없습니다.</p>
+                </div>
+              ) : (
+                gift.map((item, i) => (
+                  <Swiper
+                    key={i}
+                    slidesPerView={2}
+                    spaceBetween={0}
+                    className='mySwiper'
+                  >
+                    <SwiperSlide>
+                      <img
+                        className='mx-auto '
+                        src={
+                          item.name === 'GS편의점 3000원'
+                            ? giftCard1
+                            : item.name === 'GS편의점 5000원'
+                            ? giftCard2
+                            : item.name === 'GS편의점 10000원'
+                            ? giftCard3
+                            : item.name === 'GS편의점 20000원'
+                            ? giftCard4
+                            : giftCard1
+                        }
+                        alt='상품권이미지'
+                      ></img>
+                    </SwiperSlide>
+                  </Swiper>
+                ))
+              )}
+            </>
           </div>
-          <div></div>
-          <div>
-            <div className='flex justify-between pb-6 mt-9 border-b-2 '>
-              <p>공지사항</p>
-              <button className='flex text-sm'>
+        </div>
+        <div>
+          <div className='bg-gray-100 rounded-lg p-3'>
+            <div className='flex justify-between'>
+              <p className='my-3'>공지사항</p>
+              <button className='flex text-sm p-3'>
                 <Link to='/notice'>
                   {' '}
                   <IoIosArrowForward />
                 </Link>
               </button>
             </div>
-            <div
-              className='flex justify-between py-6 border-b-2'
-              onClick={() => navigate('/editprofile')}
-            >
-              <p>내 정보 관리 </p>
-              <button>
-                <p>
-                  <IoIosArrowForward />
-                </p>
-              </button>
-            </div>
-            <div
-              className='flex justify-between py-6 border-b-2'
-              onClick={logout}
-            >
-              <p>로그아웃 </p>
-              <button>
-                <p>
-                  <IoIosArrowForward />
-                </p>
-              </button>
-            </div>
-            <div
-              className='flex justify-between py-6 border-b-2'
-              onClick={openModal}
-            >
-              <p onClick={openModal}>회원탈퇴 </p>
-              <button>
-                <p>
-                  <IoIosArrowForward />
-                </p>
-              </button>
-            </div>
+            {noticeList.map((item, i) => (
+              <div
+                className='flex justify-start gap-5 border-b-2 border-gray-300 py-2'
+                key={i}
+              >
+                <div className='text-xs '>{item.gnRegDt.substr(0, 10)}</div>
+                <div className='text-xs '>{item.gnRegDt.substr(11, 13)}</div>
+                <div className='text-xs'>{item.gnTitle}</div>
+              </div>
+            ))}
+          </div>
+          <div className='flex justify-between py-6 border-b-2 p-3 '>
+            <p>내 정보 관리 </p>
+            <button>
+              <p>
+                <IoIosArrowForward />
+              </p>
+            </button>
+          </div>
+          <div className='flex justify-between py-6 border-b-2  p-3'>
+            <p>로그아웃 </p>
+            <button onClick={logoutHandler}>
+              <p>
+                <IoIosArrowForward />
+              </p>
+            </button>
+          </div>
+          <div className='flex justify-between py-6 border-b-2  p-3'>
+            <p>회원탈퇴 </p>
+            <button>
+              <p>
+                <IoIosArrowForward />
+              </p>
+            </button>
           </div>
         </div>
-      </InnerCss>
-    </>
+      </div>
+    </InnerCss>
   );
 };
 export default UserInfo;

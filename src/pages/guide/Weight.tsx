@@ -56,7 +56,7 @@ const Weight = () => {
     await axios
       .get('level/exercise/1?levelSeq=2')
       .then(res => {
-        // console.log(res.data);
+        console.log('받아오는정보', res.data);
         setMyLevelTwo(res.data);
       })
       .catch(err => console.log(err));
@@ -69,7 +69,7 @@ const Weight = () => {
     const resWalk = await axios.get(
       `download/img/thumbnail/${res.data[0].url}`,
     );
-
+    console.log('걷기 이미지', resWalk);
     // 줄넘기 이미지
     // console.log('줄넘기 500 : ', res.data[1].url);
     const resJump = await axios.get(
@@ -103,7 +103,7 @@ const Weight = () => {
         <img src={arrowWhite} alt='' className='scale-25' />
         <p> </p>
         <p> </p>
-        <p className='text-white text-sm font-bold'> 운동가이드 </p>
+        <p className='text-white text-sm font-bold'>다이어터 운동가이드 </p>
         <p> </p>
         <p> </p>
         <Link to={'/individual'}>

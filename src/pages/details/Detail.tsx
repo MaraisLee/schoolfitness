@@ -50,7 +50,7 @@ const Detail = () => {
   const fetchData = async () => {
     await instance.get('individualscore/list?memberNo=1').then((res: any) => {
       setScore(res.data.list);
-      console.log('목록조회', res.data.list);
+      console.log('개인기록목록조회', res.data.list);
     });
   };
 
@@ -106,6 +106,7 @@ const Detail = () => {
           })
           .catch(err => console.log(err));
         await instance
+        // 사이클링
           .get('/download/img/thumbnail/' + res.data[1].url)
           .then(res => {
             setCycling(res.request.responseURL);
@@ -149,7 +150,7 @@ const Detail = () => {
           .get('/download/img/thumbnail/' + res.data[6].url)
           .then(res => {
             setSwim(res.request.responseURL);
-            console.log(res.request.responseURL);
+            console.log(res.request.responseURL,"수영");
           })
           .catch(err => console.log(err));
         // 하이킹
@@ -179,7 +180,7 @@ const Detail = () => {
 
   // useEffect(() => {}, []);
 
-  return (
+ return (
     <>
       <InnerCss className='px-5'>
         <HeaderCss>
@@ -191,7 +192,7 @@ const Detail = () => {
           <div>
             {' '}
             <p className='text-center'>이번주기록</p>
-            <LineChart />
+            <LineChart/>
             <div>
               <div>
                 <p className='text-center'>개인성적 통계</p>
@@ -205,11 +206,8 @@ const Detail = () => {
                 <input type='text' placeholder='시간'></input>
                 <button onClick={(e)=>{
                   return e.stopPropagation();
-                 
-               
                 }} className='absolute top-0 right-0 border-2 w-7 h-6 bg-blue-400 px-2'>추가하기</button>
               </div> */}
-
               <div>
                 {score
                   ? score?.map((scoreList: any, i: any) => (
@@ -220,7 +218,15 @@ const Detail = () => {
                         <img
                           className='w-11 h-11'
                           src={
-                            scoreList.etName === '걷기'
+                            scoreList.etName === '걷기' 
+                              ? walkingImg
+                              :scoreList.etName === '걷기LV1' 
+                              ? walkingImg
+                              :scoreList.etName === '오래달리기' 
+                              ? walkingImg
+                              :scoreList.etName === '걷기LV1'
+                              ? walkingImg
+                              :scoreList.etName === '오래달리기'
                               ? walkingImg
                               : scoreList.etName === '사이클링'
                               ? cycle
@@ -236,11 +242,12 @@ const Detail = () => {
                               ? dance
                               : scoreList.etName === '코어트레이닝'
                               ? core
-                              : undefined
+                              : scoreList.etName === '수영'
+                              ? swim
+                              : walkingImg
                           }
                           alt='운동그림'
                         />
-
                         <span className='mt-3 mr-11'>
                           {scoreList.etName ? scoreList.etName : '댄스'}
                         </span>
