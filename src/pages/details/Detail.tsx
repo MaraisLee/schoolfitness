@@ -32,15 +32,12 @@ const Detail = () => {
   // 개인기록삭제
   const scoreDelte = async (seq: number) => {
     await instance.delete(`individualscore/${seq}`).then(res => {
-     return  alert(res.data.status);
+      return alert(res.data.status);
     });
   };
   // console.log(scoreDelete, '삭제');
   useEffect(() => {
-    
     fetchData();
-  
-   
   }, []);
   return (
     <>
@@ -50,46 +47,46 @@ const Detail = () => {
           <BackHandleClick />
           <h1>디테일 페이지</h1>
         </HeaderCss>
-        <div className="overflow-y-auto scrollbar-hide h-[660px] ">
-        <div>
-          {' '}
-          <p className='text-center'>이번주기록</p>
-          <LineChart />
+        <div className='overflow-y-auto scrollbar-hide h-[660px] '>
           <div>
+            {' '}
+            <p className='text-center'>이번주기록</p>
+            <LineChart />
             <div>
-              <p className='text-center'>개인성적 통계</p>
-              <BarChart />
-            </div>
-            <div>
-              <p className='text-center'>개인기록</p>
-            </div>
-            <div>
-              {score.map((scoreList: any, i: any) => (
-                <div
-                  key={i}
-                  className='flex relative justify-between bg-slate-200 rounded-xl py-6 px-4 my-3'
-                >
-                  <img src='' alt='운동그림' />
-                  <span className='absolute left-[120px]'>
-                    {scoreList.etName}{' '}
-                  </span>
-                  <div className=''>
-                    <p>{scoreList.isTime}</p>
-                    <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        scoreDelte(scoreList.isSeq);
-                      }}
-                      className='absolute right-2 top-1 text-gray-600'
-                    >
-                      <TiDeleteOutline />
-                    </button>
+              <div>
+                <p className='text-center'>개인성적 통계</p>
+                <BarChart />
+              </div>
+              <div>
+                <p className='text-center'>개인기록</p>
+              </div>
+              <div>
+                {score.map((scoreList: any, i: any) => (
+                  <div
+                    key={i}
+                    className='flex relative justify-between bg-slate-200 rounded-xl py-6 px-4 my-3'
+                  >
+                    <img src='' alt='운동그림' />
+                    <span className='absolute left-[120px]'>
+                      {scoreList.etName}{' '}
+                    </span>
+                    <div className=''>
+                      <p>{scoreList.isTime}</p>
+                      <button
+                        onClick={e => {
+                          e.stopPropagation();
+                          scoreDelte(scoreList.isSeq);
+                        }}
+                        className='absolute right-2 top-1 text-gray-600'
+                      >
+                        <TiDeleteOutline />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
         </div>
       </InnerCss>
     </>
