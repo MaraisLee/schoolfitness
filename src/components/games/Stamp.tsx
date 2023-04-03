@@ -77,24 +77,6 @@ const Stamp = () => {
     navigate('/notice');
   };
 
-  // const getgifCard = (index: number) => {
-  //   if (gifNumber === index) {
-  //     if (index === 4) {
-  //       return color3;
-  //     }
-
-  //     return afterStamp;
-  //   } else if (index === 9) {
-  //     return black5;
-  //   } else if (index === 14) {
-  //     return black10;
-  //   } else if (index === 19) {
-  //     return black20;
-  //   } else {
-  //     return beforeStamp;
-  //   }
-  //   // gifNumber만큼 그림 변경
-  // };
   const giftCard = (index: number) => {
     const gifNumber = myStamp - 1;
     if (index <= gifNumber) {

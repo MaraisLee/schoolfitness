@@ -16,6 +16,7 @@ const GameSubmit = () => {
   // 영상 미리보기
   const imageUpload = (e: any) => {
     setUploadVideo(e.target.files[0]);
+    console.log(e.target.files);
     const videoTpye = e.target.files[0].type.includes('video');
     setFile({
       url: URL.createObjectURL(e.target.files[0]),
@@ -71,6 +72,11 @@ const GameSubmit = () => {
       })
       .catch(err => console.log('비디오 에러', err));
     navigate('/game');
+  };
+
+  const resetHandler = () => {
+    setFile({ url: '', video: false });
+    setRecordTime('');
   };
 
   return (
@@ -129,14 +135,16 @@ const GameSubmit = () => {
           placeholder='00:00:00'
           onChange={timeHandler}
         />
+
         <div className='mt-20 h-[74px] w-full bg-[#D9D9D9] border-2 border-gray-300 flex justify-center items-center gap-4'>
           <button
-            // type='reset'
-            className='w-[150px] h-[40px] text-[14px] bg-[#E9E9E9] rounded-sm pt-3'
+            type='reset'
+            className='w-[150px] h-[40px] text-[14px] bg-[#E9E9E9] rounded-sm '
+            onClick={resetHandler}
           >
             취소
           </button>
-          <button className='w-[150px] h-[40px] text-white text-[14px] bg-[#ff8339] rounded-sm pt-3'>
+          <button className='w-[150px] h-[40px] text-white text-[14px] bg-[#ff8339] rounded-sm'>
             첨부완료
           </button>
         </div>

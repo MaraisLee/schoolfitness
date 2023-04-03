@@ -41,13 +41,11 @@ const Notice = () => {
       .get('notice/detail/47')
       .then(async res => {
         setNotice(res.data);
-
         // 영상 호출
         await axios
           .get('download/video/notice/' + res.data.url)
           .then(res => {
-            // console.log(res);
-            setVideoUrl(res.data);
+            setVideoUrl(res.request.responseURL);
           })
           .catch(err => console.log('percent err', err));
       })
@@ -57,16 +55,6 @@ const Notice = () => {
   useEffect(() => {
     getNoticeData();
   }, []);
-
-  // const [file, setFile] = useState<FileType>({ url: '', video: false });
-  // // 영상 미리보기
-  // const imageUpload = (e: any) => {
-  //   const videoTpye = e.target.files[0].type.includes('video');
-  //   setFile({
-  //     url: notice.url,
-  //     video: videoTpye,
-  //   });
-  // };
 
   return (
     <InnerCss>
@@ -113,8 +101,8 @@ const Notice = () => {
           </p>
         </div>
         {/* 게임예시 영상 */}
-        <div className='mt-5 bg-white w-[315px] h-[210px] '>
-          {/* {videoUrl && <video src={videoUrl} controls width='315px' />} */}
+        <div className='mt-5 flex justify-center '>
+          {videoUrl && <video src={videoUrl} controls width='250px'></video>}
         </div>
       </div>
     </InnerCss>

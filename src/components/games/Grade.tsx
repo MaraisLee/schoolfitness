@@ -3,9 +3,8 @@ import icon from 'assets/icon.png';
 import medal from 'assets/medal.png';
 import axios from 'api/axios';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { orangeColor } from 'utils/colors';
-import { log } from 'console';
+import { getCookie } from 'api/cookie';
 
 export type ScoreType = {
   ban: string;
@@ -38,7 +37,9 @@ const Grade = ({ setIsOpen }: any) => {
 
   const getMyData = async () => {
     await axios
-      .get('game/score/1')
+      .get('game/score/1', {
+        headers: { authorization: `Bearer ${getCookie('access_token')}` },
+      })
       .then(async res => {
         setMyRecord(res.data);
         await axios
@@ -67,7 +68,6 @@ const Grade = ({ setIsOpen }: any) => {
           .get('download/img/member/' + res.data.list[0].url)
           .then(res => {
             setFristGradeImg(res.request.responseURL);
-           
           })
           .catch(err => console.log(err));
         await axios
