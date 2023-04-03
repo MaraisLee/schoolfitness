@@ -41,6 +41,7 @@ function App() {
           ) : (
             <Route path='/' element={<Login />} />
           )}
+          <Route path='/signup' element={<SignUp />} />
           {/* 게임 */}
           <Route element={<PrivateRoute />}>
             <Route path='/game' element={<Game />} />
@@ -49,7 +50,6 @@ function App() {
             {/* 헬스 리포트 */}
             <Route path='/detail' element={<Detail />} />
             {/* 회원 관련 */}
-            <Route path='/signup' element={<SignUp />} />
             <Route path='/detailinfo' element={<DetailInfo />} />
             <Route path='/userinfo' element={<UserInfo />} />
             <Route path='/editprofile' element={<EditProfile />} />
