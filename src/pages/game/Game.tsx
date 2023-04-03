@@ -38,7 +38,7 @@ const Game = () => {
             마이 스탬프
           </span>
         </div>
-        {isOpen ? <Grade /> : <Stamp />}
+        {isOpen ? <Grade isOpen={isOpen} setIsOpen={setIsOpen} /> : <Stamp />}
       </div>
     </InnerCss>
   );

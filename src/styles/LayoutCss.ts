@@ -76,5 +76,4 @@ export const Button = styled.button`
   color: white;
   background-color: #ff8339;
   border: none;
-  margin-bottom: 70px;
 `;
