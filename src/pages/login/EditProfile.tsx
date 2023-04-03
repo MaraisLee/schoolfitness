@@ -7,7 +7,7 @@ import { useRecoilState } from 'recoil';
 import { userAtom, userDetailAtom, userPwAtom } from 'recoil/user';
 import axios from 'axios';
 import instance from 'api/axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalLayout from 'components/common/ModalLayout';
 import { useNavigate } from 'react-router-dom';
 const Header = styled.div`
@@ -22,13 +22,13 @@ const Header = styled.div`
     cursor: pointer;
   }
   svg:hover {
-    color: orange;
+    color: #ff8339;
   }
   p {
     cursor: pointer;
   }
   p:hover {
-    color: orange;
+    color: #ff8339;
   }
 `;
 const ContentWrapper = styled.section`
@@ -63,10 +63,18 @@ const FormLayout = styled.form`
     padding: 4px 10px;
     border-radius: 4px;
   }
+  input:focus {
+    border: 1px solid #ff8339;
+    color: #ff8339;
+  }
+
   div {
     position: relative;
     display: flex;
     align-items: center;
+    &:focus-within label {
+      color: #ff8339;
+    }
   }
 `;
 const Label = styled.label`
@@ -114,10 +122,23 @@ interface ISignUp {
   nickname: string;
 }
 
+interface IUser {
+  id: string;
+  tall: number | null;
+  weight: number | null;
+  nickname: string;
+  classnum: string;
+  gen: string;
+  type: string;
+  mimg: string;
+}
+
 const EditProfile = () => {
+  const [user, setUser] = useState<IUser>();
   const [userInfo, setUserInfo] = useRecoilState(userAtom);
   const [userDetail, setUserDetail] = useRecoilState(userDetailAtom);
   const [userPw, setUserPw] = useRecoilState(userPwAtom);
+  const [alarm, setAlarm] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -161,8 +182,6 @@ const EditProfile = () => {
         const updatedNickname = nicknameResponse.data;
         const updatedPwd = pwdResponse.data;
 
-        console.log(updatedNickname);
-
         if (!updatedNickname.status) {
           setError('nickname', { message: updatedNickname.message });
         } else if (updatedNickname.status && updatedPwd.status) {
@@ -205,6 +224,47 @@ const EditProfile = () => {
     updateMemberData(userInfo.miSeq, data.nickname, data.pw, data.pwCheck);
   };
 
+  // 이미지 업로드
+
+  const handleImageChange = async e => {
+    const selectedImage = e.target.files[0];
+    console.log(selectedImage);
+    const formData = new FormData();
+    formData.append('file', selectedImage);
+    try {
+      const response = await instance.put(
+        `member/img/${userInfo.miSeq}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      );
+      setAlarm(!alarm);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleImageClick = () => {
+    const input = document.getElementById('file-input');
+    input?.click();
+  };
+
+  const fetchData = async () => {
+    try {
+      const result = await instance.get(`member/${userInfo.miSeq}`);
+      setUser(result.data.info);
+      setUserDetail(result.data.info);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, [alarm]);
+
   return (
     <>
       {modalVisible && (
@@ -218,14 +278,28 @@ const EditProfile = () => {
       <InnerCss>
         <Header>
           <div className='flex items-center gap-2.5'>
-            <MdArrowBackIos className='text-xl' />
+            <MdArrowBackIos
+              className='text-xl'
+              onClick={() => navigate('/userinfo')}
+            />
             <h1>내 정보 수정</h1>
           </div>
           <p onClick={handleSubmit(onSubmit)}>저장</p>
         </Header>
         <ContentWrapper>
           <ProfileLayout>
-            <img src={logo} alt='프로필' />
+            <input
+              type='file'
+              multiple={true}
+              id='file-input'
+              style={{ display: 'none' }}
+              onChange={handleImageChange}
+            />
+            <img
+              src={`http://192.168.0.79:8888/api/download/img/member/${user?.mimg}`}
+              alt='프로필'
+              onClick={handleImageClick}
+            />
             <div>
               <h3>허강현</h3>
               <p>3학년 7반</p>
