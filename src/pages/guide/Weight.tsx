@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import arrowWhite from 'assets/arrowWhite.png';
 import axios from 'api/axios';
-import run from 'assets/run.png';
 import { MdTimer } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 export type ScoreType = {
@@ -49,7 +48,7 @@ const Weight = () => {
     await axios
       .get('level/exercise/1?levelSeq=1')
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data);
         setMyLevelOne(res.data);
       })
       .catch(err => console.log(err));
