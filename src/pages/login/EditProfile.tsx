@@ -115,7 +115,7 @@ interface ISignUp {
 }
 
 const EditProfile = () => {
-  const [user, setUser] = useRecoilState(userAtom);
+  const [userInfo, setUserInfo] = useRecoilState(userAtom);
   const [userDetail, setUserDetail] = useRecoilState(userDetailAtom);
   const [userPw, setUserPw] = useRecoilState(userPwAtom);
   const navigate = useNavigate();
@@ -193,7 +193,16 @@ const EditProfile = () => {
   };
 
   const onSubmit = data => {
-    updateMemberData(user.miSeq, data.nickname, data.pw, data.pwCheck);
+    console.log(data);
+    if (data.pw !== data.pwCheck) {
+      setError(
+        'pwCheck',
+        { message: '비밀번호가 일치하지 않습니다.' },
+        { shouldFocus: true },
+      );
+      return;
+    }
+    updateMemberData(userInfo.miSeq, data.nickname, data.pw, data.pwCheck);
   };
 
   return (
@@ -239,6 +248,7 @@ const EditProfile = () => {
             <div>
               <Label htmlFor='pwCheck'>비밀번호확인</Label>
               <input {...register('pwCheck')} type='password' id='pwCheck' />
+              <Error>{errors.pwCheck?.message}</Error>
             </div>
           </FormLayout>
         </ContentWrapper>
