@@ -102,7 +102,7 @@ export default function SignUp() {
       console.log(error);
     }
   };
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const openModal = () => {
     setModalVisible(true);
   };
@@ -116,8 +116,8 @@ export default function SignUp() {
   const fadeOutModal = () => {
     setTimeout(() => {
       closeModal();
-      navigate('/login');
-    }, 2000);
+      navigate('/');
+    }, 1000);
   };
 
   return (

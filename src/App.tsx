@@ -23,19 +23,26 @@ import Notice from 'pages/game/Notice';
 import Detail from 'pages/details/Detail';
 import DetailInfo from 'pages/login/DetailInfo';
 
-import Home from 'pages/home/Home';
 import Main from 'pages/main/Main';
+import { userAtom } from 'recoil/user';
+import { useRecoilValue } from 'recoil';
+import EditProfile from 'pages/login/EditProfile';
 
 function App() {
+  const user = useRecoilValue(userAtom);
   return (
     <BrowserRouter>
       <Wrapper>
         <img src={statusBar} />
         <Routes>
+          {user.token ? (
+            <Route path='/' element={<Main />} />
+          ) : (
+            <Route path='/' element={<Login />} />
+          )}
           {/* 홈 */}
-          <Route path='/home' element={<Home />} />
+
           {/* 게임 */}
-          <Route path='/' element={<Main />} />
           <Route path='/game' element={<Game />} />
           <Route path='/gamesubmit' element={<GameSubmit />} />
           <Route path='/notice' element={<Notice />} />
@@ -43,9 +50,9 @@ function App() {
           <Route path='/detail' element={<Detail />} />
           {/* 회원 관련 */}
           <Route path='/signup' element={<SignUp />} />
-          <Route path='/login' element={<Login />} />
           <Route path='/detailinfo' element={<DetailInfo />} />
           <Route path='/userinfo' element={<UserInfo />} />
+          <Route path='/editprofile' element={<EditProfile />} />
           {/* 운동영상 관련 */}
           <Route path='/weight' element={<Weight />} />
           <Route path='/diet' element={<Diet />} />

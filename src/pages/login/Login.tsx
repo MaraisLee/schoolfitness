@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import logo from 'assets/logo.png';
 import { FaLock, FaUser } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,9 @@ import { Button, InputWrap } from 'styles/LayoutCss';
 import { useForm } from 'react-hook-form';
 import instance from 'api/axios';
 import ModalLayout from 'components/common/ModalLayout';
+import { useSetRecoilState } from 'recoil';
+import { userAtom } from 'recoil/user';
+import { setCookie } from 'api/cookie';
 
 const LoginCss = styled.section`
   position: relative;
@@ -26,6 +29,10 @@ const LoginCss = styled.section`
       color: #ff8339;
       cursor: pointer;
     }
+  }
+
+  form > button {
+    margin-bottom: 60px;
   }
 `;
 const ModalFrame = styled.div`
@@ -57,6 +64,7 @@ interface ISignIn {
 }
 
 const Login = () => {
+  const setUserInfo = useSetRecoilState(userAtom);
   const navigate = useNavigate();
   const {
     register,
@@ -86,8 +94,13 @@ const Login = () => {
           setError('pw', { message: 'ID 또는 Password 오류입니다.' });
           openModal();
         } else {
-          console.log(res.data);
-          localStorage.setItem('token', res.data.token.accessToken);
+          setCookie('access_token', res.data.token.accessToken);
+          setUserInfo({
+            token: res.data.token.accessToken,
+            miSeq: res.data.miSeq,
+          });
+          // localStorage.setItem('token', res.data.token.accessToken);
+          navigate('/', { state: { isModalVisible: true } });
         }
       });
     } catch (error) {
