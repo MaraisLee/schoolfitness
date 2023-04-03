@@ -16,26 +16,22 @@ import type { RadioChangeEvent } from 'antd';
 import { Link } from 'react-router-dom';
 import axios from 'api/axios';
 
-type propsType = {
-  addTodo: (
-    uid: string,
-    title: string,
-    body: string,
-    done: boolean,
-    sticker: string,
-    date: string,
-  ) => void;
+type IndividualType = {
+  etDetail: string;
+  etName: string;
+  etSeq: number;
+  url: string;
 };
 const Individual = () => {
-  const [myexercise, setMyExercise] = useState([]);
+  const imgArr = [walking, cycling, yoga, dance, train, pilates, pool, hiking];
+  const [myexercise, setMyExercise] = useState<IndividualType[]>([]);
   const [form] = Form.useForm();
   const [value, setValue] = useState(5);
   const getindiData = async () => {
     await axios
-      .get('api/exercise')
+      .get('exercise')
       .then(res => {
-        console.log(res.data);
-
+        // console.log('exercise : ', res.data);
         setMyExercise(res.data);
       })
       .catch(err => console.log(err));
@@ -104,132 +100,26 @@ const Individual = () => {
             className='bg-gray-50 p-4 mt-4 w-[320px] h-[320px] scrall mx-auto overflow-y-auto scrollbar-hide border-y-2 border-gray-100'
           >
             <Radio.Group>
-              <Radio
-                value={'5'}
-                className='flex w-72 h-20 bg-white pl-5 drop-shadow'
-                style={{ alignItems: 'center' }}
-                onChange={onChange}
-              >
-                <div className='flex justify-between items-center pl-4'>
-                  <img
-                    src={cycling}
-                    alt='운동'
-                    style={{ width: 50, height: 50 }}
-                  />
-                  <span className='ml-[50px] text-lg font-black '>
-                    사이클링
-                  </span>
-                </div>
-              </Radio>
-              <Radio
-                value={'6'}
-                className='flex w-72 h-20 bg-white pl-5 drop-shadow '
-                style={{ alignItems: 'center' }}
-                onChange={onChange}
-              >
-                <div className='flex justify-between items-center pl-4'>
-                  <img
-                    src={dance}
-                    alt='운동'
-                    style={{ width: 50, height: 50 }}
-                  />
-                  <span className='ml-[50px] text-lg font-black '>댄스</span>
-                </div>
-              </Radio>
-              <Radio
-                value={'7'}
-                className='flex w-72 h-20 bg-white pl-5 drop-shadow'
-                style={{ alignItems: 'center' }}
-                onChange={onChange}
-              >
-                <div className='flex justify-between items-center pl-4 '>
-                  <img
-                    src={hiking}
-                    alt='운동'
-                    style={{ width: 50, height: 50 }}
-                  />
-                  <span className='ml-[50px] text-lg font-black '>하이킹</span>
-                </div>
-              </Radio>
-              <Radio
-                value={'8'}
-                className='flex w-72 h-20 bg-white pl-5 drop-shadow'
-                style={{ alignItems: 'center' }}
-                onChange={onChange}
-              >
-                <div className='flex justify-between items-center pl-4'>
-                  <img
-                    src={pilates}
-                    alt='운동'
-                    style={{ width: 50, height: 50 }}
-                  />
-                  <span className='ml-[50px] text-lg font-black '>
-                    필라테스
-                  </span>
-                </div>
-              </Radio>
-              <Radio
-                value={'9'}
-                className='flex w-72 h-20 bg-white pl-5 drop-shadow'
-                style={{ alignItems: 'center' }}
-                onChange={onChange}
-              >
-                <div className='flex justify-betwee items-center pl-4'>
-                  <img
-                    src={pool}
-                    alt='운동'
-                    style={{ width: 50, height: 50 }}
-                  />
-                  <span className='ml-[50px] text-lg font-black '>수영</span>
-                </div>
-              </Radio>
-              <Radio
-                value={'10'}
-                className='flex w-72 h-20 bg-white pl-5 drop-shadow'
-                style={{ alignItems: 'center' }}
-                onChange={onChange}
-              >
-                <div className='flex justify-betwee items-center pl-4'>
-                  <img
-                    src={walking}
-                    alt='운동'
-                    style={{ width: 50, height: 50 }}
-                  />
-                  <span className='ml-[50px] text-lg font-black '>걷기</span>
-                </div>
-              </Radio>
-              <Radio
-                value={'11'}
-                className='flex w-72 h-20 bg-white pl-5 drop-shadow'
-                style={{ alignItems: 'center' }}
-                onChange={onChange}
-              >
-                <div className='flex justify-betwee items-center pl-4'>
-                  <img
-                    src={yoga}
-                    alt='운동'
-                    style={{ width: 50, height: 50 }}
-                  />
-                  <span className='ml-[50px] text-lg font-black '>요가</span>
-                </div>
-              </Radio>
-              <Radio
-                value={'12'}
-                className='flex w-72 h-20 bg-white pl-5 drop-shadow'
-                style={{ alignItems: 'center' }}
-                onChange={onChange}
-              >
-                <div className='flex justify-betwee items-center pl-4'>
-                  <img
-                    src={train}
-                    alt='운동'
-                    style={{ width: 50, height: 50 }}
-                  />
-                  <span className='ml-[50px] text-lg font-black '>
-                    코어트레이닝
-                  </span>
-                </div>
-              </Radio>
+              {myexercise.map((item, index) => (
+                <Radio
+                  key={item.etSeq}
+                  value={item.etSeq}
+                  className='flex w-72 h-20 bg-white pl-5 drop-shadow'
+                  style={{ alignItems: 'center' }}
+                  onChange={onChange}
+                >
+                  <div className='flex justify-between items-center pl-4'>
+                    <img
+                      src={imgArr[index]}
+                      alt={item.etName}
+                      style={{ width: 50, height: 50 }}
+                    />
+                    <span className='ml-[50px] text-lg font-black '>
+                      {item.etName}
+                    </span>
+                  </div>
+                </Radio>
+              ))}
             </Radio.Group>
           </Form.Item>
           <StopWatch part='individual' level={value} />
