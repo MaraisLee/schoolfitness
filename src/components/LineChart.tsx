@@ -68,9 +68,20 @@ const LineChart = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  // 초를 분 과 초로
+  function convertSecondsToMinutesAndSeconds(seconds) {
+    const minutes = Math.floor(seconds / 60); // 초를 분으로 변환
+    const remainingSeconds = seconds % 60; // 남은 초 계산
+    
+    return `${minutes} ${remainingSeconds}`;
+  }
+  
+  console.log(convertSecondsToMinutesAndSeconds(3000)); // "50분 0초"
   const formattedData = label.map(item => ({
     x: item.da.replace(/-/g, '.').substr(2, 15),
     y: item.total,
+    
+    
   }));
 
   const formattedXData = label.map(item => ({
@@ -81,14 +92,18 @@ const LineChart = () => {
 
     datasets: [
       {
-        label: '시간(분)',
-        borderColor: 'rgb(255, 131, 57)',
-        borderWidth: 2,
+        label: '시간(초)',
+       
+        borderWidth: 3, 
+        borderColor: '#ff8339',
         backgroundColor: 'rgba(255, 131, 57)',
         data: formattedData,
       },
     ],
   };
+
+  // borderColor: '#ff8339',
+  // backgroundColor: '#ff8339',
   return (
     <div className='bg-gray-200 rounded-xl p-3 my-3 text-xs'>
       <Line data={data} />
