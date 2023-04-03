@@ -40,51 +40,38 @@ interface ILabel {
   levelType: string;
   giStatus: string;
   esType: string;
+  miSeq: string;
+  miNickname: string;
+  total: number;
 }
 const BarChart = () => {
   const [label, setLabel] = useState<ILabel[]>([]);
   const fetchData = async () => {
     await instance
-      .get('individualscore/list/change', {
-        params: {
-          memberNo: '1',
-          type: '사이클링',
-        },
-      })
+      .get('/individualscore/sum/name/1')
       .then((res: any) => {
-        setLabel(res.data.list);
-        console.log(res.data.list);
+        setLabel(res.data.score);
+        console.log(res.data.score, "총 합계")
+       
       });
   };
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(label);
-  const formattedYData = label.map((item, i) => ({
+
+  const formattedYData = label.map((item) => ({
     x: item.etName,
-    y: item.isTime,
+    y: item.total,
   }));
-  const formattedXData = label.map((item: any) => ({ y: item.isTime }));
-  console.log(formattedXData[0]);
-  // console.log(String(formattedXData[0]).getHours())
-  // const sumArr = formattedXData.reduce((a,b)=>(a+b))
-  //   getHours()	시간 중 '시'각을 숫자로 반환 ( 0 ~ 23 )
-  // getMinutes()	시간 중 '분'을 숫자로 반환 ( 0 ~ 59 )
-  // getSeconds()
+ 
+  console.log(formattedYData)
+ 
   const data = {
-    labels: [
-      '걷기',
-      '사이클링',
-      '댄스',
-      '하이킹',
-      '수영',
-      '코어트레이닝',
-      '필라테스',
-    ],
+    formattedYData,
     datasets: [
       {
         label: '시간(분)',
-        data: [233, 55, 66, 99, 777, 77, 444],
+        data: formattedYData,
         backgroundColor: 'rgba(255, 131, 57, 0.9)',
       },
     ],

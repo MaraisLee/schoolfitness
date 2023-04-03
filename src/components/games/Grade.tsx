@@ -67,7 +67,6 @@ const Grade = ({ setIsOpen }: any) => {
           .get('download/img/member/' + res.data.list[0].url)
           .then(res => {
             setFristGradeImg(res.request.responseURL);
-           
           })
           .catch(err => console.log(err));
         await axios
