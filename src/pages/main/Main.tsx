@@ -164,7 +164,7 @@ const Main = () => {
         nickname: result.data.info.nickname,
         tall: result.data.info.tall,
         type: result.data.info.type,
-        weight: weight[weight.length - 1]?.mwWeight,
+        weight: weight[weight.length - 1]?.mwWeight || result.data.info.weight,
       });
     } catch (error) {
       console.log(error);
