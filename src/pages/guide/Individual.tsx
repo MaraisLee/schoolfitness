@@ -16,7 +16,7 @@ import type { RadioChangeEvent } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'api/axios';
 import { userAtom } from 'recoil/user';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import UserInfo from 'pages/UserInfo';
 
 type IndividualType = {
@@ -31,8 +31,8 @@ const Individual = () => {
   const [form] = Form.useForm();
   const [value, setValue] = useState(5);
   // Recoil 사용자 정보
-  const userInfo = useRecoilValue(userAtom);
-  console.log(userInfo.miSeq);
+  // const userInfo = useRecoilValue(userAtom);
+  // console.log(userInfo.miSeq);
   const getindiData = async () => {
     await axios
       .get('exercise')

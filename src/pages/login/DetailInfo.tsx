@@ -135,7 +135,6 @@ export default function DetailInfo() {
   } = useForm<IEditType>();
 
   const editInfo = async (data: IEditType) => {
-    console.log(data);
     const body = {
       giSeq: Number(data.giSeq),
       esSeq: Number(data.esSeq),

@@ -30,16 +30,14 @@ const WeightGuide = () => {
     } else if (getNum === 20) {
       setLevelName('계단오르기');
     }
-    // console.log(getNum);
+
     const getUrl = `level/exercise/${userInfo.miSeq}/${getNum}`;
-    // console.log(getUrl);
     const res = await axios.get(getUrl);
-    // console.log(res.data.etExplain);
     // 상세 설명
     setEtExplain(res.data.etExplain);
     // 이미지 가져오기
     const resImg = await axios.get(`download/img/detail/${res.data.url}`);
-    // console.log('이미지', resImg.request.responseURL);
+
     setImgUrl(resImg.request.responseURL);
   };
 

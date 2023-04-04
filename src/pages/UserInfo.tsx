@@ -127,7 +127,7 @@ const UserInfo = () => {
             <div className='my-3 flex flex-col gap-3'>
               <img
                 className='mx-auto w-[80px] h-[80px]'
-                src={`http://192.168.0.79:8888/api/download/img/member/기본이미지1679533686278.jpg`}
+                src={`http://192.168.0.79:8888/api/member/img/${userDetail.mimg}`}
                 alt='프로필'
               />
               <p className='text-center text-xs'>{userDetail?.nickname}</p>

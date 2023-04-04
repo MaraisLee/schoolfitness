@@ -43,38 +43,17 @@ const StopWatch = (prpos: PropsType) => {
   const [time, setTime] = useState('00:00:00');
   // 개인기록 조회
   const fetchData = async () => {
-    // "isSeq": 0,   제외 예정
-    // "isMiSeq": 1,            isMiSeq:회원 번호
-    // "isEtSeq": 1,            isEtSeq: 운동 종류 번호
-    // "isRegDt": "2023-03-21", isRegDt:기록 작성일
-    // "isTime": "00:10:00"
     try {
       // 개인 기록 관리 연동
-      // console.log('fetchUrl : ', fetchUrl);
+
       if (prpos.part === 'individual') {
-        // execise 관련 코드
-        // {
-        //   "miSeq": 1,
-        //   "etSeq": 5,
-        //   "time":"00:00:10"
-        // }
         const res = await instance.post(fetchUrl, {
           miSeq: userInfo.miSeq,
           etSeq: prpos.level,
           time,
         });
-        // console.log('individual fetchData Response : ', res);
       } else if (prpos.part === 'weightguide') {
-        // {
-        //   "isMiSeq": 0,
-        //   "isEtSeq": 0,
-        //   "isRegDt": "2023-03-28",
-        //   "isTime": "00:00:10",
-        //   "isWeek": 0
-        // }
-        // console.log('운동 번호 프롭스 : ', prpos.level);
         const res = await instance.put(fetchUrl, {
-          // isSeq: 0,
           isMiSeq: userInfo.miSeq,
           // 운동 번호 프롭스로?
           isEtSeq: prpos.level,
@@ -82,7 +61,6 @@ const StopWatch = (prpos: PropsType) => {
           isTime: time,
           isWeek: 0,
         });
-        // console.log('weightguide fetchData Response : ', res);
       }
       navigate('/detail');
     } catch (err: any) {
@@ -95,21 +73,13 @@ const StopWatch = (prpos: PropsType) => {
     const currentTime = `${hours < 10 ? '0' + hours : hours}:${
       minutes < 10 ? '0' + minutes : minutes
     }:${seconds < 10 ? '0' + seconds : seconds}`;
-    // console.log(`Time recorded: ${currentTime}`);
     // 서버로 현재 타임을 보내준다.
     setTime(currentTime);
   };
   useEffect(() => {
     if (time !== '00:00:00') fetchData();
   }, [time]);
-  // const stop = () => {
-  //   setIsRunning(false);
-  //   const time = `${hours < 10 ? '0' + hours : hours} : ${
-  //     minutes < 10 ? '0' + minutes : minutes
-  //   } : ${seconds < 10 ? '0' + seconds : seconds}`;
-  //   console.log(`Time recorded: ${time}`);
-  //   // 또는 기록을 배열 등의 자료구조에 추가하여 저장할 수도 있습니다.
-  // };
+
   const restart = () => {
     setSeconds(0);
     setMinutes(0);

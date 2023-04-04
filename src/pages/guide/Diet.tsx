@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import arrowWhite from 'assets/arrowWhite.png';
 import axios from 'api/axios';
-import run from 'assets/run.png';
 import { MdTimer } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
-import { log } from 'console';
 import { userAtom } from 'recoil/user';
 import { useRecoilValue } from 'recoil';
 export type ScoreType = {
@@ -16,43 +14,14 @@ export type ScoreType = {
 
 // 1번회원 다이어트 / 2번회원 웨이트
 const Diet = () => {
-  const initData = [
-    {
-      etSeq: 1,
-      etName: '달리기',
-      etDetail: '10분',
-      url: '',
-    },
-    {
-      etSeq: 2,
-      etName: '달리기',
-      etDetail: '10분',
-      url: '',
-    },
-    {
-      etSeq: 3,
-      etName: '달리기',
-      etDetail: '10분',
-      url: '',
-    },
-    {
-      etSeq: 4,
-      etName: '달리기',
-      etDetail: '10분',
-      url: '',
-    },
-  ];
-
   const [myLevelOne, setMyLevelOne] = useState([]);
   const [myLevelTwo, setMyLevelTwo] = useState([]);
   const [myLevelThird, setMyLevelThird] = useState([]);
 
-  const [levelData, setLevelData] = useState([]);
   const [myImgArr, setmyImgArr] = useState<string[]>([]);
   // Recoil 사용자 정보
   const userInfo = useRecoilValue(userAtom);
   const getLevelData = async () => {
-    // console.log('getLevelData ============== ');
     await axios
       .get(`level/exercise/${userInfo.miSeq}?levelSeq=1`)
       .then(res => {
@@ -72,26 +41,21 @@ const Diet = () => {
     setMyLevelThird(res.data);
 
     // 걷기 이미지
-    // console.log('걷기  : ', res.data[0].url);
     const resWalk = await axios.get(
       `download/img/thumbnail/${res.data[0].url}`,
     );
 
     // 줄넘기 이미지
-    // console.log('줄넘기 500 : ', res.data[1].url);
     const resJump = await axios.get(
       `download/img/thumbnail/${res.data[1].url}`,
     );
     // 달리기 이미지
-    // console.log('달리기  : ', res.data[2].url);
     const resRun = await axios.get(`download/img/thumbnail/${res.data[2].url}`);
 
     // 계단오르기 이미지
-    // console.log('계단오르기 500 : ', res.data[3].url);
     const resUp = await axios.get(`download/img/thumbnail/${res.data[3].url}`);
 
     const imgTempArr: string[] = [];
-    // console.log(resWalk.request);
     imgTempArr.push(resWalk.request.responseURL);
     imgTempArr.push(resRun.request.responseURL);
     imgTempArr.push(resJump.request.responseURL);
@@ -107,7 +71,7 @@ const Diet = () => {
   const backHandleClick = () => {
     navigate(-1);
   };
-  // console.log('MyLevel', myLevel);
+
   return (
     <div className=''>
       <div className='flex justify-around items-center bg-[#ff8339] w-full h-[50px] rounded-b-[12px]'>
@@ -133,14 +97,12 @@ const Diet = () => {
           </p>
 
           <ul className='grid  gap-x-0 gap-y-4 grid-cols-2 ml-2 text-center '>
-            {' '}
             {myLevelOne.map((item: ScoreType, index) => (
               <li
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
                 <Link to={`/dietguide/${index + 21}`}>
-                  {' '}
                   <img
                     src={myImgArr[index]}
                     alt='안녕'
@@ -160,14 +122,12 @@ const Diet = () => {
           </p>
 
           <ul className='grid  gap-x-0 gap-y-4 grid-cols-2 ml-2 text-center '>
-            {' '}
             {myLevelTwo.map((item: ScoreType, index) => (
               <li
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
                 <Link to={`/dietguide/${index + 21}`}>
-                  {' '}
                   <img
                     src={myImgArr[index]}
                     alt=''
@@ -187,14 +147,12 @@ const Diet = () => {
           </p>
 
           <ul className='grid  gap-x-0 gap-y-4 grid-cols-2 ml-2 text-center '>
-            {' '}
             {myLevelThird.map((item: ScoreType, index) => (
               <li
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
                 <Link to={`/dietguide/${index + 21}`}>
-                  {' '}
                   <img
                     src={myImgArr[index]}
                     alt=''
