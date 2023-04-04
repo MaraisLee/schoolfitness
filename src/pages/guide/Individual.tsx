@@ -16,7 +16,7 @@ import type { RadioChangeEvent } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'api/axios';
 import { userAtom } from 'recoil/user';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import UserInfo from 'pages/UserInfo';
 
 type IndividualType = {
@@ -32,7 +32,6 @@ const Individual = () => {
   const [value, setValue] = useState(5);
   // Recoil 사용자 정보
   const userInfo = useRecoilValue(userAtom);
-  console.log(userInfo.miSeq);
   const getindiData = async () => {
     await axios
       .get('exercise')
@@ -54,7 +53,7 @@ const Individual = () => {
         const res = await axios.get(
           `individualscore/list?memberNo=${userInfo.miSeq}`,
         );
-        // console.log('WeightList');
+        console.log('WeightList');
       } catch (err) {
         console.log(err);
       }

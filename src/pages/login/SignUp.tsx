@@ -75,7 +75,6 @@ export default function SignUp() {
         { shouldFocus: true },
       );
     }
-    console.log(data);
     try {
       await instance.put('member/join', body).then(res => {
         if (res.data.status) {

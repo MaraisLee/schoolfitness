@@ -1,6 +1,6 @@
 import instance from 'api/axios';
 import { useState, useEffect } from 'react';
-import { userAtom, userDetailAtom } from 'recoil/user';
+import { userAtom, userDetailAtom, userWeightAtom } from 'recoil/user';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
@@ -110,6 +110,7 @@ const Main = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<IUser>();
   const [userDetail, setUserDetail] = useRecoilState(userDetailAtom);
+  const [userWeight, setUserWeight] = useRecoilState(userWeightAtom);
   // const [imageURL, setImageURL] = useState('');
   const userInfo = useRecoilValue(userAtom);
   const { state } = useLocation();
@@ -140,10 +141,7 @@ const Main = () => {
         setWeight(res.data.list);
         console.log(res.data.list);
 
-        setUserDetail({
-          ...userDetail,
-          weight: res.data.list[res.data.list.length - 1].mwWeight,
-        });
+        setUserWeight(res.data.list.map(item => item.mwWeight));
       });
   };
   const fetchData = async () => {
@@ -152,17 +150,7 @@ const Main = () => {
 
       setUser(result.data.info);
 
-      setUserDetail({
-        ...userDetail,
-        classnum: result.data.info.classnum,
-        gen: result.data.info.gen,
-        id: result.data.info.id,
-        mimg: result.data.info.mimg,
-        nickname: result.data.info.nickname,
-        tall: result.data.info.tall,
-        type: result.data.info.type,
-        weight: weight[weight.length - 1]?.mwWeight || result.data.info.weight,
-      });
+      setUserDetail(result.data.info);
     } catch (error) {
       console.log(error);
     }
@@ -285,11 +273,14 @@ const Main = () => {
                 <b className='text-[#5B5B5B] text-[15px] ml-[5px]'>cm</b>
               </p>
               <p className='text-[#FF8339] text-[20px] font-bold'>
-                {userDetail.weight}
+                {userWeight[userWeight.length - 1] || user?.weight}
                 <b className='text-[#5B5B5B] text-[15px] ml-[5px]'>kg</b>
               </p>
               <p className='text-[#FF8339] text-[20px] font-bold'>
-                {getBMI(user?.tall, Number(userDetail.weight))}
+                {getBMI(
+                  user?.tall,
+                  Number(userWeight[userWeight.length - 1] | user.weight),
+                )}
                 <b className='text-[#5B5B5B] text-[15px] ml-[5px]'>BMI</b>
               </p>
             </div>

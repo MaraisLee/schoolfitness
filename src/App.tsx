@@ -24,13 +24,14 @@ import Detail from 'pages/details/Detail';
 import DetailInfo from 'pages/login/DetailInfo';
 
 import Main from 'pages/main/Main';
-import { userAtom } from 'recoil/user';
+import { userAtom, userDetailAtom } from 'recoil/user';
 import { useRecoilValue } from 'recoil';
 import EditProfile from 'pages/login/EditProfile';
 import PrivateRoute from 'components/user/PrivateRoute';
 
 function App() {
   const user = useRecoilValue(userAtom);
+  const userDetail = useRecoilValue(userDetailAtom);
   return (
     <BrowserRouter>
       <Wrapper>
@@ -54,13 +55,15 @@ function App() {
             <Route path='/userinfo' element={<UserInfo />} />
             <Route path='/editprofile' element={<EditProfile />} />
             {/* 운동영상 관련 */}
-            <Route path='/weight' element={<Weight />} />
-            <Route path='/diet' element={<Diet />} />
             <Route path='/individual' element={<Individual />} />
+            <Route path='/diet' element={<Diet />} />
+            <Route path='/weight' element={<Weight />} />
+            {/* {userDetail.type === '다이어트' ? (
+            ) : (
+            )} */}
             <Route path='/weightguide/:id' element={<WeightGuide />} />
             <Route path='/dietguide/:id' element={<DietGuide />} />
           </Route>
-          {/* <Route path='/stopwatch' element={<StopWatch />} /> */}
         </Routes>
         <Nav />
       </Wrapper>

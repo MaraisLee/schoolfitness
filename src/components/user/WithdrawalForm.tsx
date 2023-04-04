@@ -4,9 +4,13 @@ import { useForm } from 'react-hook-form';
 import ModalLayout from '../common/ModalLayout';
 import { useNavigate } from 'react-router-dom';
 import instance from 'api/axios';
-import { useRecoilState } from 'recoil';
-import { userAtom } from 'recoil/user';
-
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  userAtom,
+  userDetailAtom,
+  userPwAtom,
+  userWeightAtom,
+} from 'recoil/user';
 
 const ModalFrame = styled.form`
   text-align: center;
@@ -102,6 +106,9 @@ const WithdrawalForm = ({ closeModal, modalVisible }: WithdrawalFormProps) => {
 
   // 유저 정보
   const [userInfo, setUserInfo] = useRecoilState(userAtom);
+  const setUserPw = useSetRecoilState(userPwAtom);
+  const setUserWeight = useSetRecoilState(userWeightAtom);
+  const setUserDetail = useSetRecoilState(userDetailAtom);
 
   // 진짜 회원탈퇴 할건지 확인 Modal
   const [confirmModalVisible, setConfirmMocalVisible] = useState(false);
@@ -138,6 +145,9 @@ const WithdrawalForm = ({ closeModal, modalVisible }: WithdrawalFormProps) => {
       .then(res => {
         console.log(res);
         setUserInfo('');
+        setUserPw('');
+        setUserWeight('');
+        setUserDetail('');
         closeModal();
         closeModal2();
         setAlertModalVisible(true);

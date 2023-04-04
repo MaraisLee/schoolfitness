@@ -12,49 +12,18 @@ export type ScoreType = {
   url: string;
 };
 const Weight = () => {
-  const initData = [
-    {
-      etSeq: 1,
-      etName: '달리기',
-      etDetail: '10분',
-      url: '',
-    },
-    {
-      etSeq: 2,
-      etName: '달리기',
-      etDetail: '10분',
-      url: '',
-    },
-    {
-      etSeq: 3,
-      etName: '달리기',
-      etDetail: '10분',
-      url: '',
-    },
-    {
-      etSeq: 4,
-      etName: '달리기',
-      etDetail: '10분',
-      url: '',
-    },
-  ];
-
   const [myLevelOne, setMyLevelOne] = useState([]);
   const [myLevelTwo, setMyLevelTwo] = useState([]);
   const [myLevelThird, setMyLevelThird] = useState([]);
 
-  const [levelData, setLevelData] = useState([]);
   const [myImgArr, setmyImgArr] = useState<string[]>([]);
   // Recoil 사용자 정보
   const userInfo = useRecoilValue(userAtom);
-  // console.log(userInfo.miSeq);
 
   const getLevelData = async () => {
-    // console.log('getLevelData ============== ');
     await axios
       .get(`level/exercise/${userInfo.miSeq}?levelSeq=1`)
       .then(res => {
-        // console.log(res.data);
         setMyLevelOne(res.data);
       })
       .catch(err => console.log(err));
@@ -62,31 +31,26 @@ const Weight = () => {
     await axios
       .get(`level/exercise/${userInfo.miSeq}?levelSeq=2`)
       .then(res => {
-        // console.log('받아오는정보', res.data);
         setMyLevelTwo(res.data);
       })
       .catch(err => console.log(err));
 
     const res = await axios.get(`level/exercise/${userInfo.miSeq}?levelSeq=3`);
     setMyLevelThird(res.data);
-
+    console.log('운동번호', res.data);
     // 걷기 이미지
-    // console.log('걷기  : ', res.data[0].url);
     const resWalk = await axios.get(
       `download/img/thumbnail/${res.data[0].url}`,
     );
-    // console.log('걷기 이미지', resWalk);
+
     // 줄넘기 이미지
-    // console.log('줄넘기 500 : ', res.data[1].url);
     const resJump = await axios.get(
       `download/img/thumbnail/${res.data[1].url}`,
     );
     // 달리기 이미지
-    // console.log('달리기  : ', res.data[2].url);
     const resRun = await axios.get(`download/img/thumbnail/${res.data[2].url}`);
 
     // 계단오르기 이미지
-    // console.log('계단오르기 500 : ', res.data[3].url);
     const resUp = await axios.get(`download/img/thumbnail/${res.data[3].url}`);
 
     const imgTempArr: string[] = [];
@@ -96,7 +60,6 @@ const Weight = () => {
     imgTempArr.push(resRun.request.responseURL);
     imgTempArr.push(resUp.request.responseURL);
     setmyImgArr([...imgTempArr]);
-    // console.log(myImgArr);
   };
 
   useEffect(() => {
@@ -107,7 +70,6 @@ const Weight = () => {
   const backHandleClick = () => {
     navigate(-1);
   };
-  // console.log('MyLevel', myLevel);
   return (
     <div className=''>
       <div className='flex justify-around items-center bg-[#ff8339] w-full h-[50px] rounded-b-[12px]'>
@@ -133,14 +95,12 @@ const Weight = () => {
           </p>
 
           <ul className='grid  gap-x-0 gap-y-4 grid-cols-2 ml-2 text-center '>
-            {' '}
             {myLevelOne.map((item: ScoreType, index) => (
               <li
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
                 <Link to={`/weightguide/${index + 17}`}>
-                  {' '}
                   <img
                     src={myImgArr[index]}
                     alt='안녕'
@@ -160,14 +120,12 @@ const Weight = () => {
           </p>
 
           <ul className='grid  gap-x-0 gap-y-4 grid-cols-2 ml-2 text-center '>
-            {' '}
             {myLevelTwo.map((item: ScoreType, index) => (
               <li
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
                 <Link to={`/weightguide/${index + 17}`}>
-                  {' '}
                   <img
                     src={myImgArr[index]}
                     alt=''
@@ -187,14 +145,12 @@ const Weight = () => {
           </p>
 
           <ul className='grid  gap-x-0 gap-y-4 grid-cols-2 ml-2 text-center '>
-            {' '}
             {myLevelThird.map((item: ScoreType, index) => (
               <li
                 key={index}
                 className='bg-white w-[150px] drop-shadow rounded-md  '
               >
                 <Link to={`/weightguide/${index + 17}`}>
-                  {' '}
                   <img
                     src={myImgArr[index]}
                     alt=''
