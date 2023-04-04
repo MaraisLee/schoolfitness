@@ -46,8 +46,6 @@ const WeightChart = ({ editModalVisible }: WeightChartProps) => {
       });
   };
 
-  console.log(weight);
-
   useEffect(() => {
     fetchData();
   }, [editModalVisible]);

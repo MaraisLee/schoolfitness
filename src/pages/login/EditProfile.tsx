@@ -44,6 +44,7 @@ const ProfileLayout = styled.div`
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    border: 1px solid #e2e2e2;
   }
   h3 {
     font-size: 18px;
@@ -256,7 +257,17 @@ const EditProfile = () => {
     try {
       const result = await instance.get(`member/${userInfo.miSeq}`);
       setUser(result.data.info);
-      setUserDetail(result.data.info);
+      setUserDetail({
+        ...userDetail,
+        classnum: result.data.info.classnum,
+        gen: result.data.info.gen,
+        id: result.data.info.id,
+        mimg: result.data.info.mimg,
+        nickname: result.data.info.nickname,
+        tall: result.data.info.tall,
+        type: result.data.info.type,
+        weight: userDetail.weight,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -264,6 +275,8 @@ const EditProfile = () => {
   useEffect(() => {
     fetchData();
   }, [alarm]);
+
+  console.log(user);
 
   return (
     <>
@@ -296,7 +309,7 @@ const EditProfile = () => {
               onChange={handleImageChange}
             />
             <img
-              src={`http://192.168.0.79:8888/api/download/img/member/${user?.mimg}`}
+              src={`http://192.168.0.79:8888/api/member/img/${user?.mimg}`}
               alt='프로필'
               onClick={handleImageClick}
             />

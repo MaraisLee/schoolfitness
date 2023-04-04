@@ -150,6 +150,10 @@ export default function DetailInfo() {
       );
       if (response.data.status) {
         openModal();
+        setUserDetail({
+          ...userDetail,
+          weight: data.weight,
+        });
       } else {
         alert('ㄴㄴㄴㄴ');
       }
