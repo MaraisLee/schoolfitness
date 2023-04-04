@@ -55,14 +55,14 @@ function App() {
             <Route path='/userinfo' element={<UserInfo />} />
             <Route path='/editprofile' element={<EditProfile />} />
             {/* 운동영상 관련 */}
-            <Route path='/weight' element={<Weight />} />
-            <Route path='/diet' element={<Diet />} />
             <Route path='/individual' element={<Individual />} />
-            {userDetail.type === '다이어트' ? (
-              <Route path='/weightguide/:id' element={<WeightGuide />} />
+            <Route path='/diet' element={<Diet />} />
+            <Route path='/weight' element={<Weight />} />
+            {/* {userDetail.type === '다이어트' ? (
             ) : (
-              <Route path='/dietguide/:id' element={<DietGuide />} />
-            )}
+            )} */}
+            <Route path='/weightguide/:id' element={<WeightGuide />} />
+            <Route path='/dietguide/:id' element={<DietGuide />} />
           </Route>
         </Routes>
         <Nav />

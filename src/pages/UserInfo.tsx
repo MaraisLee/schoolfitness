@@ -5,7 +5,12 @@ import icon from 'assets/icon.png';
 import BackHandleClick from 'components/util/BackHandleClick';
 import { useEffect, useState, useRef } from 'react';
 import instance from 'api/axios';
-import { userAtom, userDetailAtom, userPwAtom } from 'recoil/user';
+import {
+  userAtom,
+  userDetailAtom,
+  userPwAtom,
+  userWeightAtom,
+} from 'recoil/user';
 import WithdrawalForm from 'components/user/WithdrawalForm';
 import { AiOutlineGift, AiOutlineNotification } from 'react-icons/ai';
 
@@ -57,6 +62,7 @@ const UserInfo = () => {
     setUserInfo('');
     setUserDetail('');
     setUserPw('');
+    setUserWeight('');
     navigate('/');
   };
   const navigate = useNavigate();
@@ -84,6 +90,7 @@ const UserInfo = () => {
   // 유저 정보
   const [userInfo, setUserInfo] = useRecoilState(userAtom);
   const [userPw, setUserPw] = useRecoilState(userPwAtom);
+  const [userWeight, setUserWeight] = useRecoilState(userWeightAtom);
 
   // 회원탈퇴 Modal
   const [modalVisible, setModalVisible] = useState(false);

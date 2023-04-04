@@ -31,8 +31,7 @@ const Individual = () => {
   const [form] = Form.useForm();
   const [value, setValue] = useState(5);
   // Recoil 사용자 정보
-  // const userInfo = useRecoilValue(userAtom);
-  // console.log(userInfo.miSeq);
+  const userInfo = useRecoilValue(userAtom);
   const getindiData = async () => {
     await axios
       .get('exercise')
@@ -46,9 +45,6 @@ const Individual = () => {
     getindiData();
   }, []);
 
-  // 유저 정보
-  const [userInfo, setUserInfo] = useRecoilState(userAtom);
-
   const onChange = (e: RadioChangeEvent) => {
     // console.log('radio checked', e.target.value);
     setValue(e.target.value);
@@ -57,7 +53,7 @@ const Individual = () => {
         const res = await axios.get(
           `individualscore/list?memberNo=${userInfo.miSeq}`,
         );
-        // console.log('WeightList');
+        console.log('WeightList');
       } catch (err) {
         console.log(err);
       }
