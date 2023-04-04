@@ -32,7 +32,6 @@ const Individual = () => {
   const [value, setValue] = useState(5);
   // Recoil 사용자 정보
   const userInfo = useRecoilValue(userAtom);
-  console.log(userInfo.miSeq);
   const getindiData = async () => {
     await axios
       .get('exercise')
@@ -45,9 +44,6 @@ const Individual = () => {
   useEffect(() => {
     getindiData();
   }, []);
-
-  // 유저 정보
-  const [userInfo, setUserInfo] = useRecoilState(userAtom);
 
   const onChange = (e: RadioChangeEvent) => {
     // console.log('radio checked', e.target.value);
