@@ -45,6 +45,7 @@ const ProfileLayout = styled.div`
     height: 100px;
     border-radius: 50%;
     border: 1px solid #e2e2e2;
+    object-fit: cover;
   }
   h3 {
     font-size: 18px;

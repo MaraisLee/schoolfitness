@@ -48,7 +48,7 @@ const Grade = ({ setIsOpen }: any) => {
         console.log('결과', res);
         setMyRecord(res.data);
         axios
-          .get('download/img/member/' + res.data.url)
+          .get('member/img/' + res.data.url)
           .then(res => {
             setmyImg(res.request.responseURL);
           })
@@ -76,19 +76,19 @@ const Grade = ({ setIsOpen }: any) => {
       .then(async res => {
         setMedalRecord(res.data.list);
         await axios
-          .get('download/img/member/' + res.data.list[0].url)
+          .get('member/img/' + res.data.list[0].url)
           .then(res => {
             setFristGradeImg(res.request.responseURL);
           })
           .catch(err => console.log(err));
         await axios
-          .get('download/img/member/' + res.data.list[1].url)
+          .get('member/img/' + res.data.list[1].url)
           .then(res => {
             setSecondGradeImg(res.request.responseURL);
           })
           .catch(err => console.log(err));
         await axios
-          .get('download/img/member/' + res.data.list[2].url)
+          .get('member/img/' + res.data.list[2].url)
           .then(res => {
             setThirdGradeImg(res.request.responseURL);
           })
