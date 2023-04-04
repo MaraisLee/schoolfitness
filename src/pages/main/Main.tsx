@@ -1,12 +1,15 @@
 import instance from 'api/axios';
 import { useState, useEffect } from 'react';
 import { userAtom, userDetailAtom } from 'recoil/user';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
 import ModalLayout from 'components/common/ModalLayout';
 import WeightChart from 'components/main/WeightChart';
 import { HiOutlineSpeakerphone } from 'react-icons/hi';
+import { MdNavigateNext } from 'react-icons/md';
+import { set, useForm } from 'react-hook-form';
+import BMIChart from 'components/main/BMIChart';
 interface IUser {
   id: string;
   tall: number | null;
@@ -18,21 +21,25 @@ interface IUser {
   mimg: string;
 }
 const ModalFrame = styled.div`
+  position: relative;
   text-align: center;
   padding: 50px 0px;
   font-size: 17px;
 `;
+
 const ModalContent = styled.h2`
   font-weight: bold;
   text-align: center;
   color: #8d8d8d;
   margin-bottom: 10px;
 `;
+
 const ButtonBox = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
 `;
+
 const ModalButton = styled.button`
   padding: 5px 10px;
   margin-top: 10px;
@@ -43,6 +50,7 @@ const ModalButton = styled.button`
   background-color: #ff8339;
   border: none;
 `;
+
 const ModalTitle = styled.h2`
   font-weight: bold;
   padding: 0 40px;
@@ -50,6 +58,7 @@ const ModalTitle = styled.h2`
   color: #000;
   margin-bottom: 10px;
 `;
+
 const ModalDescription = styled.p`
   font-size: 12px;
   font-weight: bold;
@@ -58,6 +67,7 @@ const ModalDescription = styled.p`
   color: #8d8d8d;
   margin-bottom: 20px;
 `;
+
 const ModalEditForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -70,14 +80,42 @@ const ModalEditForm = styled.form`
     width: 40px;
     outline: none;
   }
+  button {
+    position: absolute;
+
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    background: #ddd;
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+    svg {
+      font-size: 40px;
+    }
+  }
 `;
+
+interface IWeight {
+  mwSeq: number;
+  mwRegDt: string;
+  mwWeight: number;
+}
+
 const Main = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<IUser>();
-  const setUserDetail = useSetRecoilState(userDetailAtom);
+  const [userDetail, setUserDetail] = useRecoilState(userDetailAtom);
   // const [imageURL, setImageURL] = useState('');
   const userInfo = useRecoilValue(userAtom);
   const { state } = useLocation();
+  const { register, handleSubmit } = useForm();
+
+  // modal
   const [modalVisible, setModalVisible] = useState(true);
   const openModal = () => {
     setModalVisible(true);
@@ -85,28 +123,108 @@ const Main = () => {
   const closeModal = () => {
     setModalVisible(false);
   };
+  // 몸무게 입력 modal
+  const [editModalVisible, setEditModalVisible] = useState(false);
+
+  const openEditModal = () => setEditModalVisible(true);
+
+  const closeEditModal = () => setEditModalVisible(false);
+
+  // 몸무게 get
+  const [weight, setWeight] = useState<IWeight[]>([]);
+
+  console.log(weight.length - 1);
+  console.log(weight[weight.length - 1]?.mwWeight);
+
+  const weightData = async () => {
+    await instance
+      .get(`member/weight/{seq}?seq=${userInfo.miSeq}`)
+      .then(res => {
+        setWeight(res.data.list);
+        console.log(res.data.list);
+
+        setUserDetail({
+          ...userDetail,
+          weight: res.data.list[res.data.list.length - 1].mwWeight,
+        });
+      });
+  };
   const fetchData = async () => {
     try {
       const result = await instance.get(`member/${userInfo.miSeq}`);
-      // const result2 = await instance.get(
-      //   `member/weight/{seq}?seq=${userInfo.miSeq}`,
-      // );
+
       setUser(result.data.info);
-      // const imgResult = await instance.get(
-      //   `download/img/member/${result.data.info.mimg}`,
-      // );
-      setUserDetail(result.data.info);
+
+      setUserDetail({
+        ...userDetail,
+        classnum: result.data.info.classnum,
+        gen: result.data.info.gen,
+        id: result.data.info.id,
+        mimg: result.data.info.mimg,
+        nickname: result.data.info.nickname,
+        tall: result.data.info.tall,
+        type: result.data.info.type,
+        weight: weight[weight.length - 1]?.mwWeight || result.data.info.weight,
+      });
     } catch (error) {
       console.log(error);
     }
   };
+
+  const onSubmit = async formData => {
+    const data = {
+      weight: Number(formData.weight),
+    };
+    try {
+      await instance.put(
+        `member/weight/{seq}?seq=${userInfo.miSeq}&weight=${formData.weight}`,
+        data,
+      );
+      setUserDetail({
+        ...userDetail,
+        weight: formData.weight,
+      });
+      closeEditModal();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
-  console.log(user);
-  console.log(userInfo.miSeq);
+
+  useEffect(() => {
+    weightData();
+  }, [editModalVisible]);
+
   return (
     <>
+      {' '}
+      {editModalVisible && (
+        <ModalLayout visible={editModalVisible}>
+          <ModalFrame>
+            <ModalTitle>
+              몸무게
+              <br /> 저희만 알고 있을게요
+            </ModalTitle>
+            <ModalDescription>
+              체형별 맞춤 서비스를 위해 필요하며
+              <br /> 다른 사람에게 공개되지 않습니다.
+            </ModalDescription>
+            <ModalEditForm onSubmit={handleSubmit(onSubmit)}>
+              <label htmlFor='weight'>몸무게</label>
+              <div>
+                <input {...register('weight')} type='text' id='weight' />
+                kg
+              </div>{' '}
+              <button type='submit'>
+                <MdNavigateNext />
+              </button>
+            </ModalEditForm>
+          </ModalFrame>
+        </ModalLayout>
+      )}
       {state?.isModalVisible &&
         !user?.tall &&
         !user?.weight &&
@@ -135,18 +253,33 @@ const Main = () => {
             <p className='text-[#7C7676]'>{user?.classnum}</p>
             <p className='text-[25px] font-bold'>{user?.nickname}</p>
           </div>
-          <img
-            src={`http://192.168.0.79:8888/api/download/img/member/${user?.mimg}`}
-            className='rounded-full w-[60px] h-[60px]'
-          />
+          <div className='border rounded-full w-[100px] h-[100px]'>
+            <img
+              src={`http://192.168.0.79:8888/api/member/img/${user?.mimg}`}
+              className='w-full h-full'
+            />
+          </div>
         </div>
         {user?.tall && user?.weight ? (
           <div className='p-[30px] rounded-md shadow'>
             <div className='flex justify-between text-justify '>
-              <p className='text-[17px] font-bold text-[#474242] '>MY BODY</p>
-              <div className='text-[#B5B5B5] text-[10px]'>
+              <p className='text-[17px] font-bold text-[#474242] flex gap-5 items-center'>
+                MY BODY
+                <button
+                  className='bg-[#ff8339] text-white text-sm px-2 py-1 rounded-md font-thin'
+                  onClick={openEditModal}
+                >
+                  입력
+                </button>
+              </p>
+
+              <div className='text-[#B5B5B5] text-[10px] text-center'>
                 <p>마지막 측정일</p>
-                <p>2023. 03. 23</p>
+                <p>
+                  {weight.length
+                    ? weight[weight.length - 1]?.mwRegDt
+                    : '입력해주세요.'}
+                </p>
               </div>
             </div>
             <div className='flex justify-between mt-[20px]'>
@@ -155,11 +288,11 @@ const Main = () => {
                 <b className='text-[#5B5B5B] text-[15px] ml-[5px]'>cm</b>
               </p>
               <p className='text-[#FF8339] text-[20px] font-bold'>
-                {user?.weight}
+                {userDetail.weight}
                 <b className='text-[#5B5B5B] text-[15px] ml-[5px]'>kg</b>
               </p>
               <p className='text-[#FF8339] text-[20px] font-bold'>
-                {getBMI(user?.tall, user?.weight)}
+                {getBMI(user?.tall, Number(userDetail.weight))}
                 <b className='text-[#5B5B5B] text-[15px] ml-[5px]'>BMI</b>
               </p>
             </div>
@@ -171,8 +304,8 @@ const Main = () => {
           </div>
         )}
         <div className='flex flex-col gap-5 rounded-md shadow mt-3'>
-          <WeightChart />
-          <WeightChart />
+          <WeightChart editModalVisible={editModalVisible} />
+          <BMIChart editModalVisible={editModalVisible} />
         </div>
       </div>
     </>
