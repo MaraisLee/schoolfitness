@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import instance from 'api/axios';
 import moment from 'moment';
+import { useRecoilValue } from 'recoil';
+import { userAtom } from 'recoil/user';
 
 type PropsType = {
   part: string;
@@ -13,6 +15,8 @@ const StopWatch = (prpos: PropsType) => {
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  // Recoil 사용자 정보
+  const userInfo = useRecoilValue(userAtom);
 
   let timer: any;
 
@@ -61,7 +65,7 @@ const StopWatch = (prpos: PropsType) => {
         // }
 
         const res = await instance.post(fetchUrl, {
-          miSeq: 1,
+          miSeq: userInfo.miSeq,
           etSeq: prpos.level,
           time,
         });
@@ -75,10 +79,10 @@ const StopWatch = (prpos: PropsType) => {
         //   "isTime": "00:00:10",
         //   "isWeek": 0
         // }
-        console.log('운동 번호 프롭스 : ', prpos.level);
+        // console.log('운동 번호 프롭스 : ', prpos.level);
         const res = await instance.put(fetchUrl, {
           // isSeq: 0,
-          isMiSeq: 1,
+          isMiSeq: userInfo.miSeq,
           // 운동 번호 프롭스로?
           isEtSeq: prpos.level,
           isRegDt: moment(Date.now()).format('YYYY-MM-DD'),

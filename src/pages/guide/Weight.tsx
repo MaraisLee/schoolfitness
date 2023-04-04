@@ -3,6 +3,8 @@ import arrowWhite from 'assets/arrowWhite.png';
 import axios from 'api/axios';
 import { MdTimer } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { userAtom } from 'recoil/user';
 export type ScoreType = {
   etSeq: number;
   etName: string;
@@ -43,25 +45,29 @@ const Weight = () => {
 
   const [levelData, setLevelData] = useState([]);
   const [myImgArr, setmyImgArr] = useState<string[]>([]);
+  // Recoil 사용자 정보
+  const userInfo = useRecoilValue(userAtom);
+  // console.log(userInfo.miSeq);
+
   const getLevelData = async () => {
     // console.log('getLevelData ============== ');
     await axios
-      .get('level/exercise/1?levelSeq=1')
+      .get(`level/exercise/${userInfo.miSeq}?levelSeq=1`)
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         setMyLevelOne(res.data);
       })
       .catch(err => console.log(err));
 
     await axios
-      .get('level/exercise/1?levelSeq=2')
+      .get(`level/exercise/${userInfo.miSeq}?levelSeq=2`)
       .then(res => {
-        console.log('받아오는정보', res.data);
+        // console.log('받아오는정보', res.data);
         setMyLevelTwo(res.data);
       })
       .catch(err => console.log(err));
 
-    const res = await axios.get('level/exercise/1?levelSeq=3');
+    const res = await axios.get(`level/exercise/${userInfo.miSeq}?levelSeq=3`);
     setMyLevelThird(res.data);
 
     // 걷기 이미지
@@ -69,7 +75,7 @@ const Weight = () => {
     const resWalk = await axios.get(
       `download/img/thumbnail/${res.data[0].url}`,
     );
-    console.log('걷기 이미지', resWalk);
+    // console.log('걷기 이미지', resWalk);
     // 줄넘기 이미지
     // console.log('줄넘기 500 : ', res.data[1].url);
     const resJump = await axios.get(

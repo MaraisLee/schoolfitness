@@ -4,6 +4,8 @@ import { MdTimer } from 'react-icons/md';
 import StopWatch from './StopWatch';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'api/axios';
+import { userAtom } from 'recoil/user';
+import { useRecoilValue } from 'recoil';
 
 const DietGuide = () => {
   const { id } = useParams();
@@ -11,6 +13,8 @@ const DietGuide = () => {
   const [imgUrl, setImgUrl] = useState('');
   const [etExplain, setEtExplain] = useState('');
   const [levelName, setLevelName] = useState('');
+  // Recoil 사용자 정보
+  const userInfo = useRecoilValue(userAtom);
   const getDetailData = async () => {
     // 상세 정보 내용 출력
     // const getNum = id ? Number(id) + 1 : 1;
@@ -25,7 +29,7 @@ const DietGuide = () => {
       setLevelName('플랭크');
     }
     // console.log(getNum);
-    const getUrl = `level/exercise/1/${getNum}`;
+    const getUrl = `level/exercise/${userInfo.miSeq}/${getNum}`;
     // console.log(getUrl);
     const res = await axios.get(getUrl);
     // console.log(res.data.url);
