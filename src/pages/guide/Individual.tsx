@@ -46,9 +46,6 @@ const Individual = () => {
     getindiData();
   }, []);
 
-  // 유저 정보
-  const [userInfo, setUserInfo] = useRecoilState(userAtom);
-
   const onChange = (e: RadioChangeEvent) => {
     // console.log('radio checked', e.target.value);
     setValue(e.target.value);

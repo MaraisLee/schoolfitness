@@ -74,6 +74,7 @@ const BarChart = () => {
   const [userInfo, setUserInfo] = useRecoilState(userAtom);
 
   const [label, setLabel] = useState<ILabel[]>([]);
+  // const [label, setLabel] = useState<ILabel[]>([]);
   console.log(userInfo.miSeq, '바차트유저');
   const fetchData = async () => {
     await instance
@@ -96,7 +97,7 @@ const BarChart = () => {
     labels: formattedXData,
     datasets: [
       {
-        label: '시간(분)',
+        label: '시간(초)',
         data: formattedYData,
         backgroundColor: [
           'rgba(255, 99, 132, 0.7)',

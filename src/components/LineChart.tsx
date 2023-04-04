@@ -38,12 +38,10 @@ const LineChart = () => {
       },
       datalabels: {
         display: true,
-    
-   
-        weight: 'bold'
-    
-       
+        weight: 'bold',
+        fontSize: 18,
       },
+    
     },
   };
   interface ILabel {
@@ -94,7 +92,7 @@ const LineChart = () => {
   );
 
   const data = {
-    labels:formattedXData,
+    labels: formattedXData,
 
     datasets: [
       {
@@ -104,7 +102,7 @@ const LineChart = () => {
         backgroundColor: 'rgba(255, 99, 132, 0.6)',
         tension: 0.5,
         data: formattedData,
-        
+       
        
       },
     ],
