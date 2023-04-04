@@ -133,9 +133,6 @@ const Main = () => {
   // 몸무게 get
   const [weight, setWeight] = useState<IWeight[]>([]);
 
-  console.log(weight.length - 1);
-  console.log(weight[weight.length - 1]?.mwWeight);
-
   const weightData = async () => {
     await instance
       .get(`member/weight/{seq}?seq=${userInfo.miSeq}`)
@@ -253,10 +250,10 @@ const Main = () => {
             <p className='text-[#7C7676]'>{user?.classnum}</p>
             <p className='text-[25px] font-bold'>{user?.nickname}</p>
           </div>
-          <div className='border rounded-full w-[100px] h-[100px]'>
+          <div className='border rounded-full w-[100px] h-[100px] overflow-hidden'>
             <img
               src={`http://192.168.0.79:8888/api/member/img/${user?.mimg}`}
-              className='w-full h-full'
+              className='w-full h-full object-cover'
             />
           </div>
         </div>
