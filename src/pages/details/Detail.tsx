@@ -11,6 +11,8 @@ import { match } from 'assert';
 import Individual from 'pages/guide/Individual';
 import { Link } from 'react-router-dom';
 import { MdTimer } from 'react-icons/md';
+import { useRecoilValue } from 'recoil';
+import { userAtom } from 'recoil/user';
 
 interface IScore {
   isSeq: number;
@@ -69,12 +71,20 @@ const Detail = () => {
   const [filters, setFilers] = useState(etNameArr[0].imgtitle);
   console.log();
 
+  const userinfo = useRecoilValue(userAtom);
+  console.log(userinfo.miSeq, "개인번호");
   // 개인기록 조회
   const fetchData = async () => {
-    await instance.get('individualscore/list?memberNo=1').then((res: any) => {
-      setScore(res.data.list);
-      console.log('개인기록목록조회', res.data.list);
-    });
+    await instance
+      .get('individualscore/list', {
+        params: {
+          memberNo: userinfo.miSeq,
+        },
+      })
+      .then((res: any) => {
+        setScore(res.data.list);
+        console.log('개인기록목록조회', res.data.list);
+      });
   };
 
   // 개인기록삭제
@@ -217,11 +227,9 @@ const Detail = () => {
         <div className='overflow-y-auto scrollbar-hide h-[660px]'>
           <div>
             {' '}
-            <p className='text-center'>이번주기록</p>
             <LineChart />
             <div>
               <div>
-                <p className='text-center'>개인성적 통계</p>
                 <BarChart />
               </div>
               <div>

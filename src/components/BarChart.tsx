@@ -11,6 +11,9 @@ import { Bar } from 'react-chartjs-2';
 import faker from 'faker';
 import { useEffect, useState } from 'react';
 import instance from 'api/axios';
+import { userAtom } from 'recoil/user';
+import { useRecoilValue } from 'recoil';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -27,7 +30,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: '개인성적통계',
+      text: '',
     },
   },
 };
@@ -45,10 +48,13 @@ interface ILabel {
   total: number;
 }
 const BarChart = () => {
+  // 유저정보
+  const userinfo = useRecoilValue(userAtom);
+  console.log(userinfo.miSeq);
   const [label, setLabel] = useState<ILabel[]>([]);
   const fetchData = async () => {
     await instance
-      .get('/individualscore/sum/name/1')
+      .get('/individualscore/sum/name/' + userinfo.miSeq)
       .then((res: any) => {
         setLabel(res.data.score);
         console.log(res.data.score, "총 합계")
@@ -70,14 +76,15 @@ const BarChart = () => {
     formattedYData,
     datasets: [
       {
-        label: '시간(분)',
+        label: '시간(초)',
         data: formattedYData,
         backgroundColor: 'rgba(255, 131, 57, 0.9)',
       },
     ],
   };
   return (
-    <div className='bg-gray-200 rounded-xl p-3 my-3'>
+    <div className='bg-gray-50 rounded-xl p-3 my-3'>
+        <p className='text-center'>개인성적 통계</p>
       <Bar options={options} data={data} />
     </div>
   );

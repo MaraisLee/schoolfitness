@@ -12,6 +12,8 @@ import { Line } from 'react-chartjs-2';
 import faker from 'faker';
 import { useEffect, useState } from 'react';
 import instance from 'api/axios';
+import { useRecoilValue } from 'recoil';
+import { userAtom } from 'recoil/user';
 
 ChartJS.register(
   CategoryScale,
@@ -49,14 +51,19 @@ const LineChart = () => {
     da: string;
     total: number;
   }
+  // 유저정보
+  const userinfo = useRecoilValue(userAtom);
+  console.log(userinfo.miSeq);
 
   const [label, setLabel] = useState<ILabel[]>([]);
   const fetchData = async () => {
-    await instance.get(`/individualscore/sum/date/1`, {}).then((res: any) => {
-      setLabel(res.data.score);
+    await instance
+      .get('/individualscore/sum/date/' + userinfo.miSeq)
+      .then((res: any) => {
+        setLabel(res.data.score);
 
-      console.log('ddd', res.data.score);
-    });
+        console.log('ddd', res.data.score);
+      });
   };
 
   // 점수 삭제
@@ -68,20 +75,10 @@ const LineChart = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  // 초를 분 과 초로
-  function convertSecondsToMinutesAndSeconds(seconds) {
-    const minutes = Math.floor(seconds / 60); // 초를 분으로 변환
-    const remainingSeconds = seconds % 60; // 남은 초 계산
-    
-    return `${minutes} ${remainingSeconds}`;
-  }
-  
-  console.log(convertSecondsToMinutesAndSeconds(3000)); // "50분 0초"
+
   const formattedData = label.map(item => ({
     x: item.da.replace(/-/g, '.').substr(2, 15),
     y: item.total,
-    
-    
   }));
 
   const formattedXData = label.map(item => ({
@@ -93,8 +90,8 @@ const LineChart = () => {
     datasets: [
       {
         label: '시간(초)',
-       
-        borderWidth: 3, 
+
+        borderWidth: 3,
         borderColor: '#ff8339',
         backgroundColor: 'rgba(255, 131, 57)',
         data: formattedData,
@@ -105,7 +102,8 @@ const LineChart = () => {
   // borderColor: '#ff8339',
   // backgroundColor: '#ff8339',
   return (
-    <div className='bg-gray-200 rounded-xl p-3 my-3 text-xs'>
+    <div className='bg-gray-50 rounded-xl p-3 my-3 text-xs'>
+      <p className='text-center'>이번주기록</p>
       <Line data={data} />
     </div>
   );
