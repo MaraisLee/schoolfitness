@@ -15,6 +15,8 @@ import React, { useEffect, useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'api/axios';
+import { useRecoilState } from 'recoil';
+import { userAtom } from 'recoil/user';
 
 type IndividualType = {
   etDetail: string;
@@ -40,6 +42,9 @@ const Individual = () => {
     getindiData();
   }, []);
 
+  // 유저 정보
+  const [userInfo, setUserInfo] = useRecoilState(userAtom);
+
   const onChange = (e: RadioChangeEvent) => {
     // console.log('radio checked', e.target.value);
     setValue(e.target.value);
@@ -47,7 +52,8 @@ const Individual = () => {
       try {
         const res = await axios.get(
           `
-          individualscore/list?memberNo=1`,
+          individualscore/list`,
+          { params: { memberNo: userInfo.miSeq } },
         );
         // console.log('WeightList');
       } catch (err) {
@@ -60,6 +66,7 @@ const Individual = () => {
   const backHandleClick = () => {
     navigate(-1);
   };
+
   // 개인 측정용 운동 API(류승지) 개인측정용 운동목록조회/저장/개인기록조회 를 받아서 목록 만들기
 
   return (

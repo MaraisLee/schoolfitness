@@ -23,8 +23,42 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
 import { GameBt } from 'styles/Button';
+import styled from '@emotion/styled';
+import ModalLayout from 'components/common/ModalLayout';
+const ModalFrame = styled.div`
+  text-align: center;
+  padding: 50px 0px;
+  font-size: 17px;
+`;
 
+const ModalContent = styled.h2`
+  font-weight: bold;
+  text-align: center;
+  color: #8d8d8d;
+`;
+const CloseButton = styled.button`
+  padding: 5px 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  background-color: #ff8339;
+  border: none;
+`;
 const UserInfo = () => {
+  // 로그아웃 모달
+  const [logoutModal, setLogoutModal] = useState(false);
+  const openLogout = () => {
+    setLogoutModal(true);
+  };
+  const closeLogout = () => {
+    setLogoutModal(false);
+    setUserInfo('');
+    setUserDetail('');
+    setUserPw('');
+    navigate('/');
+  };
   const navigate = useNavigate();
   // 공지사항 출력
   const [noticeList, setNoticeList] = useState<any>([]);
@@ -40,14 +74,13 @@ const UserInfo = () => {
     noticeHandler();
   }, []);
   // 로그아웃
-  const logout = () => {
-    alert('로그아웃 되었습니다.');
-    setUserInfo('');
-    setUserDetail('');
-    setUserPw('');
 
-    navigate('/');
+  const [userDetail, setUserDetail] = useRecoilState(userDetailAtom);
+
+  const logout = () => {
+    openLogout();
   };
+
   // 유저 정보
   const [userInfo, setUserInfo] = useRecoilState(userAtom);
   const [userPw, setUserPw] = useRecoilState(userPwAtom);
@@ -69,40 +102,18 @@ const UserInfo = () => {
   useEffect(() => {
     giftHandler();
   }, []);
-  // 이미지 업로드
-  const [userDetail, setUserDetail] = useRecoilState(userDetailAtom);
-  const [image, setImage] = useState(null);
-  const handleImageChange = async e => {
-    const selectedImage = e.target.files[0];
-    console.log(selectedImage);
-    const formData = new FormData();
-    formData.append('file', selectedImage);
-    try {
-      const response = await instance.put(
-        `member/img/${userInfo.miSeq}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
-      );
-      console.log(response.data.imageUrl);
-      setUserDetail({
-        ...userDetail,
-        mimg: response.data.imageUrl, // 서버에서 반환하는 이미지 경로에 따라 수정해야 함
-      });
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleImageClick = () => {
-    const input = document.getElementById('file-input');
-    input?.click();
-  };
   return (
     <>
+      {logoutModal && (
+        <ModalLayout visible={logoutModal}>
+          <ModalContent>
+            <ModalFrame>
+              <ModalContent>로그아웃 되었습니다.</ModalContent>
+              <CloseButton onClick={closeLogout}>확인</CloseButton>
+            </ModalFrame>
+          </ModalContent>
+        </ModalLayout>
+      )}
       <WithdrawalForm closeModal={closeModal} modalVisible={modalVisible} />
       <InnerCss className='px-5'>
         <HeaderCss>
@@ -114,20 +125,12 @@ const UserInfo = () => {
         <div className='overflow-y-auto scrollbar-hide h-[660px] '>
           <div className='mx-auto overflow-y-auto scrollbar-hide '>
             <div className='my-3 flex flex-col gap-3'>
-              <input
-                type='file'
-                multiple={true}
-                id='file-input'
-                style={{ display: 'none' }}
-                onChange={handleImageChange}
-              />
               <img
                 className='mx-auto w-[80px] h-[80px]'
                 src={`http://192.168.0.79:8888/api/download/img/member/기본이미지1679533686278.jpg`}
                 alt='프로필'
-                onClick={handleImageClick}
               />
-              <p className='text-center'>{userDetail?.nickname}</p>
+              <p className='text-center text-xs'>{userDetail?.nickname}</p>
             </div>
           </div>
           <div className='my-3 '>
@@ -198,6 +201,7 @@ const UserInfo = () => {
                 </div>
               ))}
             </div>
+
             <div
               onClick={() => navigate('/editprofile')}
               className='flex justify-between py-6 border-b-2 p-3 '
