@@ -4,8 +4,8 @@ import ModalLayout from 'components/common/ModalLayout';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { userAtom } from 'recoil/user';
-import { useRecoilValue } from 'recoil';
+import { userAtom, userDetailAtom } from 'recoil/user';
+import { useRecoilState, useRecoilValue } from 'recoil';
 const Divider = styled.div`
   display: flex;
   gap: 60px;
@@ -117,7 +117,9 @@ interface IEditType {
 export default function DetailInfo() {
   const navigate = useNavigate();
   const userInfo = useRecoilValue(userAtom);
+  const [userDetail, setUserDetail] = useRecoilState(userDetailAtom);
   const [modalVisible, setModalVisible] = useState(false);
+
   const openModal = () => {
     setModalVisible(true);
   };
@@ -148,6 +150,10 @@ export default function DetailInfo() {
       );
       if (response.data.status) {
         openModal();
+        setUserDetail({
+          ...userDetail,
+          weight: data.weight,
+        });
       } else {
         alert('ㄴㄴㄴㄴ');
       }
@@ -240,9 +246,6 @@ export default function DetailInfo() {
             </RadioContainer>
           </section>
           <SuperButton>확인</SuperButton>
-          <SuperButton type='button' onClick={() => navigate('/')}>
-            취소
-          </SuperButton>
         </form>
       </DetailInfoCss>
     </>

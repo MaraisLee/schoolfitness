@@ -16,9 +16,9 @@ const LoginCss = styled.section`
   flex-direction: column;
   align-items: center;
   img {
-    width: 150px;
+    width: 220px;
     height: 220px;
-    margin: 80px 0;
+    margin: 100px 0;
   }
   p {
     font-size: 13px;

@@ -15,8 +15,9 @@ import React, { useEffect, useState } from 'react';
 import type { RadioChangeEvent } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'api/axios';
-import { useRecoilState } from 'recoil';
 import { userAtom } from 'recoil/user';
+import { useRecoilValue } from 'recoil';
+import UserInfo from 'pages/UserInfo';
 
 type IndividualType = {
   etDetail: string;
@@ -29,11 +30,14 @@ const Individual = () => {
   const [myexercise, setMyExercise] = useState<IndividualType[]>([]);
   const [form] = Form.useForm();
   const [value, setValue] = useState(5);
+  // Recoil 사용자 정보
+  const userInfo = useRecoilValue(userAtom);
+  console.log(userInfo.miSeq);
   const getindiData = async () => {
     await axios
       .get('exercise')
       .then(res => {
-        // console.log('exercise : ', res.data);
+        console.log('exercise : ', res.data);
         setMyExercise(res.data);
       })
       .catch(err => console.log(err));
@@ -51,9 +55,7 @@ const Individual = () => {
     const WeightList = async () => {
       try {
         const res = await axios.get(
-          `
-          individualscore/list`,
-          { params: { memberNo: userInfo.miSeq } },
+          `individualscore/list?memberNo=${userInfo.miSeq}`,
         );
         // console.log('WeightList');
       } catch (err) {

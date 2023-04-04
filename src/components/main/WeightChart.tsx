@@ -1,25 +1,8 @@
-import React from 'react';
+import instance from 'api/axios';
+import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-
-const data = {
-  labels: [
-    '2022-01-01',
-    '2022-01-02',
-    '2022-01-03',
-    '2022-01-04',
-    '2022-01-05',
-  ],
-  datasets: [
-    {
-      label: '몸무게',
-      data: [1, 70.5, 69.8, 69.9, 69.5],
-      fill: false,
-      borderColor: '#ff8339',
-      backgroundColor: '#ff8339',
-      tension: 0.1,
-    },
-  ],
-};
+import { useRecoilValue } from 'recoil';
+import { userAtom } from 'recoil/user';
 
 // const options = {
 //   plugins: {
@@ -42,7 +25,48 @@ const data = {
 //   },
 // };
 
-const WeightChart = () => {
+interface IWeight {
+  mwSeq: number;
+  mwRegDt: string;
+  mwWeight: number;
+}
+
+type WeightChartProps = {
+  editModalVisible: boolean;
+};
+
+const WeightChart = ({ editModalVisible }: WeightChartProps) => {
+  const [weight, setWeight] = useState<IWeight[]>([]);
+  const userInfo = useRecoilValue(userAtom);
+  const fetchData = async () => {
+    await instance
+      .get(`member/weight/{seq}?seq=${userInfo.miSeq}`)
+      .then(res => {
+        setWeight(res.data.list);
+      });
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [editModalVisible]);
+
+  const date = weight.map(item => item.mwRegDt);
+  const weightData = weight.map(item => item.mwWeight);
+
+  const data = {
+    labels: date,
+    datasets: [
+      {
+        label: '몸무게',
+        data: weightData,
+        fill: false,
+        borderColor: '#ff8339',
+        backgroundColor: '#ff8339',
+        tension: 0.1,
+      },
+    ],
+  };
+
   return (
     <div>
       <Line data={data} />

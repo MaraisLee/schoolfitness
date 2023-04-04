@@ -5,6 +5,8 @@ import run from 'assets/run.png';
 import { MdTimer } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { log } from 'console';
+import { userAtom } from 'recoil/user';
+import { useRecoilValue } from 'recoil';
 export type ScoreType = {
   etSeq: number;
   etName: string;
@@ -47,24 +49,26 @@ const Diet = () => {
 
   const [levelData, setLevelData] = useState([]);
   const [myImgArr, setmyImgArr] = useState<string[]>([]);
+  // Recoil 사용자 정보
+  const userInfo = useRecoilValue(userAtom);
   const getLevelData = async () => {
     // console.log('getLevelData ============== ');
     await axios
-      .get('level/exercise/2?levelSeq=1')
+      .get(`level/exercise/${userInfo.miSeq}?levelSeq=1`)
       .then(res => {
         setMyLevelOne(res.data);
       })
       .catch(err => console.log(err));
 
     await axios
-      .get('level/exercise/2?levelSeq=2')
+      .get(`level/exercise/${userInfo.miSeq}?levelSeq=2`)
       .then(res => {
         // console.log(res.data);
         setMyLevelTwo(res.data);
       })
       .catch(err => console.log(err));
 
-    const res = await axios.get('level/exercise/2?levelSeq=3');
+    const res = await axios.get(`level/exercise/${userInfo.miSeq}?levelSeq=3`);
     setMyLevelThird(res.data);
 
     // 걷기 이미지
