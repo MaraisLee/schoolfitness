@@ -19,7 +19,6 @@ const StopWatch = (prpos: PropsType) => {
   const userInfo = useRecoilValue(userAtom);
 
   let timer: any;
-
   // 전송할 주소
   const [fetchUrl, setFetchUrl] = useState('');
   // fetUrl 관련 코드
@@ -30,7 +29,6 @@ const StopWatch = (prpos: PropsType) => {
       setFetchUrl('/individualscore');
     }
   }, []);
-
   useEffect(() => {
     if (isRunning) {
       timer = setInterval(() => {
@@ -39,12 +37,10 @@ const StopWatch = (prpos: PropsType) => {
     }
     return () => clearInterval(timer);
   }, [isRunning]);
-
   const start = () => {
     setIsRunning(true);
   };
   const [time, setTime] = useState('00:00:00');
-
   // 개인기록 조회
   const fetchData = async () => {
     // "isSeq": 0,   제외 예정
@@ -55,7 +51,6 @@ const StopWatch = (prpos: PropsType) => {
     try {
       // 개인 기록 관리 연동
       // console.log('fetchUrl : ', fetchUrl);
-
       if (prpos.part === 'individual') {
         // execise 관련 코드
         // {
@@ -63,13 +58,11 @@ const StopWatch = (prpos: PropsType) => {
         //   "etSeq": 5,
         //   "time":"00:00:10"
         // }
-
         const res = await instance.post(fetchUrl, {
           miSeq: userInfo.miSeq,
           etSeq: prpos.level,
           time,
         });
-
         // console.log('individual fetchData Response : ', res);
       } else if (prpos.part === 'weightguide') {
         // {
@@ -89,18 +82,14 @@ const StopWatch = (prpos: PropsType) => {
           isTime: time,
           isWeek: 0,
         });
-
         // console.log('weightguide fetchData Response : ', res);
       }
-
       navigate('/detail');
     } catch (err: any) {
       console.log('fetchData Error : ', err);
     }
-
     // restart();
   };
-
   const stop = () => {
     setIsRunning(false);
     const currentTime = `${hours < 10 ? '0' + hours : hours}:${
@@ -121,14 +110,12 @@ const StopWatch = (prpos: PropsType) => {
   //   console.log(`Time recorded: ${time}`);
   //   // 또는 기록을 배열 등의 자료구조에 추가하여 저장할 수도 있습니다.
   // };
-
   const restart = () => {
     setSeconds(0);
     setMinutes(0);
     setHours(0);
     setIsRunning(false);
   };
-
   // 시간 계산
   useEffect(() => {
     if (seconds === 60) {
@@ -140,7 +127,6 @@ const StopWatch = (prpos: PropsType) => {
       setMinutes(0);
     }
   }, [seconds, minutes]);
-
   return (
     <div className=' text-center text-slate-600 p-2'>
       <h1 className='text-7xl font-bold mb-8'>
@@ -151,21 +137,21 @@ const StopWatch = (prpos: PropsType) => {
       {!isRunning ? (
         <button
           onClick={start}
-          className='px-6 py-2  ml-5 bg-[#ff8339] text-white rounded  hover:bg-gray-300'
+          className='px-6 py-2  ml-5 bg-[#FF8339] text-white rounded  hover:bg-gray-300'
         >
           Start
         </button>
       ) : (
         <button
           onClick={stop}
-          className='px-6 py-2  ml-5 bg-gray-300 text-white hover:text-white rounded hover:bg-[#ff8339]'
+          className='px-6 py-2  ml-5 bg-gray-300 text-white hover:text-white rounded hover:bg-[#FF8339]'
         >
           Stop
         </button>
       )}
       <button
         onClick={restart}
-        className='px-6 py-2  ml-5 bg-gray-300 text-white rounded hover:bg-[#ff8339]'
+        className='px-6 py-2  ml-5 bg-gray-300 text-white rounded hover:bg-[#FF8339]'
       >
         Restart
       </button>

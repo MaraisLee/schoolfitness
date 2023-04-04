@@ -11,6 +11,8 @@ import { match } from 'assert';
 import Individual from 'pages/guide/Individual';
 import { Link } from 'react-router-dom';
 import { MdTimer } from 'react-icons/md';
+import { useRecoilState } from 'recoil';
+import { userAtom } from 'recoil/user';
 
 interface IScore {
   isSeq: number;
@@ -30,6 +32,8 @@ const Detail = () => {
   const [scoreAdd, setScoreAdd] = useState(false);
   // 개인기록 삭제
   const [scoreDelete, setScoreDelte] = useState(false);
+  // 유저 정보
+  const [userInfo, setUserInfo] = useRecoilState(userAtom);
 
   const etNameArr = [
     {
@@ -71,10 +75,12 @@ const Detail = () => {
 
   // 개인기록 조회
   const fetchData = async () => {
-    await instance.get('individualscore/list?memberNo=1').then((res: any) => {
-      setScore(res.data.list);
-      console.log('개인기록목록조회', res.data.list);
-    });
+    await instance
+      .get('individualscore/list', { params: { memberNo: userInfo.miSeq } })
+      .then((res: any) => {
+        setScore(res.data.list);
+        console.log('개인기록목록조회', res.data.list);
+      });
   };
 
   // 개인기록삭제
@@ -252,10 +258,6 @@ const Detail = () => {
                           className='w-11 h-11'
                           src={
                             scoreList.etName === '걷기'
-                              ? walkingImg
-                              : scoreList.etName === '걷기LV1'
-                              ? walkingImg
-                              : scoreList.etName === '오래달리기'
                               ? walkingImg
                               : scoreList.etName === '걷기LV1'
                               ? walkingImg

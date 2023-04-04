@@ -46,14 +46,16 @@ const Individual = () => {
     getindiData();
   }, []);
 
+  // 유저 정보
+  const [userInfo, setUserInfo] = useRecoilState(userAtom);
+
   const onChange = (e: RadioChangeEvent) => {
     // console.log('radio checked', e.target.value);
     setValue(e.target.value);
     const WeightList = async () => {
       try {
         const res = await axios.get(
-          `
-          individualscore/list?memberNo=${userInfo.miSeq}`,
+          `individualscore/list?memberNo=${userInfo.miSeq}`,
         );
         // console.log('WeightList');
       } catch (err) {
@@ -66,6 +68,7 @@ const Individual = () => {
   const backHandleClick = () => {
     navigate(-1);
   };
+
   // 개인 측정용 운동 API(류승지) 개인측정용 운동목록조회/저장/개인기록조회 를 받아서 목록 만들기
 
   return (
