@@ -20,3 +20,9 @@ export const userPwAtom = atom({
   default: '',
   effects_UNSTABLE: [persistAtom],
 });
+
+export const userWeightAtom = atom({
+  key: 'weight',
+  default: '',
+  effects_UNSTABLE: [persistAtom],
+});
