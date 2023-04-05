@@ -139,7 +139,6 @@ const Main = () => {
       .get(`member/weight/{seq}?seq=${userInfo.miSeq}`)
       .then(res => {
         setWeight(res.data.list);
-        console.log(res.data.list);
 
         setUserWeight(res.data.list.map(item => item.mwWeight));
       });
@@ -229,9 +228,12 @@ const Main = () => {
           </ModalLayout>
         )}
       <div className='px-5 overflow-y-auto scrollbar-hide h-[734px] '>
-        <div className='text-center mt-10 bg-[#484D55] px-5 py-4 rounded-lg text-white flex items-center gap-2'>
+        <div
+          className='text-center mt-10 bg-[#484D55] px-5 py-4 rounded-lg text-white flex items-center gap-2 cursor-pointer'
+          onClick={() => navigate('/notice')}
+        >
           <HiOutlineSpeakerphone className='text-2xl' />
-          지금 반 순위를 확인해보세요!
+          지금 게임 공지사항을 확인해보세요!
         </div>
         <div className='flex justify-between items-center my-10 mx-4'>
           <div>
