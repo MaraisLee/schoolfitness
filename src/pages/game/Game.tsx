@@ -1,6 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { HeaderCss, InnerCss } from 'styles/LayoutCss';
-import arrow from 'assets/arrow.png';
 import Grade from 'components/games/Grade';
 import Stamp from '../../components/games/Stamp';
 import { useState } from 'react';

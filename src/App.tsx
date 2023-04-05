@@ -27,7 +27,7 @@ import Main from 'pages/main/Main';
 import { userAtom, userDetailAtom } from 'recoil/user';
 import { useRecoilValue } from 'recoil';
 import EditProfile from 'pages/login/EditProfile';
-import PrivateRoute from 'components/user/PrivateRoute';
+import PrivateRoute from 'components/common/PrivateRoute';
 
 function App() {
   const user = useRecoilValue(userAtom);

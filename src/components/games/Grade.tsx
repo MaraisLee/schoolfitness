@@ -54,7 +54,7 @@ const Grade = ({ setIsOpen }: any) => {
           })
           .catch(err => console.log('이미지 err', err));
         axios
-          .get('game/score/percent/1/1')
+          .get('game/score/percent/1/' + user.miSeq)
           .then(res => {
             const formatted = (
               Math.round(res.data.percent * 100) / 100
@@ -75,6 +75,7 @@ const Grade = ({ setIsOpen }: any) => {
       .get('game/score/total/1')
       .then(async res => {
         setMedalRecord(res.data.list);
+        console.log('전체 성적', res.data.list);
         await axios
           .get('member/img/' + res.data.list[0].url)
           .then(res => {
@@ -139,7 +140,7 @@ const Grade = ({ setIsOpen }: any) => {
               {member.rank === 1 ? (
                 <div className='flex flex-col justify-center items-center gap-3 order-last'>
                   <div className='flex flex-col justify-center items-center'>
-                    <img src={crown} alt='' className='w-[27px] h-[22px] ' />
+                    <img src={crown} alt='' className='w-[27px] h-[23px] ' />
                     <div className='w-[70px] h-[70px] border border-none rounded-full overflow-hidden'>
                       <img
                         src={firstGradeImg}

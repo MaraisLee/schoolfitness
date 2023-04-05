@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 interface IModalProps {
@@ -8,19 +7,6 @@ interface IModalProps {
 }
 
 const StampModalLayout = ({ visible, onClose, children }: IModalProps) => {
-  // useEffect(() => {
-  //   document.body.style.cssText = `
-  //   position: fixed;
-  //   top: -${window.scrollY}px;
-  //   overflow-y: scroll;
-  //   width: 100%;`;
-  //   return () => {
-  //     const scrollY = document.body.style.top;
-  //     document.body.style.cssText = '';
-  //     window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
-  //   };
-  // }, []);
-
   const onMaskClick = (e: React.MouseEvent<HTMLElement>) => {
     if (e.target === e.currentTarget && onClose) {
       onClose(e);

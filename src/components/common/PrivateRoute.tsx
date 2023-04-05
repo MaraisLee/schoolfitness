@@ -7,4 +7,3 @@ const PrivateRoute = () => {
   return user.miSeq ? <Outlet /> : <Navigate to='/' />;
 };
 export default PrivateRoute;
-// {...alert('접근할 수 없는 페이지입니다.')}
