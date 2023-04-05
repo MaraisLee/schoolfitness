@@ -28,20 +28,50 @@ ChartJS.register(
 const LineChart = () => {
   const options = {
     responsive: true,
+
+    elements: {
+      line: {
+        fill: false,
+        tension: 0.4,
+      },
+      datalabels: {
+        align: 'end',
+        anchor: 'start',
+      },
+    },
+    // Core options
+    aspectRatio: 5 / 3,
+    layout: {
+      padding: {
+        top: 0,
+        right: 16,
+        bottom: 16,
+        left: 8,
+      },
+    },
     plugins: {
       legend: {
         position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: '',
+        labels: {
+          color: '#000000',
+          // This more specific font property overrides the global property
+          font: {
+            size: 10,
+          },
+        },
       },
       datalabels: {
+        weight: '800',
+        offset: 4,
+
+        backgroundColor: 'rgba(255, 99, 132, 0.8)',
         display: true,
-        weight: 'bold',
-        fontSize: 18,
+        color: '#ffffff',
+        font: {
+          size: 13,
+          lineHeight: 1.2,
+        },
       },
-    
     },
   };
   interface ILabel {
@@ -58,6 +88,10 @@ const LineChart = () => {
     da: string;
     total: number;
   }
+  // 유저 정보
+  const [userInfo, setUserInfo] = useRecoilState(userAtom);
+
+  // 라인 차트
 
   const [label, setLabel] = useState<ILabel[]>([]);
   const fetchData = async () => {
@@ -66,25 +100,14 @@ const LineChart = () => {
       .then((res: any) => {
         setLabel(res.data.score);
 
-        console.log('ddd', res.data.score);
+        // console.log('ddd', res.data.score);
       });
   };
-
-  // 유저 정보
-  const [userInfo, setUserInfo] = useRecoilState(userAtom);
 
   useEffect(() => {
     fetchData();
   }, []);
-  // 초를 분 과 초로
-  function convertSecondsToMinutesAndSeconds(seconds) {
-    const minutes = Math.floor(seconds / 60); // 초를 분으로 변환
-    const remainingSeconds = seconds % 60; // 남은 초 계산
 
-    return `${minutes} ${remainingSeconds}`;
-  }
-
-  console.log(convertSecondsToMinutesAndSeconds(3000)); // "50분 0초"
   const formattedData = label.map(item => item.total);
 
   const formattedXData = label.map(item =>
@@ -102,8 +125,6 @@ const LineChart = () => {
         backgroundColor: 'rgba(255, 99, 132, 0.6)',
         tension: 0.5,
         data: formattedData,
-       
-       
       },
     ],
   };
