@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import instance from 'api/axios';
 import { RecoilState, useRecoilState } from 'recoil';
 import { userAtom } from 'recoil/user';
+import type { ILabel } from 'pages/details/Detail';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -49,21 +50,12 @@ export const options = {
     },
   },
 };
-interface ILabel {
-  isSeq: number;
-  isMiSeq: number;
-  isRegDt: string;
-  isTime: string;
-  etName: string;
-  levelType: string;
-  giStatus: string;
-  esType: string;
-  miSeq: string;
-  miNickname: string;
-  total: number;
+
+interface IProps {
+  barlabel: ILabel[];
 }
 
-const BarChart = () => {
+const BarChart = (props: IProps) => {
   const options = {
     responsive: true,
     plugins: {
@@ -94,23 +86,9 @@ const BarChart = () => {
   // 유저 정보
   const [userInfo, setUserInfo] = useRecoilState(userAtom);
 
-  const [label, setLabel] = useState<ILabel[]>([]);
-  // const [label, setLabel] = useState<ILabel[]>([]);
-  // console.log(userInfo.miSeq, '바차트유저');
-  const fetchData = async () => {
-    await instance
-      .get('/individualscore/sum/name/' + userInfo.miSeq)
-      .then((res: any) => {
-        setLabel(res.data.score);
-        // console.log(res.data.score, '총 합계');
-      });
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const formattedXData = label.map(item => item.etName);
+  const formattedXData = props.barlabel.map(item => item.etName);
   // console.log(formattedXData, 'x축');
-  const formattedYData = label.map(item => item.total);
+  const formattedYData = props.barlabel.map(item => item.total);
 
   // console.log(formattedYData);
 

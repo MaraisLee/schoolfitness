@@ -23,12 +23,57 @@ interface IScore {
   esType: string;
   url: string;
 }
-interface MyComponentProps {
+
+export interface ILabel {
+  isSeq: number;
+  isMiSeq: number;
+  isRegDt: string;
+  isTime: string;
+  etName: string;
+  levelType: string;
+  giStatus: string;
+  esType: string;
+  miSeq: number;
+  miNickname: string;
+  da: string;
+  total: number;
   label: string;
-  // 다른 속성들...
+  barlabel: string;
 }
 
 const Detail = () => {
+  // 바차트
+
+  const [barlabel, setBarLabel] = useState<ILabel[]>([]);
+  // const [label, setLabel] = useState<ILabel[]>([]);
+  // console.log(userInfo.miSeq, '바차트유저');
+  const fetchDataBar = async () => {
+    await instance
+      .get('/individualscore/sum/name/' + userInfo.miSeq)
+      .then((res: any) => {
+        setBarLabel(res.data.score);
+        // console.log(res.data.score, '총 합계');
+      });
+  };
+  useEffect(() => {
+    fetchDataBar();
+  }, []);
+  // 라인 차트
+
+  const [label, setLabel] = useState<ILabel[]>([]);
+  const fetchDataLine = async () => {
+    await instance
+      .get(`/individualscore/sum/date/` + userInfo.miSeq)
+      .then((res: any) => {
+        setLabel(res.data.score);
+
+        // console.log('ddd', res.data.score);
+      });
+  };
+
+  useEffect(() => {
+    fetchDataLine();
+  }, []);
   // 개인기록 조회
   const [score, setScore] = useState([]);
   // 개인기록 추가
@@ -161,6 +206,8 @@ const Detail = () => {
   // 삭제
   useEffect(() => {
     fetchData();
+    fetchDataLine();
+    fetchDataBar();
   }, [scoreDelete]);
 
   // useEffect(() => {}, []);
@@ -181,11 +228,11 @@ const Detail = () => {
           <div>
             {' '}
             <p className='text-center'>이번주기록</p>
-            <LineChart />
+            <LineChart label={label} />
             <div>
               <div>
                 <p className='text-center'>개인성적 통계</p>
-                <BarChart />
+                <BarChart barlabel={barlabel} />
               </div>
               <div>
                 <p className='text-center'>개인기록</p>
