@@ -15,6 +15,8 @@ import instance from 'api/axios';
 import { useRecoilState } from 'recoil';
 import { userAtom } from 'recoil/user';
 import ChartDataLabels from 'chartjs-plugin-datalabels'; // datalabels import
+import type { ILabel } from 'pages/details/Detail';
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -25,7 +27,12 @@ ChartJS.register(
   Legend,
   ChartDataLabels, // datalabels 등록
 );
-const LineChart = () => {
+
+interface IProps {
+  label: ILabel[];
+}
+
+const LineChart = (props: IProps) => {
   const options = {
     responsive: true,
 
@@ -91,26 +98,9 @@ const LineChart = () => {
   // 유저 정보
   const [userInfo, setUserInfo] = useRecoilState(userAtom);
 
-  // 라인 차트
+  const formattedData = props.label.map(item => item.total);
 
-  const [label, setLabel] = useState<ILabel[]>([]);
-  const fetchData = async () => {
-    await instance
-      .get(`/individualscore/sum/date/` + userInfo.miSeq)
-      .then((res: any) => {
-        setLabel(res.data.score);
-
-        // console.log('ddd', res.data.score);
-      });
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const formattedData = label.map(item => item.total);
-
-  const formattedXData = label.map(item =>
+  const formattedXData = props.label.map(item =>
     item.da.replace(/-/g, '.').substr(2, 15),
   );
 
