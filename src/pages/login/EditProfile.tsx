@@ -315,8 +315,8 @@ const EditProfile = () => {
               onClick={handleImageClick}
             />
             <div>
-              <h3>허강현</h3>
-              <p>3학년 7반</p>
+              <h3>{userDetail.nickname}</h3>
+              <p>3학년 {userDetail.classnum}</p>
             </div>
           </ProfileLayout>
           <FormLayout>
