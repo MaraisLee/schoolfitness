@@ -13,13 +13,11 @@ import {
 } from 'recoil/user';
 import WithdrawalForm from 'components/user/WithdrawalForm';
 import { AiOutlineGift, AiOutlineNotification } from 'react-icons/ai';
-
 // 상품권사진
 import giftCard1 from 'assets/3000won.png';
 import giftCard2 from 'assets/5000won.png';
 import giftCard3 from 'assets/10000won.png';
 import giftCard4 from 'assets/20000won.png';
-
 // 상품권스와이퍼
 // recoil
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
@@ -35,7 +33,6 @@ const ModalFrame = styled.div`
   padding: 50px 0px;
   font-size: 17px;
 `;
-
 const ModalContent = styled.h2`
   font-weight: bold;
   text-align: center;
@@ -68,7 +65,6 @@ const UserInfo = () => {
   const navigate = useNavigate();
   // 공지사항 출력
   const [noticeList, setNoticeList] = useState<any>([]);
-
   // 보유상품권 출력
   const [gift, setGift] = useState<any>([]);
   const noticeHandler = async () => {
@@ -80,18 +76,14 @@ const UserInfo = () => {
     noticeHandler();
   }, []);
   // 로그아웃
-
   const [userDetail, setUserDetail] = useRecoilState(userDetailAtom);
-
   const logout = () => {
     openLogout();
   };
-
   // 유저 정보
   const [userInfo, setUserInfo] = useRecoilState(userAtom);
   const [userPw, setUserPw] = useRecoilState(userPwAtom);
   const [userWeight, setUserWeight] = useRecoilState(userWeightAtom);
-
   // 회원탈퇴 Modal
   const [modalVisible, setModalVisible] = useState(false);
   const openModal = () => setModalVisible(true);
@@ -102,10 +94,9 @@ const UserInfo = () => {
       .get('game/stamp/goods/' + userInfo.miSeq)
       .then((res: any) => {
         setGift(res.data.list);
-        console.log(res.data.list, '상품권');
       });
   };
-  console.log(userInfo, '유저정보');
+  // console.log(gift);
   useEffect(() => {
     giftHandler();
   }, []);
@@ -128,12 +119,11 @@ const UserInfo = () => {
           <h1> 더보기 페이지</h1>
           <button className='text-white'>START</button>
         </HeaderCss>
-
         <div className='overflow-y-auto scrollbar-hide h-[660px] '>
           <div className='mx-auto overflow-y-auto scrollbar-hide '>
             <div className='my-3 flex flex-col gap-3'>
               <img
-                className='mx-auto w-[80px] h-[80px]'
+                className='mx-auto w-[100px] h-[100px] rounded-full object-cover'
                 src={`http://192.168.0.79:8888/api/member/img/${userDetail.mimg}`}
                 alt='프로필'
               />
@@ -154,7 +144,7 @@ const UserInfo = () => {
                   </div>
                 ) : (
                   <Swiper
-                    slidesPerView={2}
+                    slidesPerView={gift.length === 1 ? 1 : 2}
                     spaceBetween={0}
                     className='mySwiper'
                   >
@@ -162,7 +152,7 @@ const UserInfo = () => {
                     {gift.map((item, i) => (
                       <SwiperSlide key={i}>
                         <img
-                          className='mx-auto '
+                          className={`mx-auto ${gift.length === 1 && 'w-36'}`}
                           src={
                             item.name === 'GS편의점 3000원'
                               ? giftCard1
@@ -208,7 +198,6 @@ const UserInfo = () => {
                 </div>
               ))}
             </div>
-
             <div
               onClick={() => navigate('/editprofile')}
               className='flex justify-between py-6 border-b-2 p-3 '
