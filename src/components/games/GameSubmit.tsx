@@ -152,10 +152,16 @@ const GameSubmit = () => {
               </label>
             </div>
           </div>
-          <div className='absolute top-64 w-[310px] h-[160px] mt-12 border border-black fill'></div>
+          <div className='w-[310px] h-[190px] mt-14 border border-black fill'></div>
           {/* controls :  재생, 소리버튼 생성 */}
-          <div className='mt-5 pt-3 bg-white w-[315px] h-[210px] '>
-            {file.video && <video src={file.url} controls width='315px' />}
+          <div className=''>
+            {file.video && (
+              <video
+                src={file.url}
+                controls
+                className='absolute top-56 right-10 mt-5 pt-3 bg-white w-[315px] h-[290px] z-10'
+              />
+            )}
           </div>
           <label
             htmlFor='helper-text'
@@ -169,12 +175,11 @@ const GameSubmit = () => {
             value={recordTime}
             maxLength={8}
             aria-describedby='helper-text-explanation'
-            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 text-center'
+            className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 text-center'
             placeholder='00:00:00'
             onChange={timeHandler}
           />
-
-          <div className='mt-20 h-[74px] w-full bg-[#D9D9D9] border-2 border-gray-300 flex justify-center items-center gap-4'>
+          <div className='mt-12 h-[74px] w-full bg-[#D9D9D9] border-2 border-gray-300 flex justify-center items-center gap-4'>
             <button
               type='reset'
               className='w-[150px] h-[40px] text-[14px] bg-[#E9E9E9] rounded-sm '
