@@ -30,5 +30,6 @@ body {
   word-break: keep-all;
   overflow-x: hidden;
   margin-top: 45px;
-  background-color: rgba(61, 61, 61, 0.719);
+  /* background-color: rgba(61, 61, 61, 0.719); */
+  background-color: rgba(0, 0, 0, 0.856);
 }
