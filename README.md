@@ -15,7 +15,7 @@
 
 ### 🎥 시연영상
 
-<img src="https://user-images.githubusercontent.com/118712262/230034352-bab04111-2620-4c8f-b6a5-adbbdaa3601b.mp4" width="320" height="600"/>
+<img src="https://user-images.githubusercontent.com/118712262/230522828-9001733c-3dd5-4dfa-addd-b98360e7f02c.mp4" width="320" height="600"/>
 
 ## 🕰️ 개발 기간
 
