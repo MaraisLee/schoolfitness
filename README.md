@@ -62,6 +62,9 @@
 - Notion
 - Swagger
 
+### 🎨 프로세스 구성
+<img src="https://user-images.githubusercontent.com/118712262/230808739-8b5ee38a-621d-415f-99ff-257235010272.png" alt=""/>
+
 ## 📌 주요 기능
 
 #### 메인페이지
